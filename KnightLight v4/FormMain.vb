@@ -2913,7 +2913,7 @@ LoopsDone:
                 ' A resampled file exists
                 songname = songname & " resampled"
             End If
-            If Microsoft.VisualBasic.Right(songname, 9) = "resampled" And File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & Mid(songname, 1, songname.Length - 9) & ".mp3") = True Then
+            If Microsoft.VisualBasic.Right(MusicMP3InBank(I), 13) = "resampled.mp3" And File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & Mid(songname, 1, songname.Length - 9) & ".mp3") = True Then
                 ' Is a resampled file and original still exists
                 GoTo skipme
             End If

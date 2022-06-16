@@ -165,7 +165,7 @@ Public Class AudioThread
     Sub ResampleFile(FullPath As String, Qindex As Integer)
         Dim outRate As Integer = 44100
         'Dim inFile As String = FullPath
-        Dim outFile As String = Path.GetDirectoryName(FullPath) & "\" & Path.GetFileNameWithoutExtension(FullPath) & " resampled.mp3"
+        Dim outFile As String = Path.GetDirectoryName(FullPath) & "\" & Path.GetFileNameWithoutExtension(FullPath) & " resampled.wav"
 
         'Using reader As New Mp3FileReader(inFile)
         'Dim outFormat2 = New WaveFormat(outRate, AudioCues(I).AudioReader.WaveFormat.Channels)
@@ -173,6 +173,7 @@ Public Class AudioThread
         Using resampler As New MediaFoundationResampler(AudioCues(Qindex).AudioReader, outFormat)
 
             WaveFileWriter.CreateWaveFile(outFile, resampler)
+
 
         End Using
 
