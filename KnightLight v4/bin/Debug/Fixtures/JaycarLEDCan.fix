@@ -1,0 +1,5 @@
+Channels=4
+D|Red,0-255
+D|Green,0-255
+D|Blue,0-255
+D|White,0-255

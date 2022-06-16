@@ -1,0 +1,13 @@
+Channels=8
+X|Off,0-69,Sound,70-139,Auto,140-209,Manual,210-255
+X|Pattn,0-255
+X|YMove,0-255
+X|XMove,0-255
+X|Scale,0-255
+X|YStret,0-255
+X|XStret,0-255
+X|Rotation,0-255
+X|Strobe,0-255
+X|Display,0-255
+X|Color,0-255
+X|Reset,0-255

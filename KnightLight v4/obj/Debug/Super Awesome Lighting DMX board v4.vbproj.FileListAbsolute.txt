@@ -1,0 +1,62 @@
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.GenerateResource.cache
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CoreCompileInputs.cache
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.GenerateResource.Cache
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbprojAssemblyReference.cache
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CoreCompileInputs.cache
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\libmp3lame.32.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\libmp3lame.64.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.Lame.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.Drawing.Common.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.ValueTuple.dll
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.xml
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.Lame.pdb
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.ValueTuple.xml
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.CustomWaves.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourGradient.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Form1.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\libmp3lame.32.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\libmp3lame.64.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.Lame.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.Drawing.Common.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.ValueTuple.dll
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.xml
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\NAudio.Lame.pdb
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\System.ValueTuple.xml
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Form1.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormChannels.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourGradient.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.CustomWaves.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
+C:\Users\e4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormChannels.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.exe.config
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.exe
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.pdb
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.xml
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.exe
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.xml
+C:\Users\E4023637\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.pdb
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.exe.config
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.exe
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.pdb
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug\KnightLight.xml
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.exe
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.xml
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.pdb

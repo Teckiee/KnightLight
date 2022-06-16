@@ -1,0 +1,5 @@
+ChangeMS|800
+1|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|IsLooped,True|ProgressList
+2|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|IsLooped,True|ProgressList
+3|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|IsLooped,True|ProgressList
+4|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|IsLooped,True|ProgressList

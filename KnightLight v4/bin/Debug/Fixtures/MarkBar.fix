@@ -1,0 +1,21 @@
+Channels=20
+D|Red,0-255
+D|Grn,0-255|Green
+D|Blue,0-255|Blue
+X|Tilt,0-255
+D|Red,0-255
+D|Grn,0-255|Green
+D|Blue,0-255|Blue
+X|Tilt,0-255
+D|Red,0-255
+D|Grn,0-255|Green
+D|Blue,0-255|Blue
+X|Tilt,0-255
+D|Red,0-255
+D|Grn,0-255|Green
+D|Blue,0-255|Blue
+X|Tilt,0-255
+X|TltSpd|Tilt Speed
+X|Strb,0-255|Strobe Speed
+X|SndOff,0-0,SndThr,1-255|Sound Mode`e0 = Off`e1-255 = Threshold
+X|ColChg,0-0,ColFst,1-100,ColGrad,101-255|0 = Off`e1-100 = Sudden Colour Changes`e101-255 = Gradient Colour Changes
