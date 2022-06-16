@@ -2909,7 +2909,14 @@ LoopsDone:
         Do Until I >= MusicMP3InBank.Length
             'Dim a() As String = Split(MusicMP3InBank(I), "\")
             Dim songname As String = Path.GetFileNameWithoutExtension(MusicMP3InBank(I))
-
+            If File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & songname & " resampled.mp3") = True Then
+                ' A resampled file exists
+                songname = songname & " resampled"
+            End If
+            If Microsoft.VisualBasic.Right(songname, 9) = "resampled" And File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & Mid(songname, 1, songname.Length - 9) & ".mp3") = True Then
+                ' Is a resampled file and original still exists
+                GoTo skipme
+            End If
 
             lstPresetsSongs.Items.Add(songname)
             lstPresetsSongs2.Items.Add(songname)
@@ -2940,6 +2947,7 @@ LoopsDone:
 
             ReDim MusicCues(I).SongChanges(200)
             LoadTrackChanges(I)
+skipme:
             I += 1
         Loop
         Dim J As Integer = 0
