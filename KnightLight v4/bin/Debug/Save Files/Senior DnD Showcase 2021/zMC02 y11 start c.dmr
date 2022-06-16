@@ -1,5 +1,5 @@
 ChangeMS|0
-LocIndex|28
+LocIndex|29
 PageNo|2
 1|v,210|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList
 2|v,210|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,True|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList

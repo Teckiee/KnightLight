@@ -1031,4 +1031,13 @@ DoneGeneration:
         MsgBox(Me.Location.ToString)
     End Sub
 
+    Private Sub cmdSelectedFull_Click(sender As Object, e As EventArgs) Handles cmdSelectedFull.Click
+        txtSelected.Text = 255
+        txtSelected_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub cmdSelectedBlackout_Click(sender As Object, e As EventArgs) Handles cmdSelectedBlackout.Click
+        txtSelected.Text = 0
+        txtSelected_TextChanged(Nothing, Nothing)
+    End Sub
 End Class

@@ -60,3 +60,33 @@ C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\bin\Debug
 C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.exe
 C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.xml
 C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v4\obj\Debug\KnightLight.pdb
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.32.dll
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.64.dll
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.exe.config
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.exe
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.pdb
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.xml
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.dll
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Drawing.Common.dll
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.dll
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.xml
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.pdb
+C:\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.xml
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbprojAssemblyReference.cache
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Form1.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormChannels.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourGradient.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.CustomWaves.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.GenerateResource.cache
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CoreCompileInputs.cache
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb

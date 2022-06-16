@@ -1480,6 +1480,7 @@ DoneGeneration:
     Private Sub cAutoTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) ' Handles TextBox1.TextChanged
         If formopened = False Then Exit Sub
         If PresetVisualUpdate = True Then Exit Sub
+        If sender.Parent.SceneIndex = -1 Then Exit Sub
         'Dim chno As Integer = 1
         'Do Until PresetFaders(chno).cAutoTime.Name = sender.Name : chno += 1 : Loop
 
@@ -3231,6 +3232,7 @@ AfterChgFile:
         Dim s As String = InputBox("Name of new bank:")
         If s = "" Then Exit Sub
         Directory.CreateDirectory(Application.StartupPath & "\Save Files\" & s)
+        File.Copy(Application.StartupPath & "\0 Blackout.dmr", Application.StartupPath & "\Save Files\" & s & "\0 Blackout.dmr")
         LoadBanksFromFile()
     End Sub
 
@@ -4218,7 +4220,7 @@ AfterChgFile:
             Dim newrow As New ListViewItem
             newrow.Text = AudioRun.DeviceDetails(I).NumberAssigned
             newrow.SubItems.Add(AudioRun.DeviceDetails(I).DeviceName)
-            If Not AudioRun.DeviceDetails(I).NumberAssigned = -1 Then
+            If Not AudioRun.DeviceDetails(I).NumberAssigned = -1 And AudioRun.DeviceDetails(I).DeviceName IsNot Nothing Then
                 lstASIOInterfaces.Items.Add(newrow)
             End If
             I += 1
@@ -4240,6 +4242,33 @@ AfterChgFile:
         'Set to 0 if nothing received in 4 seconds
         SoundActivationCurrentLevel = 0
         lblAudioActive.Text = SoundActivationCurrentLevel
+    End Sub
+
+    Private Sub SaveSceneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveSceneToolStripMenuItem.Click
+        Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
+        Dim obj As SceneControl1 = cms.SourceControl.Parent
+
+        If obj.SceneIndex = -1 Then
+            'is new scene
+            Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", "")
+            If newname = "" Then Exit Sub
+
+
+            PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
+
+            frmChannels.cmbChannelPresetSelection.Items.Add(newname)
+            lstDramaPresets.Items.Add(newname)
+            lstSongEditPresets.Items.Add(newname)
+            CreateNewScene(newname, obj.PresetFixture)
+            SaveScene(newname)
+        Else
+            'Scene exists
+            Dim oldname As String = SceneData(obj.SceneIndex).SceneName
+
+            SaveScene(oldname)
+        End If
+
     End Sub
 
     'Private Sub lstASIOInterfaces_Changed()

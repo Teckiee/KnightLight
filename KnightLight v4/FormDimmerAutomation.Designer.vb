@@ -46,6 +46,8 @@ Partial Class FormDimmerAutomation
         Me.cmdChaseManySingleAdd = New System.Windows.Forms.Button()
         Me.lstChase = New System.Windows.Forms.ListBox()
         Me.lblEditingChannels = New System.Windows.Forms.Label()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.numSoundThreshold = New System.Windows.Forms.NumericUpDown()
         Me.CustomGroupBox1 = New Super_Awesome_Lighting_DMX_board_v4.CustomGroupBox()
         Me.chkLoop = New System.Windows.Forms.CheckBox()
         Me.optInOrder = New System.Windows.Forms.RadioButton()
@@ -53,8 +55,6 @@ Partial Class FormDimmerAutomation
         Me.optRandomTimed = New System.Windows.Forms.RadioButton()
         Me.numChaseTimebetween = New System.Windows.Forms.NumericUpDown()
         Me.chkAutoRunning = New System.Windows.Forms.CheckBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.numSoundThreshold = New System.Windows.Forms.NumericUpDown()
         CType(Me.numChaseMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChaseMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChaseManyIterations, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,10 +64,10 @@ Partial Class FormDimmerAutomation
         Me.GroupBox4.SuspendLayout()
         CType(Me.numChaseManyMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChaseManyMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.CustomGroupBox1.SuspendLayout()
-        CType(Me.numChaseTimebetween, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox3.SuspendLayout()
         CType(Me.numSoundThreshold, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.CustomGroupBox1.SuspendLayout()
+        CType(Me.numChaseTimebetween, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblAutoMinlbl
@@ -126,6 +126,7 @@ Partial Class FormDimmerAutomation
         '
         'cmdChaseRemove
         '
+        Me.cmdChaseRemove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdChaseRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmdChaseRemove.Location = New System.Drawing.Point(196, 12)
         Me.cmdChaseRemove.Name = "cmdChaseRemove"
@@ -145,6 +146,7 @@ Partial Class FormDimmerAutomation
         '
         'GroupBox1
         '
+        Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.chkFadeBothWays)
         Me.GroupBox1.Controls.Add(Me.chkFadeLtoH)
         Me.GroupBox1.Controls.Add(Me.chkFadeHtoL)
@@ -205,6 +207,7 @@ Partial Class FormDimmerAutomation
         '
         'GroupBox2
         '
+        Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.cmdChaseSingleAdd)
         Me.GroupBox2.Controls.Add(Me.numChaseSingleValue)
         Me.GroupBox2.Location = New System.Drawing.Point(343, 175)
@@ -226,6 +229,7 @@ Partial Class FormDimmerAutomation
         '
         'GroupBox4
         '
+        Me.GroupBox4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox4.Controls.Add(Me.Label1)
         Me.GroupBox4.Controls.Add(Me.numChaseManyMax)
         Me.GroupBox4.Controls.Add(Me.Label2)
@@ -296,8 +300,9 @@ Partial Class FormDimmerAutomation
         '
         'lstChase
         '
-        Me.lstChase.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lstChase.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstChase.ColumnWidth = 60
         Me.lstChase.FormattingEnabled = True
         Me.lstChase.Location = New System.Drawing.Point(3, 7)
@@ -309,7 +314,8 @@ Partial Class FormDimmerAutomation
         '
         'lblEditingChannels
         '
-        Me.lblEditingChannels.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblEditingChannels.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblEditingChannels.ForeColor = System.Drawing.Color.Lime
         Me.lblEditingChannels.Location = New System.Drawing.Point(0, 459)
         Me.lblEditingChannels.Name = "lblEditingChannels"
@@ -317,8 +323,30 @@ Partial Class FormDimmerAutomation
         Me.lblEditingChannels.TabIndex = 279
         Me.lblEditingChannels.Text = "Channel numbers"
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox3.Controls.Add(Me.numSoundThreshold)
+        Me.GroupBox3.Location = New System.Drawing.Point(344, 258)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(107, 60)
+        Me.GroupBox3.TabIndex = 275
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Sound Threshold"
+        '
+        'numSoundThreshold
+        '
+        Me.numSoundThreshold.Location = New System.Drawing.Point(6, 19)
+        Me.numSoundThreshold.Maximum = New Decimal(New Integer() {1024, 0, 0, 0})
+        Me.numSoundThreshold.Minimum = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.numSoundThreshold.Name = "numSoundThreshold"
+        Me.numSoundThreshold.Size = New System.Drawing.Size(90, 20)
+        Me.numSoundThreshold.TabIndex = 270
+        Me.numSoundThreshold.Value = New Decimal(New Integer() {500, 0, 0, 0})
+        '
         'CustomGroupBox1
         '
+        Me.CustomGroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CustomGroupBox1.BorderColour = System.Drawing.Color.Red
         Me.CustomGroupBox1.Controls.Add(Me.chkLoop)
         Me.CustomGroupBox1.Controls.Add(Me.optInOrder)
@@ -398,26 +426,6 @@ Partial Class FormDimmerAutomation
         Me.chkAutoRunning.Text = "Running"
         Me.chkAutoRunning.UseVisualStyleBackColor = False
         '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.numSoundThreshold)
-        Me.GroupBox3.Location = New System.Drawing.Point(344, 258)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(107, 60)
-        Me.GroupBox3.TabIndex = 275
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Sound Threshold"
-        '
-        'numSoundThreshold
-        '
-        Me.numSoundThreshold.Location = New System.Drawing.Point(6, 19)
-        Me.numSoundThreshold.Maximum = New Decimal(New Integer() {1024, 0, 0, 0})
-        Me.numSoundThreshold.Minimum = New Decimal(New Integer() {500, 0, 0, 0})
-        Me.numSoundThreshold.Name = "numSoundThreshold"
-        Me.numSoundThreshold.Size = New System.Drawing.Size(90, 20)
-        Me.numSoundThreshold.TabIndex = 270
-        Me.numSoundThreshold.Value = New Decimal(New Integer() {500, 0, 0, 0})
-        '
         'FormDimmerAutomation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -447,11 +455,11 @@ Partial Class FormDimmerAutomation
         Me.GroupBox4.ResumeLayout(False)
         CType(Me.numChaseManyMax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numChaseManyMin, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox3.ResumeLayout(False)
+        CType(Me.numSoundThreshold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CustomGroupBox1.ResumeLayout(False)
         Me.CustomGroupBox1.PerformLayout()
         CType(Me.numChaseTimebetween, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox3.ResumeLayout(False)
-        CType(Me.numSoundThreshold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

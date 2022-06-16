@@ -91,6 +91,7 @@ Partial Class FormMain
         Me.lblFadeIn = New System.Windows.Forms.Label()
         Me.numFadeOut = New System.Windows.Forms.NumericUpDown()
         Me.lblFadeOut = New System.Windows.Forms.Label()
+        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lstSongEditPresets = New System.Windows.Forms.ListBox()
         Me.cmdEditSongCopyNew = New System.Windows.Forms.Button()
         Me.cmdEditSongSave = New System.Windows.Forms.Button()
@@ -234,7 +235,7 @@ Partial Class FormMain
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
+        Me.SaveSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -957,6 +958,19 @@ Partial Class FormMain
         Me.lblFadeOut.Size = New System.Drawing.Size(54, 13)
         Me.lblFadeOut.TabIndex = 327
         Me.lblFadeOut.Text = "Fade Out:"
+        '
+        'vSongEdit
+        '
+        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.vSongEdit.BackColor = System.Drawing.Color.White
+        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
+        Me.vSongEdit.FillColor = System.Drawing.Color.Black
+        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
+        Me.vSongEdit.Maximum = 5000000
+        Me.vSongEdit.Name = "vSongEdit"
+        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
+        Me.vSongEdit.TabIndex = 335
         '
         'lstSongEditPresets
         '
@@ -2264,9 +2278,9 @@ Partial Class FormMain
         '
         'ctxPresetLabelActions
         '
-        Me.ctxPresetLabelActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPresetLabelEditChannels, Me.ctxPresetRenameScene, Me.ctxSendNext, Me.ctxSendPrevious, Me.ToolStripSeparator2, Me.ctxPresetLabelName})
+        Me.ctxPresetLabelActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPresetLabelEditChannels, Me.SaveSceneToolStripMenuItem, Me.ctxPresetRenameScene, Me.ctxSendNext, Me.ctxSendPrevious, Me.ToolStripSeparator2, Me.ctxPresetLabelName})
         Me.ctxPresetLabelActions.Name = "ctxPresetLabelActions"
-        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 120)
+        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 142)
         '
         'ctxSendNext
         '
@@ -2311,18 +2325,11 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'vSongEdit
+        'SaveSceneToolStripMenuItem
         '
-        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.vSongEdit.BackColor = System.Drawing.Color.White
-        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
-        Me.vSongEdit.FillColor = System.Drawing.Color.Black
-        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
-        Me.vSongEdit.Maximum = 5000000
-        Me.vSongEdit.Name = "vSongEdit"
-        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
-        Me.vSongEdit.TabIndex = 335
+        Me.SaveSceneToolStripMenuItem.Name = "SaveSceneToolStripMenuItem"
+        Me.SaveSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.SaveSceneToolStripMenuItem.Text = "Save Scene to File"
         '
         'FormMain
         '
@@ -2586,4 +2593,5 @@ Partial Class FormMain
     Friend WithEvents tmrAVUCheck As Timer
     Friend WithEvents lblAudio2 As Label
     Friend WithEvents ColumnHeader31 As ColumnHeader
+    Friend WithEvents SaveSceneToolStripMenuItem As ToolStripMenuItem
 End Class
