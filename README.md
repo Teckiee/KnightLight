@@ -6,5 +6,7 @@ Trust me, the code is a mess and contains 10 years of learning different techniq
 
 Enttec OpenDMX hardware works, as well as my own custom Arduino DMX Controller.
 
+Actual v4 application exe is in KnightLight v4/bin/Debug/
+
 ![Alt text](ScenePage.png?raw=true "Scene Page")
 ![Alt text](ChannelPage.png?raw=true "Channel Page")
