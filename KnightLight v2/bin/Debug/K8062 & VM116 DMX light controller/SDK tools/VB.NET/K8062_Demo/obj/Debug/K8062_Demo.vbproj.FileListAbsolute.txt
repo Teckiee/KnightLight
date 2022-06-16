@@ -1,0 +1,10 @@
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\K8062_Demo.exe
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\K8062_Demo.pdb
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\bin\K8062_Demo.exe
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\bin\K8062_Demo.pdb
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\bin\K8062_Demo.xml
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\K8062_Demo.Form1.resources
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\ResGen.read.1.tlog
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\ResGen.write.1.tlog
+C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 & VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\obj\Debug\K8062_Demo.xml

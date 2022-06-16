@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="K8062_Demo">
+</Property><Property Name="Solution File" Value="C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\K8062_Demo.sln">
+</Property><Property Name="User Options File" Value="C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\K8062_Demo.suo">
+</Property><Property Name="Date" Value="Thursday, December 29, 2011">
+</Property><Property Name="Time" Value="13:20 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="K8062_Demo.sln" Description="File successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\K8062_Demo.sln">
+</Event><Event ErrorLevel="0" Project="" Source="K8062_Demo.suo" Description="File successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\K8062_Demo.suo">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="K8062_Demo.vbproj" Description="Project file successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\K8062_Demo.vbproj">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="K8062_Demo.vbproj.user" Description="Project user file successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\K8062_Demo.vbproj.user">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="AssemblyInfo.vb" Description="File successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\AssemblyInfo.vb">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="Form1.vb" Description="File successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\Form1.vb">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="Form1.resx" Description="File successfully backed up as C:\Users\Markus\Dropbox\ESC VB.NET\Super Awesome Lighting DMX board v2\bin\Debug\K8062 &amp; VM116 DMX light controller\SDK tools\VB.NET\K8062_Demo\Backup\Form1.resx">
+</Event><Event ErrorLevel="1" Project="K8062_Demo" Source="K8062_Demo.vbproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="K8062_Demo.vbproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="K8062_Demo" Source="K8062_Demo.vbproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="K8062_Demo.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="K8062_Demo.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="K8062_Demo" Source="K8062_Demo.vbproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

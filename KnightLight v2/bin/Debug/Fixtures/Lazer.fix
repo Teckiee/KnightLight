@@ -1,0 +1,9 @@
+Channels=8
+D|StrOn,0-127,DimOn,128-255
+X|Red,0-255
+X|Grn,0-255
+X|Blu,0-255
+X|White,0-255
+X|Yellow,0-255
+X|Programs,0-255
+X|PrgSpd,0-255

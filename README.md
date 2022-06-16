@@ -5,3 +5,6 @@ This is a personal project that I've made public mostly for ease of sharing with
 Trust me, the code is a mess and contains 10 years of learning different techniques, sometimes better and sometimes overcomplicated.
 
 Enttec OpenDMX hardware works, as well as my own custom Arduino DMX Controller.
+
+![Alt text](ScenePage.png?raw=true "Scene Page")
+![Alt text](ChannelPage.png?raw=true "Channel Page")

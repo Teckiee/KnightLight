@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Super Awesome Lighting DMX board v2", "Super Awesome Lighting DMX board v2.vbproj", "{922300AF-49F6-4489-8398-F47077C3F33A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enttec Open DMX", "..\Enttec Open DMX\Enttec Open DMX.csproj", "{2B259973-0384-4141-BA08-60068E1E6E0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{922300AF-49F6-4489-8398-F47077C3F33A}.Debug|x86.ActiveCfg = Debug|x86
+		{922300AF-49F6-4489-8398-F47077C3F33A}.Debug|x86.Build.0 = Debug|x86
+		{922300AF-49F6-4489-8398-F47077C3F33A}.Release|x86.ActiveCfg = Release|x86
+		{922300AF-49F6-4489-8398-F47077C3F33A}.Release|x86.Build.0 = Release|x86
+		{2B259973-0384-4141-BA08-60068E1E6E0E}.Debug|x86.ActiveCfg = Debug|x86
+		{2B259973-0384-4141-BA08-60068E1E6E0E}.Debug|x86.Build.0 = Debug|x86
+		{2B259973-0384-4141-BA08-60068E1E6E0E}.Release|x86.ActiveCfg = Release|x86
+		{2B259973-0384-4141-BA08-60068E1E6E0E}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "K8062_Demo", "K8062_Demo.vbproj", "{F4274D08-E0B3-4743-9AFE-C4DF4A25F2AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4274D08-E0B3-4743-9AFE-C4DF4A25F2AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4274D08-E0B3-4743-9AFE-C4DF4A25F2AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4274D08-E0B3-4743-9AFE-C4DF4A25F2AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4274D08-E0B3-4743-9AFE-C4DF4A25F2AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

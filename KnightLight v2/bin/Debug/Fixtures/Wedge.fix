@@ -1,0 +1,7 @@
+Channels=6
+X|Red,0-255
+X|Grn,0-255
+X|Blu,0-255
+D|Dimmer,0-255
+X|Strobe,0-255
+X|Motor,0-255

@@ -1,0 +1,10 @@
+1|Awesomes|Red
+
+
+
+Red
+Blue
+Yellow
+White
+Green
+Lime
