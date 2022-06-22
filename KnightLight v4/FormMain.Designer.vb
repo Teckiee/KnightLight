@@ -229,13 +229,14 @@ Partial Class FormMain
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ctxPresetLabelName = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxPresetLabelActions = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SaveSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxSendNext = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxSendPrevious = New System.Windows.Forms.ToolStripMenuItem()
         Me.tmrserial = New System.Windows.Forms.Timer(Me.components)
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.SaveSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DuplicateSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -2278,9 +2279,15 @@ Partial Class FormMain
         '
         'ctxPresetLabelActions
         '
-        Me.ctxPresetLabelActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPresetLabelEditChannels, Me.SaveSceneToolStripMenuItem, Me.ctxPresetRenameScene, Me.ctxSendNext, Me.ctxSendPrevious, Me.ToolStripSeparator2, Me.ctxPresetLabelName})
+        Me.ctxPresetLabelActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPresetLabelEditChannels, Me.SaveSceneToolStripMenuItem, Me.DuplicateSceneToolStripMenuItem, Me.ctxPresetRenameScene, Me.ctxSendNext, Me.ctxSendPrevious, Me.ToolStripSeparator2, Me.ctxPresetLabelName})
         Me.ctxPresetLabelActions.Name = "ctxPresetLabelActions"
-        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 142)
+        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 186)
+        '
+        'SaveSceneToolStripMenuItem
+        '
+        Me.SaveSceneToolStripMenuItem.Name = "SaveSceneToolStripMenuItem"
+        Me.SaveSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.SaveSceneToolStripMenuItem.Text = "Save Scene to File"
         '
         'ctxSendNext
         '
@@ -2325,11 +2332,11 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'SaveSceneToolStripMenuItem
+        'DuplicateSceneToolStripMenuItem
         '
-        Me.SaveSceneToolStripMenuItem.Name = "SaveSceneToolStripMenuItem"
-        Me.SaveSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.SaveSceneToolStripMenuItem.Text = "Save Scene to File"
+        Me.DuplicateSceneToolStripMenuItem.Name = "DuplicateSceneToolStripMenuItem"
+        Me.DuplicateSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DuplicateSceneToolStripMenuItem.Text = "Duplicate Scene"
         '
         'FormMain
         '
@@ -2594,4 +2601,5 @@ Partial Class FormMain
     Friend WithEvents lblAudio2 As Label
     Friend WithEvents ColumnHeader31 As ColumnHeader
     Friend WithEvents SaveSceneToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DuplicateSceneToolStripMenuItem As ToolStripMenuItem
 End Class

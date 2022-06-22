@@ -72,7 +72,6 @@ C:\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.dll
 C:\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.xml
 C:\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.pdb
 C:\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.xml
-C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbprojAssemblyReference.cache
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Form1.resources
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormChannels.resources
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourGradient.resources
@@ -90,3 +89,4 @@ C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board 
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
+C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache

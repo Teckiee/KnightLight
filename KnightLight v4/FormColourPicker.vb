@@ -26,15 +26,18 @@ Public Class FormColourPicker
         If iGChan = -1 Then Exit Sub
         If iBChan = -1 Then Exit Sub
         If Me.Visible = False Then Exit Sub
-        If iRChan >= frmChannels.numChannelFadersStart.Value And iRChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
-            ChannelFaders(iRChan).cFader.Value = CurrentARGBColor.R
-        End If
-        If iGChan >= frmChannels.numChannelFadersStart.Value And iGChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
-            ChannelFaders(iGChan).cFader.Value = CurrentARGBColor.G
-        End If
-        If iBChan >= frmChannels.numChannelFadersStart.Value And iBChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
-            ChannelFaders(iBChan).cFader.Value = CurrentARGBColor.B
-        End If
+        Dim iRChan2 As Integer = iRChan - frmChannels.numChannelFadersStart.Value + 1
+        Dim iGChan2 As Integer = iGChan - frmChannels.numChannelFadersStart.Value + 1
+        Dim iBChan2 As Integer = iBChan - frmChannels.numChannelFadersStart.Value + 1
+        'If iRChan2 >= frmChannels.numChannelFadersStart.Value And iRChan2 < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage Then
+        ChannelFaders(iRChan2).cFader.Value = CurrentARGBColor.R
+        'End If
+        'If iGChan >= frmChannels.numChannelFadersStart.Value And iGChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - frmChannels.numChannelFadersStart.Value Then
+        ChannelFaders(iGChan2).cFader.Value = CurrentARGBColor.G
+        'End If
+        'If iBChan >= frmChannels.numChannelFadersStart.Value And iBChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - frmChannels.numChannelFadersStart.Value Then
+        ChannelFaders(iBChan2).cFader.Value = CurrentARGBColor.B
+        ' End If
 
 
         If Not iRChanSel Is Nothing Then

@@ -565,9 +565,15 @@ found:
                     FixtureControls(ParentChannelNo + channelupto).LongDescr = AnV(2).Replace("`e", vbCrLf)
                 End If
                 FixtureControls(ParentChannelNo + channelupto).ActionAndValues = AnV(1)
-                If InStr(AnV(1), "Red") > 0 Then FixtureControls(ParentChannelNo).fColPicker.iRChan = ParentChannelNo + channelupto
-                If InStr(AnV(1), "Grn") > 0 Then FixtureControls(ParentChannelNo).fColPicker.iGChan = ParentChannelNo + channelupto
-                If InStr(AnV(1), "Blue") > 0 Then FixtureControls(ParentChannelNo).fColPicker.iBChan = ParentChannelNo + channelupto
+                If InStr(AnV(1), "Red") > 0 Then
+                    FixtureControls(ParentChannelNo).fColPicker.iRChan = ParentChannelNo + channelupto
+                End If
+                If InStr(AnV(1), "Grn") > 0 Or InStr(AnV(1), "Green") > 0 Then
+                    FixtureControls(ParentChannelNo).fColPicker.iGChan = ParentChannelNo + channelupto
+                End If
+                If InStr(AnV(1), "Blue") > 0 Or InStr(AnV(1), "Blu") > 0 Then
+                    FixtureControls(ParentChannelNo).fColPicker.iBChan = ParentChannelNo + channelupto
+                End If
 
                 FixtureControls(ParentChannelNo + channelupto).ParentChannelNo = ParentChannelNo
                 FixtureControls(ParentChannelNo + channelupto).ChannelOfFixture = channelupto + 1
@@ -1273,45 +1279,15 @@ DoneGeneration:
             SceneI += 1
         Loop
 
-        Dim PresetI As Integer = 1
+
         SceneI = 1
         'remaining undefined
         Do Until SceneI >= SceneData.Length
+            Dim PresetI As Integer = 0
             If SceneData(SceneI).PageNo = -1 Or (SceneData(SceneI).PageNo = CurrentPageNo And SceneData(SceneI).LocIndex = -1) Then
                 'If PresetFaders(PresetI).cSceneControl Is Nothing Then Exit Do
 
-                Do Until PresetI > PresetFadersTotal 'PresetFaders(PresetI).cSceneControl.SceneIndex = -1
-
-                    If PresetFaders(PresetI).cSceneControl.SceneIndex = -1 Then
-
-                        ' PresetI now indexes an empty PresetFader
-
-                        SceneData(SceneI).PageNo = CurrentPageNo
-                        SceneData(SceneI).LocIndex = PresetI
-
-                        With PresetFaders(PresetI).cSceneControl
-                            If Not PresetI + PresetFaderControlModifier >= PresetFaders.Length Then ' Double checks Scene and Preset are currently on active page
-
-                                '.PresetFixture = PresetI
-                                .SceneIndex = SceneI
-
-                                ' Load SceneData into SceneControl1
-                                .cAutoTime.Value = SceneData(SceneI + PresetFaderControlModifier).Automation.TimeBetweenMinAndMax
-                                .cPresetName.Text = SceneData(SceneI).SceneName
-                                .cTxtVal.Text = SceneData(SceneI).MasterValue
-
-                            End If
-
-                        End With
-                        If ResaveOnSceneLoad = True Then
-                            SaveScene(SceneData(SceneI).SceneName)
-                        End If
-
-                        UpdatePresetControls(SceneI)
-                        Exit Do
-                    End If
-                    PresetI += 1
-                Loop
+                PresetI = SetupNewSceneLocation(SceneI)
 
             End If
 
@@ -1338,6 +1314,68 @@ DoneGeneration:
         'sw.Stop()
         PagingChanged = False
     End Sub
+
+    Function SetupNewSceneLocation(ByVal SceneI As Integer)
+        Dim CurrentPageNo As Integer = 1
+        If cmdPresetP1.BackColor = Color.Red Then
+            CurrentPageNo = 1
+        End If
+        If cmdPresetP2.BackColor = Color.Red Then
+            CurrentPageNo = 2
+        End If
+        If cmdPresetP3.BackColor = Color.Red Then
+            CurrentPageNo = 3
+        End If
+        If cmdPresetP4.BackColor = Color.Red Then
+            CurrentPageNo = 4
+        End If
+        If cmdPresetP5.BackColor = Color.Red Then
+            CurrentPageNo = 5
+        End If
+        If cmdPresetP6.BackColor = Color.Red Then
+            CurrentPageNo = 6
+        End If
+
+        Dim PresetI As Integer = 1
+        Do Until PresetI > PresetFadersTotal 'PresetFaders(PresetI).cSceneControl.SceneIndex = -1
+
+            If PresetFaders(PresetI).cSceneControl.SceneIndex = -1 Then
+
+                ' PresetI now indexes an empty PresetFader
+
+                SceneData(SceneI).PageNo = CurrentPageNo
+                SceneData(SceneI).LocIndex = PresetI
+
+                With PresetFaders(PresetI).cSceneControl
+                    If Not PresetI + PresetFaderControlModifier >= PresetFaders.Length Then ' Double checks Scene and Preset are currently on active page
+
+                        '.PresetFixture = PresetI
+                        .SceneIndex = SceneI
+
+                        ' Load SceneData into SceneControl1
+                        .cAutoTime.Value = SceneData(SceneI + PresetFaderControlModifier).Automation.TimeBetweenMinAndMax
+                        .cPresetName.Text = SceneData(SceneI).SceneName
+                        .cTxtVal.Text = SceneData(SceneI).MasterValue
+
+                    End If
+
+                End With
+                If ResaveOnSceneLoad = True Then
+                    SaveScene(SceneData(SceneI).SceneName)
+                End If
+
+                UpdatePresetControls(SceneI)
+                Exit Do
+            End If
+            PresetI += 1
+            'If PresetI > PresetFadersTotal Then
+            '    ' Empty PresetFader was not found
+            '    CurrentPageNo += 1
+            '    PresetI = 1
+            'End If
+        Loop
+        Return PresetI
+    End Function
 
 #End Region
 
@@ -1817,10 +1855,16 @@ DoneGeneration:
         Loop
 
         SceneData(IemptyScene).SceneName = SceneName
-        SceneData(IemptyScene).PageNo = CurrentPageNo
+        If PresetFaders(PresetFadersTotal).cSceneControl.cPresetName.Text = "" Then
+            'If PresetFixtureIndex = -1 Then
+            SceneData(IemptyScene).PageNo = CurrentPageNo
+        Else
+            SceneData(IemptyScene).PageNo = -1
+        End If
         SceneData(IemptyScene).LocIndex = PresetFixtureIndex
-        PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
-
+        If Not PresetFixtureIndex = -1 Then
+            PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
+        End If
         Dim I1 As Integer = 1
 
         SceneData(IemptyScene).MasterValue = 0 ' Set Default
@@ -1844,6 +1888,7 @@ DoneGeneration:
             AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
             I1 += 1
         Loop
+        SetupNewSceneLocation(IemptyScene)
     End Sub
     Private Sub cmdPresetP1_Click(sender As Object, e As EventArgs) Handles cmdPresetP1.Click, cmdPresetP2.Click, cmdPresetP3.Click, cmdPresetP4.Click, cmdPresetP5.Click, cmdPresetP6.Click
         cmdPresetP1.BackColor = controlcolour
@@ -4276,6 +4321,33 @@ AfterChgFile:
 
             SaveScene(oldname)
         End If
+
+    End Sub
+
+    Private Sub DuplicateSceneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateSceneToolStripMenuItem.Click
+        Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
+        Dim obj As SceneControl1 = cms.SourceControl.Parent
+
+        If obj.SceneIndex = -1 Then Exit Sub
+
+
+        Dim oldname As String = SceneData(obj.SceneIndex).SceneName
+        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", "")
+        If newname = "" Then Exit Sub
+        CreateNewScene(newname)
+
+        Dim newI As Integer = 0
+        Do Until SceneData(newI).SceneName = newname
+            If newI >= SceneData.Length Then Exit Sub 'shit broke
+            newI += 1
+        Loop
+
+        SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
+        SceneData(newI).Automation = SceneData(obj.SceneIndex).Automation
+
+        SaveScene(newname)
+        RenamePresetFaderControls()
 
     End Sub
 

@@ -1,0 +1,12 @@
+Channels=11
+X|Red,0-255
+X|Green,0-255
+X|Blue,0-255
+X|Amber,0-255
+X|White,0-255
+X|UV,0-255
+X|Off,0-15,ColMac,16-255
+X|StrbOff,0-15,StrbOn,16-255|Strobe Off,0-15,StrbOn,16-255
+X|ModeOff,0-31,PulseUp,32-63,PulseDown,64-95,PulseBoth,96-127,Fade,128-159,Snap1,160-191,Snap2,192-223,Sound,224-255|Mode:`eOff 0-31`ePulseUp 32-63`ePulseDown 64-95`ePulseBoth 96-127`eFade 128-159`eSnap1 160-191`eSnap2 192-223`eSound 224-255
+D|Dmr,0-255
+X|DmrSpd,0-255

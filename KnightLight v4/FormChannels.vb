@@ -216,7 +216,7 @@ Public Class FormChannels
     Function IndexOfChannelInFixture(ByVal FirstChan As Integer, ByVal descr As String) As Integer
         Dim I As Integer = FirstChan
         Do Until I >= FixtureControls.Length
-            If Mid(FixtureControls(I).ActionAndValues, 1, InStr(FixtureControls(I).ActionAndValues, ",") - 1) = descr Then
+            If Mid(FixtureControls(I).ActionAndValues, 1, InStr(FixtureControls(I).ActionAndValues, ",")) = descr & "," Then
                 Exit Do
             End If
             I += 1
