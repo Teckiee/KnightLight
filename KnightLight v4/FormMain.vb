@@ -1862,15 +1862,14 @@ DoneGeneration:
             SceneData(IemptyScene).PageNo = -1
         End If
         SceneData(IemptyScene).LocIndex = PresetFixtureIndex
-        If Not PresetFixtureIndex = -1 Then
-            PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
-        End If
+
         Dim I1 As Integer = 1
 
         SceneData(IemptyScene).MasterValue = 0 ' Set Default
         SceneData(IemptyScene).Automation.TimeBetweenMinAndMax = 1000 ' Set Default
         SceneData(IemptyScene).Automation.Max = 100 ' Set Default
         SceneData(IemptyScene).Automation.Min = 0 ' Set Default
+        frmChannels.cmbChannelPresetSelection.Items.Add(SceneData(IemptyScene).SceneName)
 
         Do Until I1 >= ChannelFaders.Count
 
@@ -1888,6 +1887,11 @@ DoneGeneration:
             AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
             I1 += 1
         Loop
+        If Not PresetFixtureIndex = -1 Then
+            ' exists
+            PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
+        End If
+
         SetupNewSceneLocation(IemptyScene)
     End Sub
     Private Sub cmdPresetP1_Click(sender As Object, e As EventArgs) Handles cmdPresetP1.Click, cmdPresetP2.Click, cmdPresetP3.Click, cmdPresetP4.Click, cmdPresetP5.Click, cmdPresetP6.Click
@@ -1976,7 +1980,7 @@ DoneGeneration:
 
             PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
 
-            frmChannels.cmbChannelPresetSelection.Items.Add(newname)
+
             lstDramaPresets.Items.Add(newname)
             lstSongEditPresets.Items.Add(newname)
             CreateNewScene(newname, obj.PresetFixture)
