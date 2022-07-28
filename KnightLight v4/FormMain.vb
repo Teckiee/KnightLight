@@ -346,12 +346,18 @@ found:
                         'lstPresetsSongs.SelectedIndex += 1
                         If lstPresetsSongs.SelectedIndex = lstPresetsSongs.Items.Count Then
                             'cmdSkip_Click(Nothing, Nothing)
+
                         Else
-                            lstPresetsSongs.SelectedIndex += 1
+                            If cmdPresetsPlay.Text = "Pause" Then
+                                cmdSkip_Click(Nothing, Nothing)
+                            Else
+                                lstPresetsSongs.SelectedIndex += 1
+                            End If
+                            'lstPresetsSongs.SelectedIndex += 1
                             'cmdSkip_Click(Nothing, Nothing)
                         End If
-                        'cmdSkip_Click(Nothing, Nothing)
-                    ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
+                            'cmdSkip_Click(Nothing, Nothing)
+                        ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
                         'lstPresetsSongs2.SelectedIndex += 1
                         If lstPresetsSongs2.SelectedIndex = lstPresetsSongs2.Items.Count Then
                             'cmdSkip2_Click(Nothing, Nothing)
