@@ -2962,10 +2962,10 @@ LoopsDone:
                 ' A resampled file exists
                 songname = songname & " resampled"
             End If
-            If Microsoft.VisualBasic.Right(MusicMP3InBank(I), 13) = "resampled.mp3" And File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & Mid(songname, 1, songname.Length - 9) & ".mp3") = True Then
-                ' Is a resampled file and original still exists
-                GoTo skipme
-            End If
+            'If Microsoft.VisualBasic.Right(MusicMP3InBank(I), 13) = "resampled.mp3" And File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & Mid(songname, 1, songname.Length - 9) & ".mp3") = True Then
+            ' Is a resampled file and original still exists
+            'GoTo skipme
+            'End If
 
             lstPresetsSongs.Items.Add(songname)
             lstPresetsSongs2.Items.Add(songname)
@@ -3773,13 +3773,13 @@ AfterChgFile:
 
     Private Sub cmdCreatelink_Click(sender As Object, e As EventArgs) Handles cmdCreatelink.Click
         If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
-        Dim Qindex As Integer = GetMusicCueIndex(lstSongEditPresets.SelectedItem)
+        Dim Qindex As Integer = GetMusicCueIndex(lstMusicSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = False Then
             Exit Sub
         End If
 
         Dim newrow As New ListViewItem
-        newrow.Text = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
+        newrow.Text = lbleditPositionMilli.Text 'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
         newrow.SubItems.Add(lstSongEditPresets.SelectedItem)
         newrow.SubItems.Add(numFadeOut.Value)
         newrow.SubItems.Add(numFadeIn.Value)
@@ -3792,7 +3792,7 @@ AfterChgFile:
         NewSongChange.TimeToGoUp = newrow.SubItems(2).Text
         NewSongChange.TimeToGoDown = newrow.SubItems(3).Text
 
-        MusicCues(Qindex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
+        MusicCues(Qindex).SongChangesDict.Add(NewSongChange, lbleditPositionMilli.Text)
 
         ResortSongChange1FromDictionary(Qindex)
 
@@ -3973,7 +3973,7 @@ AfterChgFile:
         'If lstMusicSongChanges1.SelectedIndex = -1 Then Exit Sub
         If lstMusicSongChanges1.SelectedItems.Count = 0 Then Exit Sub
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstSongEditPresets.SelectedItem)
+        Dim Qindex As Integer = GetMusicCueIndex(lstMusicSongs.SelectedItem)
 
         EditUpdate = True
         'Dim a() As String = Split(lstMusicSongChanges1.SelectedItem, "|")
