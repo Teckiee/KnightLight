@@ -7,10 +7,10 @@ PageNo|2
 4|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 5|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 6|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-7|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+7|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 8|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-9|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-10|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+9|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+10|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 11|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 12|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 13|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList

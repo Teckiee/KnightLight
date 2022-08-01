@@ -1,5 +1,5 @@
 ChangeMS|0
-LocIndex|59
+LocIndex|51
 PageNo|1
 1|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 2|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -48,7 +48,7 @@ PageNo|1
 45|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 46|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 47|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-48|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+48|v,30|TimerEnabled,True|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,0,0,20,20,20,20,0,0,0,0,0,0,30,30
 49|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 50|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 51|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -78,7 +78,7 @@ PageNo|1
 75|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 76|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 77|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-78|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+78|v,0|TimerEnabled,True|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,0,0,20,20,20,20,0,0,0,0,0,0,30,30
 79|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 80|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 81|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -97,7 +97,7 @@ PageNo|1
 94|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 95|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 96|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-97|v,0|TimerEnabled,False|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
+97|v,0|TimerEnabled,True|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,0,0,20,20,20,20,0,0,0,0,0,0,30,30
 98|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 99|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 100|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -108,7 +108,7 @@ PageNo|1
 105|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 106|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 107|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-108|v,255|TimerEnabled,True|AutoTimeBetween,100|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
+108|v,0|TimerEnabled,False|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
 109|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 110|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 111|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -119,7 +119,7 @@ PageNo|1
 116|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 117|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 118|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-119|v,0|TimerEnabled,False|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
+119|v,20|TimerEnabled,True|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,0,0,20,20,20,20,0,0,0,0,0,0,30,30
 120|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 121|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 122|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
@@ -130,7 +130,7 @@ PageNo|1
 127|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 128|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 129|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-130|v,0|TimerEnabled,False|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
+130|v,255|TimerEnabled,False|AutoTimeBetween,200|RandomStart,True|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,True|ProgressList,255,0,0
 131|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 132|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 133|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList

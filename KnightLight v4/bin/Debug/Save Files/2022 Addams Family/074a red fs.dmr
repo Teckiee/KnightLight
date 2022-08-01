@@ -1,10 +1,10 @@
 ChangeMS|0
-LocIndex|64
+LocIndex|59
 PageNo|1
 1|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 2|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-3|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-4|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+3|v,119|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+4|v,119|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 5|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 6|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 7|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList

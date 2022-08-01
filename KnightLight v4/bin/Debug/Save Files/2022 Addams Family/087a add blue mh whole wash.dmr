@@ -1,4 +1,4 @@
-ChangeMS|0
+ChangeMS|1000
 LocIndex|12
 PageNo|2
 1|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList

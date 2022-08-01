@@ -26,7 +26,7 @@ PageNo|2
 23|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 24|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 25|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
-26|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
+26|v,255|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 27|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 28|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
 29|v,0|TimerEnabled,False|AutoTimeBetween,100|RandomStart,False|InOrder,False|RandomSound,False|SoundThreshold500|IsLooped,False|ProgressList
