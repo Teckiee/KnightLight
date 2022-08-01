@@ -413,23 +413,15 @@ found:
         frmTouchPad.Icon = frmMain.Icon
 
 
-        'Player.settings.autoStart = False
-        'Player2.settings.autoStart = False
         With Me.tmrMP3
             .Interval = 50
-            .Start()
             .Enabled = False
         End With
-        'Player.controls.stop()
-        'Player.settings.volume = 50
 
-        'With Me.tmrMP32
-        '    .Interval = 50
-        '    .Start()
-        '    .Enabled = False
-        'End With
-        'Player2.controls.stop()
-        'Player2.settings.volume = 50
+        With Me.tmrMP32
+            .Interval = 50
+            .Enabled = False
+        End With
 
 
         controlcolour = Me.BackColor
@@ -1252,7 +1244,7 @@ DoneGeneration:
         Do Until SceneI >= SceneData.Length
             If SceneData(SceneI).PageNo = CurrentPageNo Then
                 If SceneData(SceneI).LocIndex > -1 Then
-                    If SceneI > PresetFadersTotal Then
+                    If SceneData(SceneI).LocIndex > PresetFadersTotal Then
                         ' Has page set to this page, but would appear offscreen
                         ' reset location
                         SceneData(SceneI).LocIndex = -1
