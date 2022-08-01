@@ -248,7 +248,6 @@ Public Class AudioThread
             AudioCues(Qindex).waveOut.Volume = (iVolume / 100)
             AudioCues(Qindex).waveOut.Play()
         End If
-        frmMain.tmrMP3.Start()
         'frmMain.updatePlayer()
     End Sub
     Public Sub mStop(TrackName As String)
@@ -258,7 +257,6 @@ Public Class AudioThread
         Else
             AudioCues(Qindex).waveOut.Stop()
         End If
-        frmMain.tmrMP3.Stop()
     End Sub
     Public Sub mPause(TrackName As String)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)

@@ -218,7 +218,6 @@ Partial Class FormMain
         Me.tmrMP3 = New System.Windows.Forms.Timer(Me.components)
         Me.tmrMP32 = New System.Windows.Forms.Timer(Me.components)
         Me.cmd4KSize = New System.Windows.Forms.Button()
-        Me.chkEditMode = New System.Windows.Forms.CheckBox()
         Me.tmrMaster = New System.Windows.Forms.Timer(Me.components)
         Me.cmdColourTest = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
@@ -230,13 +229,13 @@ Partial Class FormMain
         Me.ctxPresetLabelName = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxPresetLabelActions = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SaveSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DuplicateSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxSendNext = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxSendPrevious = New System.Windows.Forms.ToolStripMenuItem()
         Me.tmrserial = New System.Windows.Forms.Timer(Me.components)
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.DuplicateSceneToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -1319,6 +1318,7 @@ Partial Class FormMain
         '
         'lstDramaViewSongChanges2
         '
+        Me.lstDramaViewSongChanges2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstDramaViewSongChanges2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader15, Me.ColumnHeader16})
         Me.lstDramaViewSongChanges2.FullRowSelect = True
         Me.lstDramaViewSongChanges2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -1353,6 +1353,7 @@ Partial Class FormMain
         '
         'lstDramaViewSongChanges1
         '
+        Me.lstDramaViewSongChanges1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstDramaViewSongChanges1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader19, Me.ColumnHeader20})
         Me.lstDramaViewSongChanges1.FullRowSelect = True
         Me.lstDramaViewSongChanges1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -1387,7 +1388,6 @@ Partial Class FormMain
         '
         'cmdDramaBlackoutAllInstant
         '
-        Me.cmdDramaBlackoutAllInstant.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaBlackoutAllInstant.Location = New System.Drawing.Point(282, 65)
         Me.cmdDramaBlackoutAllInstant.Name = "cmdDramaBlackoutAllInstant"
         Me.cmdDramaBlackoutAllInstant.Size = New System.Drawing.Size(90, 45)
@@ -1397,7 +1397,6 @@ Partial Class FormMain
         '
         'cmdDramaBlackoutAllTimer
         '
-        Me.cmdDramaBlackoutAllTimer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaBlackoutAllTimer.Location = New System.Drawing.Point(282, 14)
         Me.cmdDramaBlackoutAllTimer.Name = "cmdDramaBlackoutAllTimer"
         Me.cmdDramaBlackoutAllTimer.Size = New System.Drawing.Size(90, 45)
@@ -1420,6 +1419,7 @@ Partial Class FormMain
         '
         'cmdDramaViewSkip2
         '
+        Me.cmdDramaViewSkip2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewSkip2.Location = New System.Drawing.Point(1463, 503)
         Me.cmdDramaViewSkip2.Name = "cmdDramaViewSkip2"
         Me.cmdDramaViewSkip2.Size = New System.Drawing.Size(37, 23)
@@ -1429,6 +1429,7 @@ Partial Class FormMain
         '
         'cmdDramaViewSkip
         '
+        Me.cmdDramaViewSkip.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewSkip.Location = New System.Drawing.Point(1463, 108)
         Me.cmdDramaViewSkip.Name = "cmdDramaViewSkip"
         Me.cmdDramaViewSkip.Size = New System.Drawing.Size(37, 23)
@@ -1438,6 +1439,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3PositionMilli2
         '
+        Me.lblDramaViewMP3PositionMilli2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3PositionMilli2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3PositionMilli2.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3PositionMilli2.Location = New System.Drawing.Point(1459, 563)
@@ -1448,6 +1450,7 @@ Partial Class FormMain
         '
         'Label3
         '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Lime
@@ -1459,6 +1462,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3Position2
         '
+        Me.lblDramaViewMP3Position2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3Position2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3Position2.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3Position2.Location = New System.Drawing.Point(1459, 543)
@@ -1469,6 +1473,7 @@ Partial Class FormMain
         '
         'Label28
         '
+        Me.Label28.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.ForeColor = System.Drawing.Color.Lime
@@ -1480,6 +1485,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3Duration2
         '
+        Me.lblDramaViewMP3Duration2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3Duration2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3Duration2.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3Duration2.Location = New System.Drawing.Point(1459, 483)
@@ -1490,6 +1496,7 @@ Partial Class FormMain
         '
         'cmdDramaViewStop2
         '
+        Me.cmdDramaViewStop2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewStop2.Location = New System.Drawing.Point(1463, 430)
         Me.cmdDramaViewStop2.Name = "cmdDramaViewStop2"
         Me.cmdDramaViewStop2.Size = New System.Drawing.Size(75, 23)
@@ -1499,6 +1506,7 @@ Partial Class FormMain
         '
         'cmdDramaViewPlay2
         '
+        Me.cmdDramaViewPlay2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewPlay2.Location = New System.Drawing.Point(1463, 401)
         Me.cmdDramaViewPlay2.Name = "cmdDramaViewPlay2"
         Me.cmdDramaViewPlay2.Size = New System.Drawing.Size(75, 23)
@@ -1508,6 +1516,7 @@ Partial Class FormMain
         '
         'trkDramaViewVolume2
         '
+        Me.trkDramaViewVolume2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.trkDramaViewVolume2.Location = New System.Drawing.Point(1533, 483)
         Me.trkDramaViewVolume2.Maximum = 100
         Me.trkDramaViewVolume2.Name = "trkDramaViewVolume2"
@@ -1519,6 +1528,7 @@ Partial Class FormMain
         '
         'lstDramaViewSongs2
         '
+        Me.lstDramaViewSongs2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstDramaViewSongs2.FormattingEnabled = True
         Me.lstDramaViewSongs2.Location = New System.Drawing.Point(1174, 401)
         Me.lstDramaViewSongs2.Name = "lstDramaViewSongs2"
@@ -1527,6 +1537,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3PositionMilli
         '
+        Me.lblDramaViewMP3PositionMilli.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3PositionMilli.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3PositionMilli.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3PositionMilli.Location = New System.Drawing.Point(1459, 169)
@@ -1537,6 +1548,7 @@ Partial Class FormMain
         '
         'Label33
         '
+        Me.Label33.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label33.ForeColor = System.Drawing.Color.Lime
@@ -1548,6 +1560,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3Position
         '
+        Me.lblDramaViewMP3Position.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3Position.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3Position.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3Position.Location = New System.Drawing.Point(1459, 149)
@@ -1558,6 +1571,7 @@ Partial Class FormMain
         '
         'Label37
         '
+        Me.Label37.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label37.AutoSize = True
         Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label37.ForeColor = System.Drawing.Color.Lime
@@ -1569,6 +1583,7 @@ Partial Class FormMain
         '
         'lblDramaViewMP3Duration
         '
+        Me.lblDramaViewMP3Duration.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblDramaViewMP3Duration.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDramaViewMP3Duration.ForeColor = System.Drawing.Color.Lime
         Me.lblDramaViewMP3Duration.Location = New System.Drawing.Point(1459, 89)
@@ -1579,6 +1594,7 @@ Partial Class FormMain
         '
         'cmdDramaViewStop
         '
+        Me.cmdDramaViewStop.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewStop.Location = New System.Drawing.Point(1463, 36)
         Me.cmdDramaViewStop.Name = "cmdDramaViewStop"
         Me.cmdDramaViewStop.Size = New System.Drawing.Size(75, 23)
@@ -1588,6 +1604,7 @@ Partial Class FormMain
         '
         'cmdDramaViewPlay
         '
+        Me.cmdDramaViewPlay.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdDramaViewPlay.Location = New System.Drawing.Point(1463, 7)
         Me.cmdDramaViewPlay.Name = "cmdDramaViewPlay"
         Me.cmdDramaViewPlay.Size = New System.Drawing.Size(75, 23)
@@ -1597,6 +1614,7 @@ Partial Class FormMain
         '
         'lstDramaViewSongs
         '
+        Me.lstDramaViewSongs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstDramaViewSongs.FormattingEnabled = True
         Me.lstDramaViewSongs.Location = New System.Drawing.Point(1174, 7)
         Me.lstDramaViewSongs.Name = "lstDramaViewSongs"
@@ -1605,6 +1623,7 @@ Partial Class FormMain
         '
         'trkDramaViewVolume
         '
+        Me.trkDramaViewVolume.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.trkDramaViewVolume.Location = New System.Drawing.Point(1533, 89)
         Me.trkDramaViewVolume.Maximum = 100
         Me.trkDramaViewVolume.Name = "trkDramaViewVolume"
@@ -2112,6 +2131,7 @@ Partial Class FormMain
         '
         'chkAsioMode
         '
+        Me.chkAsioMode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chkAsioMode.AutoSize = True
         Me.chkAsioMode.Enabled = False
         Me.chkAsioMode.ForeColor = System.Drawing.Color.Lime
@@ -2201,17 +2221,6 @@ Partial Class FormMain
         Me.cmd4KSize.UseVisualStyleBackColor = True
         Me.cmd4KSize.Visible = False
         '
-        'chkEditMode
-        '
-        Me.chkEditMode.AutoSize = True
-        Me.chkEditMode.Location = New System.Drawing.Point(597, 7)
-        Me.chkEditMode.Name = "chkEditMode"
-        Me.chkEditMode.Size = New System.Drawing.Size(74, 17)
-        Me.chkEditMode.TabIndex = 312
-        Me.chkEditMode.Text = "Edit Mode"
-        Me.chkEditMode.UseVisualStyleBackColor = True
-        Me.chkEditMode.Visible = False
-        '
         'tmrMaster
         '
         '
@@ -2247,6 +2256,7 @@ Partial Class FormMain
         '
         'lblAudioActive
         '
+        Me.lblAudioActive.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblAudioActive.AutoSize = True
         Me.lblAudioActive.Location = New System.Drawing.Point(1686, 8)
         Me.lblAudioActive.Name = "lblAudioActive"
@@ -2281,13 +2291,19 @@ Partial Class FormMain
         '
         Me.ctxPresetLabelActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPresetLabelEditChannels, Me.SaveSceneToolStripMenuItem, Me.DuplicateSceneToolStripMenuItem, Me.ctxPresetRenameScene, Me.ctxSendNext, Me.ctxSendPrevious, Me.ToolStripSeparator2, Me.ctxPresetLabelName})
         Me.ctxPresetLabelActions.Name = "ctxPresetLabelActions"
-        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 186)
+        Me.ctxPresetLabelActions.Size = New System.Drawing.Size(211, 164)
         '
         'SaveSceneToolStripMenuItem
         '
         Me.SaveSceneToolStripMenuItem.Name = "SaveSceneToolStripMenuItem"
         Me.SaveSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
         Me.SaveSceneToolStripMenuItem.Text = "Save Scene to File"
+        '
+        'DuplicateSceneToolStripMenuItem
+        '
+        Me.DuplicateSceneToolStripMenuItem.Name = "DuplicateSceneToolStripMenuItem"
+        Me.DuplicateSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DuplicateSceneToolStripMenuItem.Text = "Duplicate Scene"
         '
         'ctxSendNext
         '
@@ -2312,6 +2328,7 @@ Partial Class FormMain
         '
         'lblAudio2
         '
+        Me.lblAudio2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblAudio2.AutoSize = True
         Me.lblAudio2.Location = New System.Drawing.Point(1568, 8)
         Me.lblAudio2.Name = "lblAudio2"
@@ -2332,12 +2349,6 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'DuplicateSceneToolStripMenuItem
-        '
-        Me.DuplicateSceneToolStripMenuItem.Name = "DuplicateSceneToolStripMenuItem"
-        Me.DuplicateSceneToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
-        Me.DuplicateSceneToolStripMenuItem.Text = "Duplicate Scene"
-        '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2349,7 +2360,6 @@ Partial Class FormMain
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.cmdColourTest)
         Me.Controls.Add(Me.chkAsioMode)
-        Me.Controls.Add(Me.chkEditMode)
         Me.Controls.Add(Me.cmd4KSize)
         Me.Controls.Add(Me.cmdOpenTouchpad)
         Me.Controls.Add(Me.numChangeMS)
@@ -2503,7 +2513,6 @@ Partial Class FormMain
     Friend WithEvents lstDramaViewSongs As ListBox
     Friend WithEvents trkDramaViewVolume As TrackBar
     Friend WithEvents lstDramaPresets As ListBox
-    Friend WithEvents chkEditMode As CheckBox
     Friend WithEvents lblChannelFillColour As Label
     Friend WithEvents lblChannelBackColour As Label
     Friend WithEvents lblChannelBulletColour As Label

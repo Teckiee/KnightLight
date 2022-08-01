@@ -24,7 +24,7 @@ Public Class FormMain
     Dim tmrchangedmp32 As Boolean = False
     'Dim SongChangeIndexUpTo1 As Integer = -1
     Dim CurrentSongChangeIndex As Integer = -1
-    Dim SongChangeIndexUpTo2 As Integer = -1
+    Dim CurrentSongChangeIndex2 As Integer = -1
     Dim Song1EditingOrig As SongChangesStr
 
     'Dim ChannelFaderPageCurrentSceneDataIndex As Integer = 0
@@ -2273,7 +2273,7 @@ LoopsDone:
     End Sub
     Private Sub updatePlayer()
         tmrchangedmp3 = True
-
+        'If lstPresetsSongs.SelectedItems.Count = 0 Then Exit Sub
         Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
 
         Dim PositionMilli As Double = 0 ' Math.Round(Player.controls.currentPosition, 2)
@@ -2373,16 +2373,19 @@ LoopsDone:
                                 SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Start()
                             End If
                         End If
+                        CurrentSongChangeIndex = IsongChange
+
                         If SongDictSorted1(IsongChange).Key.TimeToGoUp = 0 Then
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).MasterValue = 100
-                            If CurrentSongChangeIndex >= 0 Then StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, True)
+                            If CurrentSongChangeIndex >= 0 Then
+                                StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, True)
+                            End If
                             UpdatePresetControls(SongDictSorted1(IsongChange).Key.SceneIndex)
                         Else
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
                         End If
-                        CurrentSongChangeIndex = IsongChange
                         lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                         lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                         lstDramaViewSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
@@ -2401,38 +2404,30 @@ LoopsDone:
 
     Private Sub updatePlayer2()
         tmrchangedmp32 = True
-
-        ' Update TrackPostion
-        'With vSongEdit
-        '    .Minimum = 0
-        '    .Maximum = CInt(Player.currentMedia.duration)
-        '    .Value = CInt(Player.controls.currentPosition())
-        'End With
-        ' Display Current Time Position and Duration
-        'lblMP3PositionMilli.Text = Player.controls.currentPosition ## is lower down
+        'If lstPresetsSongs2.SelectedItems.Count = 0 Then Exit Sub
 
         Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
 
         Dim PositionMilli As Double = 0 ' Math.Round(Player.controls.currentPosition, 2)
         If MusicCues(Qindex).IsMP3 = True Then
+            'If ASIOMode = True Then
             lblPresetsMP3Duration2.Text = AudioRun.TotalTime(MusicCues(Qindex).SongFileName) 'MusicCues(Qindex).AudioReader.TotalTime.ToString("mm\:ss")
             lblPresetsMP3Position2.Text = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName) ' MusicCues(Qindex).AudioReader.CurrentTime.ToString("mm\:ss")
-            PositionMilli = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True) 'MusicCues(Qindex).AudioReader.CurrentTime.ToString("ss\.ff")
+            PositionMilli = Val(AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)) 'MusicCues(Qindex).AudioReader.CurrentTime.ToString("ss\.ff")
+            'Else
+            'lblPresetsMP3Duration.Text = MusicCues(Qindex).mp3Reader.TotalTime.ToString("mm\:ss")
+            'lblPresetsMP3Position.Text = MusicCues(Qindex).mp3Reader.CurrentTime.ToString("mm\:ss")
+            'PositionMilli = MusicCues(Qindex).mp3Reader.CurrentTime.ToString("ss\.ff")
+            'End If
 
+            ' Display Current Time Position and Duration
 
-            'lblPresetsMP3Duration2.Text = MusicCues(Qindex).mp3Reader.TotalTime.ToString("mm\:ss")
             lblMusicMP3Duration2.Text = lblPresetsMP3Duration2.Text
             lblDramaViewMP3Duration2.Text = lblPresetsMP3Duration2.Text
 
-            'lblPresetsMP3Position2.Text = MusicCues(Qindex).mp3Reader.CurrentTime.ToString("mm\:ss")
             lblMusicMP3Position2.Text = lblPresetsMP3Position2.Text
             lblDramaViewMP3Position2.Text = lblPresetsMP3Position2.Text
 
-            'trkPresetsVolume2.Value = MusicCues(Qindex).waveOut.Volume
-            'trkMusicVolume2.Value = trkPresetsVolume2.Value
-            'trkDramaViewVolume2.Value = trkPresetsVolume2.Value
-
-            'PositionMilli = MusicCues(Qindex).mp3Reader.CurrentTime.ToString("ss\.ff")
         ElseIf MusicCues(Qindex).IsSCS = True Then
 
             lblPresetsMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
@@ -2447,13 +2442,15 @@ LoopsDone:
 
         End If
 
+
         lblPresetsMP3PositionMilli2.Text = PositionMilli
         lblMusicMP3PositionMilli2.Text = PositionMilli
         lblDramaViewMP3PositionMilli2.Text = PositionMilli
 
+
         If MusicCues(Qindex).SongChangesDict.Count > 0 Then
             ' # testing
-            Dim SongDictSorted2 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
+            Dim SongDictSorted1 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
             'Dim I As Integer = 0
             'Do Until I >= SongDictSorted1.Count
             '    Dim newrow As New ListViewItem
@@ -2474,39 +2471,39 @@ LoopsDone:
                 Dim dochange As Boolean = False
                 If IsongChange = MusicCues(Qindex).SongChangesDict.Count - 1 Then
                     dochange = True
-                ElseIf PositionMilli < SongDictSorted2(IsongChange + 1).Key.TimeCode Then
+                ElseIf PositionMilli < SongDictSorted1(IsongChange + 1).Key.TimeCode Then
                     dochange = True
                 End If
-                If PositionMilli >= SongDictSorted2(IsongChange).Key.TimeCode Then
+                If PositionMilli >= SongDictSorted1(IsongChange).Key.TimeCode Then
                     If dochange = True Then
-                        If CurrentSongChangeIndex = IsongChange Then Exit Do 'Already on it
+                        If CurrentSongChangeIndex2 = IsongChange Then Exit Do 'Already on it
                         ' scene should be up to here
-                        If CurrentSongChangeIndex = -1 Then 'first change of song
+                        If CurrentSongChangeIndex2 = -1 Then 'first change of song
                             cmdPresetsBlackoutAllInstant_Click(Nothing, Nothing)
                         Else
-                            If SongDictSorted2(CurrentSongChangeIndex).Key.TimeToGoDown = 0 Then
-                                SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).MasterValue = 0
-                                StartChannelTimers(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex, False)
-                                UpdatePresetControls(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex)
+                            If SongDictSorted1(CurrentSongChangeIndex2).Key.TimeToGoDown = 0 Then
+                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).MasterValue = 0
+                                StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex, False)
+                                UpdatePresetControls(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex)
                             Else
-                                SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).Automation.tmrDirection = "Down"
-                                SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).Automation.Max / (SongDictSorted2(CurrentSongChangeIndex).Key.TimeToGoDown / SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Interval)
-                                SceneData(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Start()
+                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tmrDirection = "Down"
+                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex2).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tTimer.Interval)
+                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tTimer.Start()
                             End If
                         End If
-                        If SongDictSorted2(IsongChange).Key.TimeToGoUp = 0 Then
-                            SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).MasterValue = 100
-                            If CurrentSongChangeIndex >= 0 Then StartChannelTimers(SongDictSorted2(CurrentSongChangeIndex).Key.SceneIndex, True)
-                            UpdatePresetControls(SongDictSorted2(IsongChange).Key.SceneIndex)
+                        CurrentSongChangeIndex2 = IsongChange
+                        If SongDictSorted1(IsongChange).Key.TimeToGoUp = 0 Then
+                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).MasterValue = 100
+                            If CurrentSongChangeIndex2 >= 0 Then StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex, True)
+                            UpdatePresetControls(SongDictSorted1(IsongChange).Key.SceneIndex)
                         Else
-                            SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
-                            SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted2(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
-                            SceneData(SongDictSorted2(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
+                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
+                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
+                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
                         End If
-                        CurrentSongChangeIndex = IsongChange
-                        lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
-                        lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
-                        lstDramaViewSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
+                        lstPresetsSongChanges2.Items(CurrentSongChangeIndex2).BackColor = lblSongChangeColour.BackColor
+                        lstMusicSongChanges2.Items(CurrentSongChangeIndex2).BackColor = lblSongChangeColour.BackColor
+                        lstDramaViewSongChanges2.Items(CurrentSongChangeIndex2).BackColor = lblSongChangeColour.BackColor
                         Exit Do
 
                     End If
@@ -2516,8 +2513,7 @@ LoopsDone:
 
         End If
 
-        'tmrMP3.Interval = 10
-        tmrchangedmp32 = False
+        tmrchangedmp3 = False
 
     End Sub
 
@@ -2577,6 +2573,7 @@ LoopsDone:
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.Volume = trkMusicVolume.Value
                 AudioRun.mPlay(MusicCues(Qindex).SongFileName)
+                tmrMP3.Start()
 
 
 
@@ -2671,6 +2668,7 @@ LoopsDone:
         If MusicCues(Qindex).IsMP3 = True Then
 
             AudioRun.mStop(MusicCues(Qindex).SongFileName)
+            tmrMP3.Stop()
 
         ElseIf MusicCues(Qindex).IsSCS = True Then
             MusicCues(Qindex).SCSinfo.swElapsed.Reset()
@@ -2770,33 +2768,43 @@ LoopsDone:
     Private Sub cmdPlay2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsPlay2.Click, cmdDramaViewPlay2.Click, cmdMusicPlay2.Click
         'Dim iSelectIndex As String = sender.name
         If lstPresetsSongs2.SelectedIndex = -1 Then Exit Sub
-        'lstPresetsSongs.SelectedIndex = iSelectIndex
-        'lstMusicSongs.SelectedIndex = iSelectIndex
-        'lstDramaViewSongs.SelectedIndex = iSelectIndex
+        'lstPresetsSongs2.SelectedIndex = iSelectIndex
+        'lstMusicSongs2.SelectedIndex = iSelectIndex
+        'lstDramaViewSongs2.SelectedIndex = iSelectIndex
         Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
 
+
         If cmdPresetsPlay2.Text = "Play" Then
+
+
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.Volume = trkMusicVolume.Value
+                AudioRun.Volume = trkMusicVolume2.Value
                 AudioRun.mPlay(MusicCues(Qindex).SongFileName)
+                tmrMP32.Start()
+
+
+
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
-
                 Dim OSCmessage = New SharpOSC.OscMessage("/cue/go ,s " & MusicCues(Qindex).SCSinfo.Qname)
                 Dim sendOSC = New SharpOSC.UDPSender(SCSIPaddress, SCSPort)
                 sendOSC.Send(OSCmessage)
 
                 MusicCues(Qindex).SCSinfo.swElapsed.Start()
 
+
+
+
             End If
-            'Player2.settings.volume = trkPresetsVolume2.Value
 
+            tmrMP32.Interval = 50
+            'frmMain.tmrMP3.Start()
+            'frmMain.updatePlayer()
 
-            'Player2.controls.play()
 
             If lstPresetsSongChanges2.Items.Count > 0 Then
-                'Dim a() As String = Split(lstPresetsSongChanges2.Items(0).Text, "|")
-                SongChangeIndexUpTo2 = -1
+                'Dim a() As String = Split(lstPresetsSongChanges.Items.Item(0), "|")
+                CurrentSongChangeIndex = -1
                 lstPresetsSongChanges2.SelectedIndices.Clear()
                 lstMusicSongChanges2.SelectedIndices.Clear()
                 lstDramaViewSongChanges2.SelectedIndices.Clear()
@@ -2805,17 +2813,13 @@ LoopsDone:
             cmdPresetsPlay2.Text = "Pause"
             cmdMusicPlay2.Text = "Pause"
             cmdDramaViewPlay2.Text = "Pause"
-            tmrMP32.Interval = 50
-            tmrMP32.Start()
-            tmrMP32_Tick(sender, e)
-            lstPresetsSongs2.Enabled = False
-            lstMusicSongs2.Enabled = False
-            lstDramaViewSongs2.Enabled = False
+
             Exit Sub
         ElseIf cmdPresetsPlay2.Text = "Pause" Then
-            'MP3.MP3Pause()
+
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mPause(MusicCues(Qindex).SongFileName)
+
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -2826,15 +2830,17 @@ LoopsDone:
                 MusicCues(Qindex).SCSinfo.swElapsed.Stop()
 
             End If
-            'Player2.controls.pause()
+            '            tmrMP3.Enabled = False
+
             cmdPresetsPlay2.Text = "Resume"
             cmdMusicPlay2.Text = "Resume"
             cmdDramaViewPlay2.Text = "Resume"
-            tmrMP32.Enabled = False
             Exit Sub
         ElseIf cmdPresetsPlay2.Text = "Resume" Then
+
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mResume(MusicCues(Qindex).SongFileName)
+
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
                 Dim OSCmessage = New SharpOSC.OscMessage("/cue/pauseresume ,s " & MusicCues(Qindex).SCSinfo.Qname)
@@ -2842,22 +2848,28 @@ LoopsDone:
                 sendOSC.Send(OSCmessage)
 
                 MusicCues(Qindex).SCSinfo.swElapsed.Start()
+
+
             End If
-            'Player2.controls.play()
+
+            '            tmrMP3.Start()
+
             cmdPresetsPlay2.Text = "Pause"
             cmdMusicPlay2.Text = "Pause"
             cmdDramaViewPlay2.Text = "Pause"
-            'MP3.MP3Resume()
-            tmrMP32.Start()
+
             Exit Sub
         End If
     End Sub
 
     Private Sub cmdStop2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsStop2.Click, cmdDramaViewStop2.Click, cmdMusicStop2.Click
-        'Player2.controls.stop()
+
         Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
+
             AudioRun.mStop(MusicCues(Qindex).SongFileName)
+            tmrMP32.Stop()
+
         ElseIf MusicCues(Qindex).IsSCS = True Then
             MusicCues(Qindex).SCSinfo.swElapsed.Reset()
 
@@ -2866,10 +2878,14 @@ LoopsDone:
             sendOSC.Send(OSCmessage)
 
         End If
-        tmrMP32.Stop()
+
+        CurrentSongChangeIndex2 = -1
         cmdPresetsPlay2.Text = "Play"
         cmdDramaViewPlay2.Text = "Play"
         cmdMusicPlay2.Text = "Play"
+
+        ResetSongChangeBackColours()
+
         lstPresetsSongs2.Enabled = True
         lstMusicSongs2.Enabled = True
         lstDramaViewSongs2.Enabled = True
@@ -2880,6 +2896,7 @@ LoopsDone:
             Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mStop(MusicCues(Qindex).SongFileName)
+
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
                 Dim OSCmessage = New SharpOSC.OscMessage("/cue/stop ,s " & MusicCues(Qindex).SCSinfo.Qname)
@@ -2888,12 +2905,13 @@ LoopsDone:
 
                 MusicCues(Qindex).SCSinfo.swElapsed.Stop()
             End If
-            'Player2.controls.stop()
-            tmrMP32.Stop()
+
+            'Player.controls.stop()
+            'tmrMP3.Stop()
             cmdPresetsPlay2.Text = "Play"
             cmdMusicPlay2.Text = "Play"
             cmdDramaViewPlay2.Text = "Play"
-            'lstPresetsSongs2.Enabled = True
+            lstPresetsSongs2.Enabled = True
 
             If lstPresetsSongs2.Items.Count > lstPresetsSongs2.SelectedIndex + 1 Then
                 lstPresetsSongs2.SelectedIndex += 1
@@ -2909,14 +2927,16 @@ LoopsDone:
         Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
         Dim vol As Integer = sender.Value
         If MusicCues(Qindex).IsMP3 = True Then
-            'MusicCues(Qindex).waveOut.Volume = sender.Value
-            AudioRun.Volume = trkMusicVolume.Value
+            'MusicCues(Qindex).waveOut.Volume = (sender.Value / 100)
+            'MusicCues(Qindex).AudioReader.Volume = (sender.Value / 100)
+            AudioRun.Volume = trkMusicVolume2.Value
         Else
         End If
-        'Player2.settings.volume = sender.Value
-        trkPresetsVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume
-        trkDramaViewVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume
-        trkMusicVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume
+
+        'Player.settings.volume = sender.Value
+        trkPresetsVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume * 100
+        trkDramaViewVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume * 100
+        trkMusicVolume2.Value = vol 'MusicCues(Qindex).waveOut.Volume * 100
     End Sub
 
     Public Function GetSceneIndex(ByVal SceneName As String) As Integer
@@ -3140,7 +3160,7 @@ skipme:
         Loop
 
 
-AfterChgFile:
+        'AfterChgFile:
 
 
         If MusicCues(Qindex).IsMP3 = True Then
@@ -3155,6 +3175,45 @@ AfterChgFile:
         End If
     End Sub
     Dim OtherIndexChanged As Boolean = False
+    Dim OtherIndexChanged2 As Boolean = False
+    Private Sub lstSongs2_Changed(ByVal songname As String)
+
+        Dim Qindex As Integer = GetMusicCueIndex(songname)
+
+        lstPresetsSongChanges2.Items.Clear()
+        lstMusicSongChanges2.Items.Clear()
+        lstDramaViewSongChanges2.Items.Clear()
+
+        Dim SongDictSorted1 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
+
+        Dim I As Integer = 0
+        Do Until I >= SongDictSorted1.Count
+            Dim newrow As New ListViewItem
+            newrow.Text = SongDictSorted1(I).Value
+            newrow.SubItems.Add(SongDictSorted1(I).Key.SceneName)
+            newrow.SubItems.Add(SongDictSorted1(I).Key.TimeToGoUp)
+            newrow.SubItems.Add(SongDictSorted1(I).Key.TimeToGoDown)
+            lstMusicSongChanges2.Items.Add(newrow)
+            lstPresetsSongChanges2.Items.Add(newrow.Clone)
+            lstDramaViewSongChanges2.Items.Add(newrow.Clone)
+            I += 1
+        Loop
+
+
+        'AfterChgFile:
+
+
+        If MusicCues(Qindex).IsMP3 = True Then
+
+            lblPresetsMP3Duration2.Text = AudioRun.TotalTime(MusicCues(Qindex).SongFileName)
+            lblMusicMP3Duration2.Text = lblPresetsMP3Duration2.Text
+            lblDramaViewMP3Duration2.Text = lblPresetsMP3Duration2.Text
+        Else
+            lblPresetsMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
+            lblMusicMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
+            lblDramaViewMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
+        End If
+    End Sub
     Private Sub lstPresetsSongs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstPresetsSongs.SelectedIndexChanged
         If sender.SelectedIndex = -1 Then Exit Sub
         If OtherIndexChanged = True Then Exit Sub
@@ -3199,88 +3258,13 @@ AfterChgFile:
 
     Private Sub lstSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstPresetsSongs2.SelectedIndexChanged, lstMusicSongs2.SelectedIndexChanged, lstDramaViewSongs2.SelectedIndexChanged
         If sender.SelectedIndex = -1 Then Exit Sub
-        Dim iSelectIndex = sender.selectedindex
-        lstPresetsSongs2.SelectedIndex = iSelectIndex
-        lstMusicSongs2.SelectedIndex = iSelectIndex
-        lstDramaViewSongs2.SelectedIndex = iSelectIndex
+        If OtherIndexChanged2 = True Then Exit Sub
+        OtherIndexChanged2 = True
 
-        lstPresetsSongChanges2.Items.Clear()
-        lstMusicSongChanges2.Items.Clear()
-        lstDramaViewSongChanges2.Items.Clear()
-
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
-
-        'If File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstPresetsSongs2.SelectedItem & ".chg") = False Then GoTo AfterChgFile
-
-        'FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstPresetsSongs2.SelectedItem & ".chg", OpenMode.Input)
-        'Do Until EOF(1)
-        '    Dim newline As String = LineInput(1)
-
-        '    Dim b() As String = Split(newline, "|", 2)
-
-        '    'lstPresetsSongChanges2.Items.Add(newline)
-        '    'lstMusicSongChanges2.Items.Add(newline)
-        '    'lstDramaViewSongChanges2.Items.Add(newline)
-
-        '    Dim NewSongChange As New SongChangesStr
-        '    Dim a() As String = Split(newline, "|")
-        '    NewSongChange.TimeCode = a(0)
-        '    NewSongChange.SceneName = a(1)
-        '    NewSongChange.SceneIndex = GetSceneIndex(a(1))
-        '    If a.Length > 2 Then
-        '        NewSongChange.TimeToGoUp = a(2)
-        '        NewSongChange.TimeToGoDown = a(3)
-        '    Else
-        '        NewSongChange.TimeToGoUp = 0
-        '        NewSongChange.TimeToGoDown = 0
-        '    End If
-        '    SongDict2.Add(NewSongChange, NewSongChange.TimeCode)
-
-        'Loop
-
-        ''Do Until EOF(1)
-        ''    Dim a() As String = Split(LineInput(1), "|") 'time|Preset
-        ''    Mp3Changes(I).Time = a(0)
-        ''    Mp3Changes(I).PresetName = a(1)
-        ''    I += 1
-        ''Loop
-        'FileClose(1)
-
-        ' # testing
-        Dim SongDictSorted2 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
-        Dim I As Integer = 0
-        Do Until I >= SongDictSorted2.Count
-            Dim newrow As New ListViewItem
-            newrow.Text = SongDictSorted2(I).Value
-            newrow.SubItems.Add(SongDictSorted2(I).Key.SceneName)
-
-            lstPresetsSongChanges2.Items.Add(newrow)
-            lstMusicSongChanges2.Items.Add(newrow.Clone)
-            lstDramaViewSongChanges2.Items.Add(newrow.Clone)
-            I += 1
-        Loop
-        ' / testing
-
-AfterChgFile:
-
-        'Make sure no mp3 is playing
-        'MP3.MP3Stop()
-        'Player.controls.stop()
-        'load mp3 and play
-
-
-        'Player2.URL = Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstPresetsSongs2.SelectedItem & ".mp3"
-
-        If MusicCues(Qindex).IsMP3 = True Then
-
-            lblPresetsMP3Duration2.Text = AudioRun.TotalTime(MusicCues(Qindex).SongFileName)
-            lblMusicMP3Duration2.Text = lblPresetsMP3Duration2.Text
-            lblDramaViewMP3Duration2.Text = lblPresetsMP3Duration2.Text
-        Else
-            lblPresetsMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
-            lblMusicMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
-            lblDramaViewMP3Duration2.Text = MusicCues(Qindex).SCSinfo.Length
-        End If
+        lstMusicSongs2.SelectedIndex = lstPresetsSongs2.SelectedIndex
+        lstDramaViewSongs2.SelectedIndex = lstPresetsSongs2.SelectedIndex
+        lstSongs2_Changed(lstPresetsSongs2.SelectedItem)
+        OtherIndexChanged2 = False
     End Sub
     Public Function GetRandom(ByVal Min As Integer, ByVal Max As Integer) As Integer
         Static Generator As System.Random = New System.Random()
