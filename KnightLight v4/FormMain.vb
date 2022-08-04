@@ -3248,7 +3248,27 @@ skipme:
         Loop
     End Function
 
-    Private Sub lstSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstPresetsSongs2.SelectedIndexChanged, lstMusicSongs2.SelectedIndexChanged, lstDramaViewSongs2.SelectedIndexChanged
+    Private Sub lstDramaViewSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstDramaViewSongs2.SelectedIndexChanged
+        If sender.SelectedIndex = -1 Then Exit Sub
+        If OtherIndexChanged2 = True Then Exit Sub
+        OtherIndexChanged2 = True
+
+        lstMusicSongs2.SelectedIndex = lstDramaViewSongs2.SelectedIndex
+        lstPresetsSongs2.SelectedIndex = lstDramaViewSongs2.SelectedIndex
+        lstSongs2_Changed(lstDramaViewSongs2.SelectedItem)
+        OtherIndexChanged2 = False
+    End Sub
+    Private Sub lstMusicSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstMusicSongs2.SelectedIndexChanged
+        If sender.SelectedIndex = -1 Then Exit Sub
+        If OtherIndexChanged2 = True Then Exit Sub
+        OtherIndexChanged2 = True
+
+        lstDramaViewSongs2.SelectedIndex = lstMusicSongs2.SelectedIndex
+        lstPresetsSongs2.SelectedIndex = lstMusicSongs2.SelectedIndex
+        lstSongs2_Changed(lstMusicSongs2.SelectedItem)
+        OtherIndexChanged2 = False
+    End Sub
+    Private Sub lstPresetsSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstDramaViewSongs2.SelectedIndexChanged
         If sender.SelectedIndex = -1 Then Exit Sub
         If OtherIndexChanged2 = True Then Exit Sub
         OtherIndexChanged2 = True
