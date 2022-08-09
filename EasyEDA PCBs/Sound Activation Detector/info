@@ -1,0 +1,310 @@
+{
+  "uuid": "7cedc3da613428ba1434cfe779bdfb82",
+  "path": "Offline/Sound%20Activation%20Detector",
+  "name": "Sound Activation Detector",
+  "content": "",
+  "created_at": "2021-08-31 16:21:05",
+  "updated_at": "2022-02-15 00:38:37",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "313a8808137cbb78f707e008df4fb874",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "537d08ef09821028f5e00607f74a9b4b": 3,
+        "d00d82df1e9d47f6b65129ec2492fa95": 2,
+        "93af0a6df6bd4bbeb0a0e311164332f3": 4,
+        "ee5abafa70cebd3b2dfcd956025719c4": 1,
+        "3cc38d701306f6f85f1fd0c9b74d5d6c": 1,
+        "58557ab5dac544259249b4981dd6020c": 3,
+        "21f8f80a3f7c3c2b00b33f71a31ff6ef": 4,
+        "23fa7050e226b9cd853e945f258bf810": 1,
+        "904aad236407453e946e4f52f2f6e9a6": 1,
+        "e03ff9101eee459eaead612ff9131358": 1,
+        "33b1e7849503bae29184004739fffff0": 1,
+        "04d396e59a624ca380551d70276baa2f": 2,
+        "1caba1832e314d308d6c0be5761b653f": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "10uF",
+          1,
+          "CAP-TH_BD6.3-P2.50-D1.0-FD",
+          "C1",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ValuePro",
+            "BOM_Manufacturer Part": "10uf/100V",
+            "BOM_Supplier Part": "C2029",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "1a9b494b74c34d3b879eb7f824b3824d",
+            "uuid": "ee5abafa70cebd3b2dfcd956025719c4"
+          }
+        ],
+        [
+          "CCT4-1206B473K500",
+          1,
+          "CAP-TH_L8.0-W4.0-P5.00-D0.7",
+          "C2",
+          {
+            "BOM_Supplier Part": "C32275",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "CCT4-1206B473K500",
+            "puuid": "17616368dd8f4ed9b4b58241fcf0534d",
+            "uuid": "3cc38d701306f6f85f1fd0c9b74d5d6c"
+          }
+        ],
+        [
+          "10uF",
+          1,
+          "CAP-D5.0XF2.0",
+          "C3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ValuePro",
+            "BOM_Manufacturer Part": "10uF 25V RHOS",
+            "BOM_Supplier Part": "C19576",
+            "puuid": "4f22f638eb46492797daf7383bd865c4",
+            "uuid": ""
+          }
+        ],
+        [
+          "100uF",
+          1,
+          "CAP-8*5",
+          "C7",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer Part": "100uF 25V",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Supplier Part": "C13376",
+            "puuid": "3198903544bb48619af9ecd5d579299e",
+            "uuid": ""
+          }
+        ],
+        [
+          "DC-005_1",
+          1,
+          "DC-5020",
+          "DC1",
+          {
+            "BOM_LCSC": "E66437",
+            "BOM_Supplier": "EasyEDA",
+            "BOM_Manufacturer": "EasyEDA",
+            "BOM_Manufacturer Part": "DC-005_1",
+            "BOM_Supplier Part": "",
+            "puuid": "87ef2a0aa70442049cb37bb1309a0cbe",
+            "uuid": ""
+          }
+        ],
+        [
+          "Header-Male-2.54_1x3",
+          4,
+          "HDR-TH_3P-P2.54-V-M-1",
+          "FAD01,FAD02,FAD3,FAD4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "BOOMELE",
+            "BOM_Manufacturer Part": "Header2.54mm 1*3P",
+            "BOM_Supplier Part": "C49257",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "7e70b923819e4f3bb9fdeaf4abdca9d3",
+            "uuid": "21f8f80a3f7c3c2b00b33f71a31ff6ef"
+          }
+        ],
+        [
+          "XLR-328-2",
+          2,
+          "CONN-TH_XLR-328-2",
+          "J1,J2",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C309331",
+            "BOM_Manufacturer": "HOOYA",
+            "BOM_Manufacturer Part": "XLR-328-2",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6c76f926824743d6a5bb9c46dea05323",
+            "uuid": "04d396e59a624ca380551d70276baa2f"
+          }
+        ],
+        [
+          "Screw_Term_2.54mm_3P",
+          1,
+          "SCREW_TERMINAL_2.54_1X3",
+          "P1",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "undefined",
+            "BOM_Supplier": "",
+            "puuid": "c230f104876b4ea7a76169911a08f901",
+            "uuid": "904aad236407453e946e4f52f2f6e9a6"
+          }
+        ],
+        [
+          "100K",
+          3,
+          "RES-TH_BD3.3-L9.0-P13.00-D0.6",
+          "R1,R2,R3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "UniOhm",
+            "BOM_Manufacturer Part": "MFR0S2F1003A20",
+            "BOM_Supplier Part": "C58589",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "987b1ed46f1743c9a1f55a2893a33c05",
+            "uuid": "537d08ef09821028f5e00607f74a9b4b"
+          }
+        ],
+        [
+          "10K",
+          4,
+          "RES-TH_BD3.3-L9.0-P13.00-D0.6",
+          "R4,R5,R6,R7",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C119433",
+            "BOM_Manufacturer": "Chian Chia Elec",
+            "BOM_Manufacturer Part": "-",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "987b1ed46f1743c9a1f55a2893a33c05",
+            "uuid": "93af0a6df6bd4bbeb0a0e311164332f3"
+          }
+        ],
+        [
+          "Header-Male-2.54_1x4",
+          3,
+          "HDR-TH_4P-P2.54-V-M",
+          "SW01,SW2,SW3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "Ckmtw",
+            "BOM_Manufacturer Part": "210S-1*4P L=11.6MMGold-plated black",
+            "BOM_Supplier Part": "C124378",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "89f5280378144b629de4998ef974b6b8",
+            "uuid": "58557ab5dac544259249b4981dd6020c"
+          }
+        ],
+        [
+          "PE-65612NL",
+          1,
+          "PE65612NL",
+          "T1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "112ffad7a1d0450580c752248805ede7",
+            "uuid": "1caba1832e314d308d6c0be5761b653f"
+          }
+        ],
+        [
+          "LM1084IT-5.0",
+          1,
+          "TO-220-3_L10.0-W4.5-P2.54-L",
+          "U1-5V",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "TI",
+            "BOM_Manufacturer Part": "LM1084IT-5.0",
+            "BOM_Supplier Part": "C9719",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "948e610cffd14df79f04c73832b1409b",
+            "uuid": "33b1e7849503bae29184004739fffff0"
+          }
+        ],
+        [
+          "NME1212S",
+          2,
+          "NPSIP4",
+          "U3,U4",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "88cdccdd4b994c16a2cefe7485b73f38",
+            "uuid": "d00d82df1e9d47f6b65129ec2492fa95"
+          }
+        ],
+        [
+          "TL072CN",
+          1,
+          "DIP-8_L9.4-W6.4-P2.54-LS9.1-BL",
+          "U5",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "STMicroelectronics",
+            "BOM_Manufacturer Part": "TL072CN",
+            "BOM_Supplier Part": "C5164",
+            "puuid": "5730e723e0a640398cdedbf314c06732",
+            "uuid": "23fa7050e226b9cd853e945f258bf810"
+          }
+        ],
+        [
+          "ArduinoNanoShield",
+          1,
+          "ARDUINONANOSHIELD",
+          "X2",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "cab06185a2ed4502aade907b19e07190",
+            "uuid": "e03ff9101eee459eaead612ff9131358"
+          }
+        ]
+      ],
+      "updateTime": 1644856717,
+      "createTime": 1630399822,
+      "histories": [],
+      "created_at": "2021-08-31 16:50:22",
+      "updated_at": "2022-02-15 00:38:37"
+    },
+    {
+      "uuid": "2c1e51374207a8770800974a57ebb092",
+      "puuid": "7cedc3da613428ba1434cfe779bdfb82",
+      "title": "PCB_Sound Activation Detector_2",
+      "filename": "PCB_Sound Activation Detector_2.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "7e70b923819e4f3bb9fdeaf4abdca9d3": 4,
+        "6c76f926824743d6a5bb9c46dea05323": 1,
+        "987b1ed46f1743c9a1f55a2893a33c05": 7,
+        "948e610cffd14df79f04c73832b1409b": 1,
+        "cab06185a2ed4502aade907b19e07190": 1,
+        "1a9b494b74c34d3b879eb7f824b3824d": 1,
+        "89f5280378144b629de4998ef974b6b8": 3,
+        "5730e723e0a640398cdedbf314c06732": 1,
+        "4f22f638eb46492797daf7383bd865c4": 1,
+        "3198903544bb48619af9ecd5d579299e": 1,
+        "87ef2a0aa70442049cb37bb1309a0cbe": 1,
+        "17616368dd8f4ed9b4b58241fcf0534d": 1,
+        "88cdccdd4b994c16a2cefe7485b73f38": 2
+      },
+      "BOM": [],
+      "updateTime": 1644759463,
+      "createTime": 1630400055,
+      "histories": [],
+      "created_at": "2021-08-31 16:54:15",
+      "updated_at": "2022-02-13 21:37:43"
+    }
+  ],
+  "sort": [],
+  "title": "Sound Activation Detector",
+  "foldername": "Sound Activation Detector",
+  "schfilename": "Sound Activation Detector.json",
+  "schfilemtime": 1644856717150
+}

@@ -1,0 +1,136 @@
+{
+  "uuid": "14e70ffc792dd7a4b2b1150f624a0e22",
+  "path": "Offline/Music%20Player%20Module",
+  "name": "Music Player Module",
+  "content": "",
+  "created_at": "2022-03-27 22:39:28",
+  "updated_at": "2022-04-05 19:37:33",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "56f01a8ac99f4c2d40169d1ff2b0b5d4",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "1b61b69de02b4f20a6b8ed1bfb0b7b04": 1,
+        "bdf5b2ff891745faa882049b5470aca4": 5,
+        "0916f603083b4d53aa5a0e743b90debc": 5,
+        "c17daea4b38a48fb970ee4c938f67f80": 1,
+        "e03ff9101eee459eaead612ff9131358": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "PB86-A1",
+          5,
+          "PB86-A1",
+          "BACK,FORWARD,PAUSE,PLAY,STOP",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4c9ca91c5de844c6ba64656ac1504649",
+            "uuid": "bdf5b2ff891745faa882049b5470aca4"
+          }
+        ],
+        [
+          "STM32F401CCU6_BLACK_PILL WITH LABELS",
+          1,
+          "STM32F401_BLACK PILL V3_FW",
+          "DM2",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "7d6ed5fb6f654b19978fbb4f2da142de",
+            "uuid": "1b61b69de02b4f20a6b8ed1bfb0b7b04"
+          }
+        ],
+        [
+          "10K",
+          5,
+          "R0805",
+          "R1,R2,R3,R4,R32",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C253330",
+            "BOM_Manufacturer": "ROHM Semicon",
+            "BOM_Manufacturer Part": "ESR03EZPJ103",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "58798197f8f6445384a6e34ec584db38",
+            "uuid": "0916f603083b4d53aa5a0e743b90debc"
+          }
+        ],
+        [
+          "Header-Male-2.54_1x3",
+          1,
+          "HEADER-MALE-2.54_1X3",
+          "VOLUME",
+          {
+            "BOM_Manufacturer Part": "Header-Male-2.54_1x10",
+            "puuid": "4655fb340c28431a9ff0ca46d16e81be",
+            "uuid": "c17daea4b38a48fb970ee4c938f67f80"
+          }
+        ],
+        [
+          "ArduinoNanoShield",
+          1,
+          "ARDUINONANOSHIELD",
+          "X2",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "cab06185a2ed4502aade907b19e07190",
+            "uuid": "e03ff9101eee459eaead612ff9131358"
+          }
+        ]
+      ],
+      "updateTime": 1649158653,
+      "createTime": 1648391968,
+      "histories": [],
+      "created_at": "2022-03-27 22:39:28",
+      "updated_at": "2022-04-05 19:37:33"
+    },
+    {
+      "uuid": "e59c921d532f4c0a79d6a6622a28bd4c",
+      "puuid": "fea535009f339e1f35e14b7512b0e06f",
+      "title": "PCB_Music Player Module",
+      "filename": "PCB_Music Player Module.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "58798197f8f6445384a6e34ec584db38": 5,
+        "4c9ca91c5de844c6ba64656ac1504649": 5,
+        "7d6ed5fb6f654b19978fbb4f2da142de": 1,
+        "4655fb340c28431a9ff0ca46d16e81be": 1,
+        "cab06185a2ed4502aade907b19e07190": 1
+      },
+      "BOM": [],
+      "updateTime": 1649158592,
+      "createTime": 1648392432,
+      "histories": [],
+      "created_at": "2022-03-27 22:47:12",
+      "updated_at": "2022-04-05 19:36:32"
+    }
+  ],
+  "sort": [],
+  "title": "Music Player Module",
+  "foldername": "Music Player Module",
+  "schfilename": "Music Player Module.json",
+  "schfilemtime": 1649158653106
+}

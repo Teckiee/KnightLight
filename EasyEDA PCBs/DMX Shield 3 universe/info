@@ -1,0 +1,268 @@
+{
+  "uuid": "e72802342161af63c0ad57e146458233",
+  "path": "Offline/DMX%20Shield%203%20universe",
+  "name": "DMX Shield 3 universe",
+  "content": "",
+  "created_at": "2021-08-17 13:12:17",
+  "updated_at": "2022-05-30 10:24:17",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "633ad3e3ab472ebfdb37a2bd8b385f81",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "88240d4b2c644616b1ce5a900f572654": 1,
+        "e9b172bbe58746a0bfc16211d1d8f989": 9,
+        "cafc24b4df204bb38362838c8532ebde": 1,
+        "d6138902ea824fe096b4efa76ebb4185": 9,
+        "06f48d4b139f43218ad4c29fe76e3abe": 3,
+        "04d396e59a624ca380551d70276baa2f": 3,
+        "9698a5ebc38f435fb5a5f9ff5b84927c": 53,
+        "7725117e3ec44aff8b0e10a9470bba0f": 1,
+        "33b1e7849503bae29184004739fffff0": 1,
+        "e895c8de9be5aa85143b569de6871357": 1,
+        "a9dd85c15b009b5d3663fe3737e11633": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "DC-005_1",
+          1,
+          "DC-5020",
+          "5V",
+          {
+            "BOM_LCSC": "E66437",
+            "BOM_Supplier": "EasyEDA",
+            "BOM_Manufacturer": "EasyEDA",
+            "BOM_Manufacturer Part": "DC-005_1",
+            "BOM_Supplier Part": "",
+            "puuid": "87ef2a0aa70442049cb37bb1309a0cbe",
+            "uuid": ""
+          }
+        ],
+        [
+          "100nF",
+          9,
+          "CAP-TH_L5.0-W5.0-P5.08-D1.0",
+          "C1,C2,C3,C4,C5,C6,C7,C8,C9",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C444738",
+            "BOM_Manufacturer": "AVX",
+            "BOM_Manufacturer Part": "SR211C104KAR",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "4d5b8e8e8f89428f98436df910b3190e",
+            "uuid": "e9b172bbe58746a0bfc16211d1d8f989"
+          }
+        ],
+        [
+          "NME0505SC",
+          1,
+          "NME0505SC",
+          "DC1",
+          {
+            "BOM_Manufacturer Part": "NME0505SC",
+            "puuid": "0685858d36fe42139a65cfc4d12fc6f7",
+            "uuid": "88240d4b2c644616b1ce5a900f572654"
+          }
+        ],
+        [
+          "6N137",
+          9,
+          "DIP-8_L10.0-W6.5-P2.54-LS7.6-BL",
+          "DIR1,DIR2,DIR3,RX1,RX2,RX3,TX1,TX2,TX3",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "881d017e96d048aaa94a5166ad55a273",
+            "uuid": "d6138902ea824fe096b4efa76ebb4185"
+          }
+        ],
+        [
+          "Output",
+          3,
+          "CONN-TH_XLR-328-2",
+          "J1,J2,J3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C309331",
+            "BOM_Manufacturer": "HOOYA",
+            "BOM_Manufacturer Part": "XLR-328-2",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "6c76f926824743d6a5bb9c46dea05323",
+            "uuid": "04d396e59a624ca380551d70276baa2f"
+          }
+        ],
+        [
+          "Header-Male-2.54_2x7",
+          1,
+          "HDR-TH_14P-P2.54-V-M-R2-C7-S2.54",
+          "J4",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "BOOMELE",
+            "BOM_Manufacturer Part": "Double row of needle2X7P 2.54mm",
+            "BOM_Supplier Part": "C71397",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "1bbf3b31395f4fa496c40210c477db87",
+            "uuid": "a9dd85c15b009b5d3663fe3737e11633"
+          }
+        ],
+        [
+          "4.7k",
+          9,
+          "R0805",
+          "R1,R2,R3,R13,R14,R15,R22,R23,R24",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "b60f399a7a7e41848b2be1eb49c79141",
+            "uuid": "9698a5ebc38f435fb5a5f9ff5b84927c"
+          }
+        ],
+        [
+          "470",
+          9,
+          "R0805",
+          "R4,R5,R7,R16,R17,R18,R25,R26,R27",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "b60f399a7a7e41848b2be1eb49c79141",
+            "uuid": "9698a5ebc38f435fb5a5f9ff5b84927c"
+          }
+        ],
+        [
+          "10k",
+          8,
+          "R0805",
+          "R28,R47,R48,R49,R50,R51,R52,R53",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "b60f399a7a7e41848b2be1eb49c79141",
+            "uuid": "9698a5ebc38f435fb5a5f9ff5b84927c"
+          }
+        ],
+        [
+          "562",
+          6,
+          "R0805",
+          "R38,R39,R42,R43,R45,R46",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "b60f399a7a7e41848b2be1eb49c79141",
+            "uuid": "9698a5ebc38f435fb5a5f9ff5b84927c"
+          }
+        ],
+        [
+          "133",
+          3,
+          "R0805",
+          "R40,R41,R44",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "b60f399a7a7e41848b2be1eb49c79141",
+            "uuid": "9698a5ebc38f435fb5a5f9ff5b84927c"
+          }
+        ],
+        [
+          "RGB CA MOMENTARY BUTTON",
+          1,
+          "RGB CA MOMENTARY BUTTON HEADERS",
+          "S3",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer": "EARU",
+            "BOM_Manufacturer Part": "",
+            "puuid": "9cbb36aef6954ad2ac8a5699f508cd20",
+            "uuid": "7725117e3ec44aff8b0e10a9470bba0f"
+          }
+        ],
+        [
+          "MEGA2560 PRO",
+          1,
+          "MEGA2560 PRO-CH340G",
+          "U3",
+          {
+            "BOM_Manufacturer": "RobotDyn",
+            "BOM_Manufacturer Part": "MEGA2560 PRO-ch340G",
+            "BOM_Supplier": "",
+            "BOM_Supplier Part": "MEGA2560 PRO-ch340G",
+            "puuid": "0ec4aa7c4daa4dd68a49d9e460cb5c79",
+            "uuid": "cafc24b4df204bb38362838c8532ebde"
+          }
+        ],
+        [
+          "MAX485CPA+",
+          3,
+          "DIP-8_L10.0-W6.5-P2.54-LS7.6-BL",
+          "X1,X2,X3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C77792",
+            "BOM_Manufacturer": "Maxim Integrated",
+            "BOM_Manufacturer Part": "MAX485CPA+",
+            "BOM_JLCPCB Part Class": "Extended Part",
+            "puuid": "881d017e96d048aaa94a5166ad55a273",
+            "uuid": "06f48d4b139f43218ad4c29fe76e3abe"
+          }
+        ]
+      ],
+      "updateTime": 1653877294,
+      "createTime": 1629180701,
+      "histories": [],
+      "created_at": "2021-08-17 14:11:41",
+      "updated_at": "2022-05-30 10:21:34"
+    },
+    {
+      "uuid": "9cc543aafaee5ef6f401b6177544daac",
+      "puuid": "0f8240e39931c90a80cf9616f5cebc53",
+      "title": "PCB_DMX Shield 3 universe",
+      "filename": "PCB_DMX Shield 3 universe.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "6c76f926824743d6a5bb9c46dea05323": 3,
+        "4d5b8e8e8f89428f98436df910b3190e": 9,
+        "0ec4aa7c4daa4dd68a49d9e460cb5c79": 1,
+        "0685858d36fe42139a65cfc4d12fc6f7": 1,
+        "9cbb36aef6954ad2ac8a5699f508cd20": 1,
+        "87ef2a0aa70442049cb37bb1309a0cbe": 1,
+        "881d017e96d048aaa94a5166ad55a273": 12,
+        "1bbf3b31395f4fa496c40210c477db87": 1,
+        "b60f399a7a7e41848b2be1eb49c79141": 53
+      },
+      "BOM": [],
+      "updateTime": 1653877402,
+      "createTime": 1629182162,
+      "histories": [],
+      "created_at": "2021-08-17 14:36:02",
+      "updated_at": "2022-05-30 10:23:22"
+    }
+  ],
+  "sort": [],
+  "title": "DMX Shield 3 universe",
+  "foldername": "DMX Shield 3 universe",
+  "schfilename": "DMX Shield 3 universe.json",
+  "schfilemtime": 1653877294502
+}
