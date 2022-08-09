@@ -2355,32 +2355,38 @@ LoopsDone:
                         If CurrentSongChangeIndex = -1 Then 'first change of song
                             cmdPresetsBlackoutAllInstant_Click(Nothing, Nothing)
                         Else
-                            If SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown = 0 Then
-                                SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).MasterValue = 0
-                                StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, False)
-                                UpdatePresetControls(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex)
-                            Else
-                                SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tmrDirection = "Down"
-                                SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Interval)
-                                SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Start()
+
+                            If Not SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex = -1 Then
+                                If SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown = 0 Then
+                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).MasterValue = 0
+                                    StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, False)
+                                    UpdatePresetControls(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex)
+                                Else
+                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tmrDirection = "Down"
+                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Interval)
+                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Start()
+                                End If
                             End If
                         End If
                         CurrentSongChangeIndex = IsongChange
+                        If Not SongDictSorted1(IsongChange).Key.SceneIndex = -1 Then
+                            If SongDictSorted1(IsongChange).Key.TimeToGoUp = 0 Then
 
-                        If SongDictSorted1(IsongChange).Key.TimeToGoUp = 0 Then
-                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).MasterValue = 100
-                            If CurrentSongChangeIndex >= 0 Then
-                                StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, True)
+                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).MasterValue = 100
+                                If CurrentSongChangeIndex >= 0 Then
+                                    StartChannelTimers(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex, True)
+                                End If
+                                UpdatePresetControls(SongDictSorted1(IsongChange).Key.SceneIndex)
+
+                            Else
+                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
+                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
+                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
                             End If
-                            UpdatePresetControls(SongDictSorted1(IsongChange).Key.SceneIndex)
-                        Else
-                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
-                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
-                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
+                            lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
+                            lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
+                            lstDramaViewSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                         End If
-                        lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
-                        lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
-                        lstDramaViewSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                         Exit Do
 
                     End If
