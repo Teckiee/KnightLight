@@ -25,9 +25,11 @@
 #define dmxCount 512                  // Number of RX/TX channels
 #define faderPin A0                   // Fader input
 
-#define FreezeLEDRed 25
-#define FreezeLEDGreen 24
-#define FreezeLEDBlue 22
+#define FreezeLEDRed 44 // 25
+#define FreezeLEDGreen 45 // 24
+#define FreezeLEDBlue 46 // 22
+
+#define FreezeButton 43
 
 String sUID="";
 const byte numChars = 80;
@@ -66,8 +68,8 @@ void setup()
   
   
   ArduinoDmx1.set_control_pin(2);   // Arduino output pin for MAX485 input/output control (connect to MAX485-1 pins 2-3) 
-  ArduinoDmx2.set_control_pin(2);   // Arduino output pin for MAX485 input/output control (connect to MAX485-2 pins 2-3) 
-  ArduinoDmx3.set_control_pin(2);   // Arduino output pin for MAX485 input/output control (connect to MAX485-3 pins 2-3) 
+  ArduinoDmx2.set_control_pin(3);   // Arduino output pin for MAX485 input/output control (connect to MAX485-2 pins 2-3) 
+  ArduinoDmx3.set_control_pin(4);   // Arduino output pin for MAX485 input/output control (connect to MAX485-3 pins 2-3) 
   
   ArduinoDmx1.set_tx_address(1);    // set tx1 start address
   ArduinoDmx2.set_tx_address(1);    // set tx2 start address
