@@ -23,10 +23,11 @@
     Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) ' Handles MyBase.Paint
 
         'Draws the border.
-        ControlPaint.DrawBorder(e.Graphics, formRegion, borderColor,
-        borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
-        ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
-        borderColor, borderWidth, ButtonBorderStyle.Solid)
+
+        'ControlPaint.DrawBorder(e.Graphics, formRegion, borderColor,
+        '    borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
+        '    ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
+        '    borderColor, borderWidth, ButtonBorderStyle.Solid)
 
     End Sub
 

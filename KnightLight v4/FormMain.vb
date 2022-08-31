@@ -72,6 +72,7 @@ Public Class FormMain
     Dim OffTop, OffLeft As Integer
     'Dim OrigTop, OrigLeft As Integer
 
+    Dim StartupTimer As Stopwatch
 
 #Region "Arduino Connections"
     Sub SetupSerialConnections()
@@ -383,8 +384,16 @@ found:
 #End Region
 
 #Region "Startup application"
+    Public Sub StartupProcess(ByVal sName As String)
+        Dim newrow As New ListViewItem
+        newrow.Text = sName
+        newrow.SubItems.Add(StartupTimer.ElapsedMilliseconds)
+        lstStartup.Items.Add(newrow)
+    End Sub
 
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        StartupTimer = New Stopwatch
+        StartupTimer.Start()
 
         If Environment.GetCommandLineArgs.Length > 1 Then
             If Environment.GetCommandLineArgs(1) = "-Testmode" Then Testmode = True
@@ -393,8 +402,10 @@ found:
 
 
         AudioRun = New AudioThread
+        StartupProcess("AudioThread")
         'AudioRun.join()
         ArdDMX = New ArduinoDMX
+        StartupProcess("ArduinoDMX")
 
         frmMain = Me
         frmTouchPad = New FormTouchPad
@@ -405,12 +416,14 @@ found:
             frmDimmerAutomation(iDim).BackColor = Color.Black
             iDim += 1
         Loop
+        StartupProcess("frmDimmerAutomation")
         frmGradientColour = New FormColourGradient
         frmCustomColourPicker1 = New FormColourPicker
         frmChannels = New FormChannels
         frmChannels.Show()
         frmChannels.SendToBack()
         frmTouchPad.Icon = frmMain.Icon
+        StartupProcess("frmChannels")
 
 
         With Me.tmrMP3
@@ -429,9 +442,11 @@ found:
         For Each c As Windows.Forms.Control In tbpPresets.Controls
             tbpPresetsControls.Add(c)
         Next
+        StartupProcess("Add Presets Controls to Memory")
         For Each c As Windows.Forms.Control In frmChannels.Controls
             frmChannelsControls.Add(c)
         Next
+        StartupProcess("re-Add Channels.Controls")
 
         If Testmode = False Then
             Try
@@ -451,19 +466,28 @@ found:
         ' frmChannelsControls = frmChannels.Controls
 
         LoadBanksFromFile()
+        StartupProcess("LoadBanks")
         LoadSettingsFromFile()
+        StartupProcess("LoadSettings")
         SetupSerialConnections() 'Arduino setup
+        StartupProcess("LoadArduino")
         LoadAsioDriverList()
+        StartupProcess("LoadAsio")
 
         LoadFixtureInformation()
+        StartupProcess("LoadFixtures")
 
         LoadScenesFromFile()
+        StartupProcess("LoadScenes")
         RenamePresetFaderOk = True
         GeneratePresetFormControls()
+        StartupProcess("GeneratePresetFormControls")
 
 
         frmChannels.GenerateChannelFormControls()
+        StartupProcess("frmChannels.GenerateChannelFormControls")
         LoadMusicTracks()
+        StartupProcess("LoadMusicTracks")
 
         'If ASIOMode = True Then
         '    SetupAsioOutputs()
@@ -471,6 +495,7 @@ found:
 
         Application.DoEvents()
         SetupThreads()
+        StartupProcess("SetupThreads")
 
         'For Each c As Windows.Forms.Control In tbpPresetsControls
         '    tbpPresets.Controls.Add(c)
@@ -482,6 +507,7 @@ found:
             AddHandler c.KeyDown, AddressOf Form1_KeyDown
             AddHandler c.KeyUp, AddressOf Form1_KeyUp
         Next c
+        StartupProcess("Keypresses")
 
         chkAsioMode.BackColor = Color.Black
         chkAsioMode.ForeColor = lblChannelNumberColour.BackColor
@@ -520,6 +546,7 @@ found:
 
             End If
         Next
+        StartupProcess("Colouring")
 
         'frmChannels.BackColor = Color.Black
         'tbpPresets.BackColor = Color.Black
@@ -528,6 +555,11 @@ found:
         'tbpDramaChanges.BackColor = Color.Black
         ChannelFaderPageCurrentSceneDataIndex = 1
         formopened = True
+        Dim iStart As Integer = 1
+        Do Until iStart >= lstStartup.Items.Count
+            lstStartup.Items.Item(iStart).SubItems.Add(lstStartup.Items.Item(iStart).SubItems(1).Text - lstStartup.Items.Item(iStart - 1).SubItems(1).Text)
+            iStart += 1
+        Loop
     End Sub
     Private Sub LoadFixtureInformation()
         FileOpen(1, Application.StartupPath & "\Fixtures.ini", OpenMode.Input)
@@ -613,7 +645,11 @@ found:
                     'chkLoadonChange.Checked = a(1)
                     chkLoadonChange.Checked = Convert.ToBoolean(a(1))
                 Case "LastBank"
-                    lstBanks.SetSelected(lstBanks.FindString(a(1)), True)
+                    Try
+                        lstBanks.SetSelected(lstBanks.FindString(a(1)), True)
+                    Catch ex As Exception
+                        lstBanks.SetSelected(0, True)
+                    End Try
                 Case "ChannelBulletColour"
                     lblChannelBulletColour.BackColor = Color.FromArgb(a(1))
                 Case "ChannelBackColour"
@@ -700,13 +736,16 @@ found:
     Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles tbpPresets.Paint
 
         'Draws the border.
-        Dim I As Integer = 0
+        Dim I As Integer = 1
         Do Until I >= PresetFaders.Count
             If Not PresetFaders(I).cSceneControl Is Nothing Then
+
                 ControlPaint.DrawBorder(e.Graphics, PresetFaders(I).border, borderColor,
                 borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
                 ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
                 borderColor, borderWidth, ButtonBorderStyle.Solid)
+
+
             End If
 
             I += 1
@@ -996,6 +1035,7 @@ found:
         PresetsPerColumn = 0
         PresetsPerRow = 0
 
+
         For Each c As Windows.Forms.Control In tbpPresetsControls
             tbpPresets.Controls.Add(c)
         Next
@@ -1017,7 +1057,13 @@ found:
 
         Do Until I > PresetFaders.Count - 1
             PresetFaders(I).cSceneControl = New SceneControl1
+            'If I <= 12 Then
+            'PresetFaders(I).OrigLeft = StartX + XUpTo
+            'PresetFaders(I).OrigTop = StartY + YUpTo
             PresetFaders(I).border = New Rectangle(StartX + XUpTo - 1, StartY + YUpTo - 1, 292 + 2, SceneControlHeight + 2)
+
+            'End If
+
             '(StartX + XUpTo, StartY + YUpTo)
             With PresetFaders(I).cSceneControl
                 .SceneIndex = I + PresetModifier
@@ -1154,7 +1200,12 @@ found:
             AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseMove, AddressOf lblPresetName_MouseMove
             AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseUp, AddressOf lblPresetName_MouseUp
 
-            tbpPresets.Controls.Add(PresetFaders(I).cSceneControl)
+            Try
+                tbpPresets.Controls.Add(PresetFaders(I).cSceneControl)
+            Catch ex As Exception
+
+            End Try
+
 
             'tbpPresets.Controls.Add(PresetFaders(I).cPresetName)
             'tbpPresets.Controls.Add(PresetFaders(I).cFader)
@@ -1188,9 +1239,8 @@ found:
 
 
 
-
 DoneGeneration:
-        PresetsPerRow = I / PresetsPerColumn
+        'PresetsPerRow = I / PresetsPerColumn
         PresetFadersTotal = I
         RenamePresetFaderControls()
 
@@ -1251,6 +1301,8 @@ DoneGeneration:
                         SceneData(SceneI).PageNo = -1
                     Else
                         With PresetFaders(SceneData(SceneI).LocIndex).cSceneControl
+                            'PresetFaders(SceneData(SceneI)).border = New Rectangle(StartX + XUpTo - 1, StartY + YUpTo - 1, 292 + 2, SceneControlHeight + 2)
+
                             If .SceneIndex = -1 Then
                                 'Preset is empty and available for a Scene
                                 '.PresetFixture = SceneData(SceneI).LocIndex
@@ -2960,6 +3012,11 @@ LoopsDone:
 
         Dim I1 As Integer = 0
         Do Until I1 >= MusicCues.Length
+            If MusicCues(I1).SongFileName <> "" Then
+                AudioRun.mStop(MusicCues(I1).SongFileName)
+                tmrMP3.Stop()
+            End If
+
             MusicCues(I1).SongFileName = ""
             MusicCues(I1).IsMP3 = False
             MusicCues(I1).IsSCS = False

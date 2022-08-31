@@ -91,7 +91,6 @@ Partial Class FormMain
         Me.lblFadeIn = New System.Windows.Forms.Label()
         Me.numFadeOut = New System.Windows.Forms.NumericUpDown()
         Me.lblFadeOut = New System.Windows.Forms.Label()
-        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lstSongEditPresets = New System.Windows.Forms.ListBox()
         Me.cmdEditSongCopyNew = New System.Windows.Forms.Button()
         Me.cmdEditSongSave = New System.Windows.Forms.Button()
@@ -235,7 +234,12 @@ Partial Class FormMain
         Me.tmrserial = New System.Windows.Forms.Timer(Me.components)
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
+        Me.lstStartup = New System.Windows.Forms.ListView()
+        Me.ColumnHeader32 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader33 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader34 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
+        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -314,6 +318,7 @@ Partial Class FormMain
         Me.cmdBankRename.TabIndex = 251
         Me.cmdBankRename.Text = "Rename"
         Me.cmdBankRename.UseVisualStyleBackColor = True
+        Me.cmdBankRename.Visible = False
         '
         'cmdBankNew
         '
@@ -959,19 +964,6 @@ Partial Class FormMain
         Me.lblFadeOut.TabIndex = 327
         Me.lblFadeOut.Text = "Fade Out:"
         '
-        'vSongEdit
-        '
-        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.vSongEdit.BackColor = System.Drawing.Color.White
-        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
-        Me.vSongEdit.FillColor = System.Drawing.Color.Black
-        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
-        Me.vSongEdit.Maximum = 5000000
-        Me.vSongEdit.Name = "vSongEdit"
-        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
-        Me.vSongEdit.TabIndex = 335
-        '
         'lstSongEditPresets
         '
         Me.lstSongEditPresets.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1064,6 +1056,8 @@ Partial Class FormMain
         '
         'cmdEditPlay
         '
+        Me.cmdEditPlay.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdEditPlay.BackColor = System.Drawing.Color.Maroon
         Me.cmdEditPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmdEditPlay.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1635,6 +1629,7 @@ Partial Class FormMain
         '
         'tbpSettings
         '
+        Me.tbpSettings.Controls.Add(Me.lstStartup)
         Me.tbpSettings.Controls.Add(Me.lblSceneBorderColour)
         Me.tbpSettings.Controls.Add(Me.cmdSceneBorderColor)
         Me.tbpSettings.Controls.Add(Me.cmdAsioDown)
@@ -2336,6 +2331,33 @@ Partial Class FormMain
         Me.lblAudio2.TabIndex = 345
         Me.lblAudio2.Text = "Incoming Audio Signal:"
         '
+        'lstStartup
+        '
+        Me.lstStartup.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34})
+        Me.lstStartup.FullRowSelect = True
+        Me.lstStartup.HideSelection = False
+        Me.lstStartup.Location = New System.Drawing.Point(770, 120)
+        Me.lstStartup.MultiSelect = False
+        Me.lstStartup.Name = "lstStartup"
+        Me.lstStartup.Size = New System.Drawing.Size(350, 404)
+        Me.lstStartup.TabIndex = 350
+        Me.lstStartup.UseCompatibleStateImageBehavior = False
+        Me.lstStartup.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader32
+        '
+        Me.ColumnHeader32.Text = "Item"
+        Me.ColumnHeader32.Width = 180
+        '
+        'ColumnHeader33
+        '
+        Me.ColumnHeader33.Text = "Time"
+        '
+        'ColumnHeader34
+        '
+        Me.ColumnHeader34.Text = "Difference"
+        Me.ColumnHeader34.Width = 72
+        '
         'vsMaster
         '
         Me.vsMaster.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2348,6 +2370,19 @@ Partial Class FormMain
         Me.vsMaster.Size = New System.Drawing.Size(42, 239)
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
+        '
+        'vSongEdit
+        '
+        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.vSongEdit.BackColor = System.Drawing.Color.White
+        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
+        Me.vSongEdit.FillColor = System.Drawing.Color.Black
+        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
+        Me.vSongEdit.Maximum = 5000000
+        Me.vSongEdit.Name = "vSongEdit"
+        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
+        Me.vSongEdit.TabIndex = 335
         '
         'FormMain
         '
@@ -2611,4 +2646,8 @@ Partial Class FormMain
     Friend WithEvents ColumnHeader31 As ColumnHeader
     Friend WithEvents SaveSceneToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DuplicateSceneToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents lstStartup As ListView
+    Friend WithEvents ColumnHeader32 As ColumnHeader
+    Friend WithEvents ColumnHeader33 As ColumnHeader
+    Friend WithEvents ColumnHeader34 As ColumnHeader
 End Class
