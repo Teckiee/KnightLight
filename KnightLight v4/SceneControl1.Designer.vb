@@ -99,6 +99,7 @@ Partial Class SceneControl1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
+        Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Controls.Add(Me.vScroll)
         Me.Controls.Add(Me.cAutoTime)
         Me.Controls.Add(Me.cFull)
@@ -107,7 +108,7 @@ Partial Class SceneControl1
         Me.Controls.Add(Me.cTxtVal)
         Me.ForeColor = System.Drawing.Color.White
         Me.Name = "SceneControl1"
-        Me.Size = New System.Drawing.Size(292, 42)
+        Me.Size = New System.Drawing.Size(290, 40)
         CType(Me.cAutoTime, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

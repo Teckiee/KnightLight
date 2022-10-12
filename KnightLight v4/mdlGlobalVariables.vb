@@ -151,19 +151,21 @@ Module mdlGlobalVariables
     End Structure
 
     '---------START CHANNEL and PRESET TABPAGE RELATED VARIABLES---------
-    Public ChannelFaders(2048) As ChannelControls1
+    Public ChannelFaders(2048) As ctrlDimmerChannel
     Public PresetFaders(400) As PresetControls1
     Public FixtureControls(2048) As FixtureControls1
     Public tbpPresetsControls As New List(Of Control)
     Public frmChannelsControls As New List(Of Control)
 
     Structure ChannelControls1
-        Dim cChannelLabel As Label
-        Dim cFader As GScrollBar
-        Dim cSelected As Button
-        Dim cTxtVal As TextBox
-        Dim cFixtureDescr As Label
+
+        'Dim cChannelLabel As Label
+        'Dim cFader As GScrollBar
+        'Dim cSelected As Button
+        'Dim cTxtVal As TextBox
+        'Dim cFixtureDescr As Label
         Dim internalChannelFaderNumber As Integer
+
         'Dim cLongDescr As ToolTip
 
     End Structure

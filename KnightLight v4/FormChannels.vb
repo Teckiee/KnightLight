@@ -9,11 +9,11 @@ Imports NAudio.Wave
 Imports System.Management
 Public Class FormChannels
 
-    Dim LastSelectedChannel As Integer = 1
-    Dim shiftdown As Boolean
-    Dim ctrldown As Boolean
+    Public LastSelectedChannel As Integer = 1
+    Public shiftdown As Boolean
+    Public ctrldown As Boolean
     'Dim ColPicker As New ColorPickerLib.gColorPicker
-    Dim totalselected As Integer = 0
+    Public totalselected As Integer = 0
 
     Private Sub FormChannels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 #Disable Warning BC42025 ' Access of shared member, constant member, enum member or nested type through an instance
@@ -124,7 +124,7 @@ Public Class FormChannels
 
                             Case "v"
                                 SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Value = b(1)
-                                ChannelFaders(iSelectedParent - 1 + a(0)).cFader.Value = b(1)
+                                ChannelFaders(iSelectedParent - 1 + a(0)).dmrvs.Value = b(1)
                             Case "TimerEnabled", "timerenabled"
                                 SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
                             Case "AutoTimeBetween"
@@ -391,11 +391,11 @@ Public Class FormChannels
                 ' otherChanged = False
             End If
 
-            If Not ChannelFaders(I).cSelected Is Nothing Then
-                If ChannelFaders(I).cSelected.BackColor = Color.Red Then
+            If Not ChannelFaders(I).dmrbtn Is Nothing Then
+                If ChannelFaders(I).dmrbtn.BackColor = Color.Red Then
                     ' otherChanged = True
-                    ChannelFaders(I).cFader.Value = Val(txtSelected.Text)
-                    ChannelFaders(I).cTxtVal.Text = Val(txtSelected.Text)
+                    ChannelFaders(I).dmrvs.Value = Val(txtSelected.Text)
+                    ChannelFaders(I).dmrtxtv.Text = Val(txtSelected.Text)
                     UpdateFixtureLabel(I)
                     ' otherChanged = False
                 End If
@@ -415,7 +415,29 @@ Public Class FormChannels
         otherChanged = False
 
     End Sub
+    Public Sub UpdateFixtureLabel(Optional ByVal channelno As Integer = 0)
+        If Not channelno = 0 Then
+            'Actionsandvalues= "Str1,0-79,Str2,80-160,Str3,161-255"
+            Dim a() As String = Split(FixtureControls(channelno - 1 + numChannelFadersStart.Value).ActionAndValues, ",")
+            If a.Length > 2 Then
+                Dim ActionIndex As Integer = 1
+                Do Until ActionIndex >= a.Length
+                    Dim b() As String = Split(a(ActionIndex), "-")
+                    If Val(ChannelFaders(channelno).dmrtxtv.Text) >= b(0) And Val(ChannelFaders(channelno).dmrtxtv.Text) <= b(1) Then
+                        'found value
+                        Exit Do
+                    End If
+                    ActionIndex += 2
+                Loop
 
+                'Val(ChannelFaders(channelno).cTxtVal.Text) >= ActionLow And Val(ChannelFaders(channelno).cTxtVal.Text) >= ActionHigh
+                ChannelFaders(channelno).dmrlblFC.Text = a(ActionIndex - 1)
+
+            End If
+        Else
+
+        End If
+    End Sub
     Private Sub cmdReloadChannelLocations_Click(sender As Object, e As EventArgs) Handles cmdReloadChannelLocations.Click
         GenerateChannelFormControls()
     End Sub
@@ -423,17 +445,17 @@ Public Class FormChannels
 
         Dim StartX As Integer = 12
         Dim StartY As Integer = 24
-        Dim IntervalX As Integer = 35
-        Dim IntervalY As Integer = 289
+        'Dim IntervalX As Integer = 35
+        'Dim IntervalY As Integer = 289
         'Dim ChanXupto As Integer = StartX - IntervalX
         'Dim ChanYupto As Integer = StartY
-        Dim cFixtureDescrYDiff As Integer = 249
-        Dim vScrollXDiff As Integer = 0 '-3
-        Dim vScrollYDiff As Integer = 26
-        Dim sButtonXDiff As Integer = 0 '-3
-        Dim sButtonYDiff As Integer = 197
-        Dim vtxtBoxXDiff As Integer = 0 '-3
-        Dim vtxtBoxYDiff As Integer = 226
+        'Dim cFixtureDescrYDiff As Integer = 249
+        'Dim vScrollXDiff As Integer = 0 '-3
+        'Dim vScrollYDiff As Integer = 26
+        'Dim sButtonXDiff As Integer = 0 '-3
+        'Dim sButtonYDiff As Integer = 197
+        'Dim vtxtBoxXDiff As Integer = 0 '-3
+        'Dim vtxtBoxYDiff As Integer = 226
 
         Dim XUpTo As Integer = StartX
         Dim YUpTo As Integer = StartY
@@ -446,83 +468,78 @@ Public Class FormChannels
         frmChannels.Enabled = False
 
         Do Until I >= ChannelFaders.Length
+            If ChannelFaders(I) Is Nothing Then ChannelFaders(I) = New ctrlDimmerChannel
+            ChannelFaders(I).iChannel = I
 
-            If ChannelFaders(I).cFixtureDescr Is Nothing Then ChannelFaders(I).cFixtureDescr = New Label
-
-            If ToolTip1.GetToolTip(ChannelFaders(I).cFixtureDescr).Count = 0 Then
-                ToolTip1.SetToolTip(ChannelFaders(I).cFixtureDescr, FixtureControls(I).LongDescr)
+            If ToolTip1.GetToolTip(ChannelFaders(I).dmrlblFC).Count = 0 Then
+                ToolTip1.SetToolTip(ChannelFaders(I).dmrlblFC, FixtureControls(I).LongDescr)
             End If
-            With ChannelFaders(I).cFixtureDescr 'Bottom Labels
-                .AutoSize = False
-                .Size = New Point(36, 16)
+            With ChannelFaders(I).dmrlblFC 'Bottom Labels
+                '.AutoSize = False
+                '.Size = New Point(36, 16)
                 .ContextMenuStrip = ctxFixtureLabels
                 If Not FixtureControls(I).FixtureName = "" Then
                     .BackColor = FixtureControls(I).BackColour
                     .ForeColor = FixtureControls(I).ForeColour
                     Dim a() As String = Split(FixtureControls(I).ActionAndValues, ",")
                     .Text = a(0)
-                    .Tag = I
-                    .Name = "dmrlblFC" & I
+                    '.Tag = I
+                    '.Name = "dmrlblFC" & I
                     .Visible = True
                 Else
                     .ForeColor = Color.BlueViolet
                     .BackColor = Color.Black
                     .Text = I
-                    .Tag = I
-                    .Name = "dmrlblC" & I
+                    '.Tag = I
+                    '.Name = "dmrlblC" & I
                     .Visible = False
                 End If
             End With
 
-            If ChannelFaders(I).cChannelLabel Is Nothing Then ChannelFaders(I).cChannelLabel = New Label
-            With ChannelFaders(I).cChannelLabel ' Top Labels
-                .AutoSize = False
-                .Size = New Point(36, 16)
+            With ChannelFaders(I).dmrlblTop ' Top Labels
+                '.AutoSize = False
+                '.Size = New Point(36, 16)
                 If FixtureControls(I).IsFirst = True Then
                     .Text = FixtureControls(I).FixtureName
                     .AutoSize = True
                     .BringToFront()
                 Else
+                    .AutoSize = False
                     .Text = I
                 End If
-                .Tag = I
-                .Name = "dmrlblTop" & I
                 .ForeColor = frmMain.lblChannelNumberColour.BackColor
             End With
 
-            If ChannelFaders(I).cSelected Is Nothing Then ChannelFaders(I).cSelected = New Button
-            With ChannelFaders(I).cSelected
-                .Size = New Point(23, 23)
-                .Text = "S"
+            With ChannelFaders(I).dmrbtn
+                '.Size = New Point(23, 23)
+                '.Text = "S"
                 .ContextMenuStrip = ctxCMDs
-                .Name = "dmrbtn" & I
+                '.Name = "dmrbtn" & I
                 .BackColor = controlcolour
-                .Tag = I
+                '.Tag = I
             End With
 
-            If ChannelFaders(I).cFader Is Nothing Then ChannelFaders(I).cFader = New GScrollBar
-            With ChannelFaders(I).cFader
+            With ChannelFaders(I).dmrvs
                 '.LargeChange = 1
-                .Orientation = GControlOrientation.Vertical
+                '.Orientation = GControlOrientation.Vertical
                 .BackColor = frmMain.lblChannelBackColour.BackColor
                 .FillColor = frmMain.lblChannelFillColour.BackColor
                 .BulletColor = frmMain.lblChannelBulletColour.BackColor
-                .Maximum = 255
-                .Value = 0 '255
-                .Size = New System.Drawing.Size(23, 168)
-                .Name = "dmrvs" & I
-                .Tag = I
+                '.Maximum = 255
+                '.Value = 0 '255
+                '.Size = New System.Drawing.Size(23, 168)
+                '.Name = "dmrvs" & I
+                '.Tag = I
             End With
 
-            If ChannelFaders(I).cTxtVal Is Nothing Then ChannelFaders(I).cTxtVal = New TextBox
-            With ChannelFaders(I).cTxtVal
-                .Size = New Point(24, 20)
+            With ChannelFaders(I).dmrtxtv
+                '.Size = New Point(24, 20)
                 '.BackColor = controlcolour
                 .BackColor = Color.Black
                 .ForeColor = frmMain.lblChannelNumberColour.BackColor
                 .Text = "0"
-                .Name = "dmrtxtv" & I
-                .Tag = I
+                '.Name = "dmrtxtv" & I
+                '.Tag = I
             End With
 
             'If ChannelFaders(I).cLongDescr Is Nothing Then ChannelFaders(I).cLongDescr = New ToolTip
@@ -536,41 +553,45 @@ Public Class FormChannels
             'End With
 
 
-            ChannelFaders(I).cChannelLabel.Location = New Point(StartX + XUpTo - 2, StartY + YUpTo)
-            ChannelFaders(I).cFader.Location = New Point(StartX + XUpTo + vScrollXDiff, StartY + YUpTo + vScrollYDiff)
-            ChannelFaders(I).cSelected.Location = New Point(StartX + XUpTo + sButtonXDiff, StartY + YUpTo + sButtonYDiff)
-            ChannelFaders(I).cTxtVal.Location = New Point(StartX + XUpTo + vtxtBoxXDiff, StartY + YUpTo + vtxtBoxYDiff)
-            ChannelFaders(I).cFixtureDescr.Location = New Point(StartX + XUpTo, StartY + YUpTo + cFixtureDescrYDiff)
+            'ChannelFaders(I).cChannelLabel.Location = New Point(StartX + XUpTo - 2, StartY + YUpTo)
+            'ChannelFaders(I).cFader.Location = New Point(StartX + XUpTo + vScrollXDiff, StartY + YUpTo + vScrollYDiff)
+            'ChannelFaders(I).cSelected.Location = New Point(StartX + XUpTo + sButtonXDiff, StartY + YUpTo + sButtonYDiff)
+            'ChannelFaders(I).cTxtVal.Location = New Point(StartX + XUpTo + vtxtBoxXDiff, StartY + YUpTo + vtxtBoxYDiff)
+            'ChannelFaders(I).cFixtureDescr.Location = New Point(StartX + XUpTo, StartY + YUpTo + cFixtureDescrYDiff)
 
-            RemoveHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
-            AddHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
 
-            RemoveHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
-            AddHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
+            'RemoveHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
+            'AddHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
 
-            RemoveHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
-            AddHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
+            'RemoveHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
+            'AddHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
 
-            RemoveHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
-            AddHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
+            'RemoveHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
+            'AddHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
 
-            If frmChannels.Controls.Contains(ChannelFaders(I).cFader) = False Then frmChannels.Controls.Add(ChannelFaders(I).cFader)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cSelected) = False Then frmChannels.Controls.Add(ChannelFaders(I).cSelected)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cFixtureDescr) = False Then frmChannels.Controls.Add(ChannelFaders(I).cFixtureDescr)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cTxtVal) = False Then frmChannels.Controls.Add(ChannelFaders(I).cTxtVal)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cChannelLabel) = False Then frmChannels.Controls.Add(ChannelFaders(I).cChannelLabel)
+            'RemoveHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
+            'AddHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
 
 
 
+            ChannelFaders(I).Location = New Point(StartX + XUpTo, StartY + YUpTo)
+            If frmChannels.Controls.Contains(ChannelFaders(I)) = False Then frmChannels.Controls.Add(ChannelFaders(I))
+            'If frmChannels.Controls.Contains(ChannelFaders(I).cSelected) = False Then frmChannels.Controls.Add(ChannelFaders(I).cSelected)
+            'If frmChannels.Controls.Contains(ChannelFaders(I).cFixtureDescr) = False Then frmChannels.Controls.Add(ChannelFaders(I).cFixtureDescr)
+            'If frmChannels.Controls.Contains(ChannelFaders(I).cTxtVal) = False Then frmChannels.Controls.Add(ChannelFaders(I).cTxtVal)
+            'If frmChannels.Controls.Contains(ChannelFaders(I).cChannelLabel) = False Then frmChannels.Controls.Add(ChannelFaders(I).cChannelLabel)
 
-            XUpTo += IntervalX
 
-            If StartX + XUpTo + vScrollXDiff + ChannelFaders(I).cFixtureDescr.Size.Width > frmChannels.cmdSelectedFull.Location.X Then
+
+
+            XUpTo += ChannelFaders(I).Size.Width
+
+            If StartX + XUpTo + ChannelFaders(I).Size.Width + ChannelFaders(I).Size.Width > frmChannels.cmdSelectedFull.Location.X Then
                 XUpTo = StartX
-                YUpTo += IntervalY
+                YUpTo += ChannelFaders(I).Size.Height
                 RunningRowNum += 1
             End If
-            If StartY + YUpTo + cFixtureDescrYDiff > frmChannels.Size.Height Then
+            If StartY + YUpTo + ChannelFaders(I).Size.Height > frmChannels.Size.Height Then
 
                 GoTo DoneGeneration
                 Exit Do
@@ -593,14 +614,14 @@ DoneGeneration:
         cmdChannelFadersDown.Text = "-" & I
         ChannelControlSetsPerPage = I
         I += 1
-        Do Until I >= ChannelFaders.Length
-            If frmChannels.Controls.Contains(ChannelFaders(I).cFader) = True Then frmChannels.Controls.Add(ChannelFaders(I).cFader)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cSelected) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cSelected)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cFixtureDescr) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cFixtureDescr)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cTxtVal) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cTxtVal)
-            If frmChannels.Controls.Contains(ChannelFaders(I).cChannelLabel) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cChannelLabel)
-            I += 1
-        Loop
+        'Do Until I >= ChannelFaders.Length
+        '    If frmChannels.Controls.Contains(ChannelFaders(I).cFader) = True Then frmChannels.Controls.Add(ChannelFaders(I).cFader)
+        '    If frmChannels.Controls.Contains(ChannelFaders(I).cSelected) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cSelected)
+        '    If frmChannels.Controls.Contains(ChannelFaders(I).cFixtureDescr) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cFixtureDescr)
+        '    If frmChannels.Controls.Contains(ChannelFaders(I).cTxtVal) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cTxtVal)
+        '    If frmChannels.Controls.Contains(ChannelFaders(I).cChannelLabel) = True Then frmChannels.Controls.Remove(ChannelFaders(I).cChannelLabel)
+        '    I += 1
+        'Loop
 
         frmChannels.Enabled = True
 
@@ -655,8 +676,8 @@ DoneGeneration:
         'ChannelFaders(I).cSelected
         Dim J As Integer = 1
         Do Until J >= ChannelFaders.Length
-            If Not ChannelFaders(J).cSelected Is Nothing Then
-                ChannelFaders(J).cSelected.BackColor = controlcolour
+            If Not ChannelFaders(J).dmrbtn Is Nothing Then
+                ChannelFaders(J).dmrbtn.BackColor = controlcolour
             End If
             J += 1
         Loop
@@ -684,6 +705,7 @@ DoneGeneration:
         If formopened = False Then Exit Sub
         RebuildTextOnChannelLabels()
     End Sub
+
     Public Sub RebuildTextOnChannelLabels()
         'If formopened = False Then Exit Sub
         FadersRenaming = True
@@ -712,8 +734,9 @@ DoneGeneration:
 
         Do Until I > ChannelControlSetsPerPage
             '  If I > ChannelControlSetsPerPage Then Exit Sub
+            ChannelFaders(I).iChannel = uptoChannel
 
-            With ChannelFaders(I).cChannelLabel
+            With ChannelFaders(I).dmrlblTop
                 If FixtureControls(uptoChannel).IsFirst = True Then
                     .Text = FixtureControls(uptoChannel).FixtureName
                     .AutoSize = True
@@ -723,14 +746,14 @@ DoneGeneration:
                     .AutoSize = False
                 End If
 
-                .Name = "dmrlblTop" & I
-                .Tag = uptoChannel
+                '.Name = "dmrlblTop" & I
+                '.Tag = uptoChannel
                 .Visible = True
             End With
 
-            With ChannelFaders(I).cSelected
-                .Name = "dmrlblbtn" & I
-                .Tag = uptoChannel
+            With ChannelFaders(I).dmrbtn
+                '.Name = "dmrlblbtn" & I
+                '.Tag = uptoChannel
                 .Visible = True
                 If SceneData(SceneIndex).ChannelValues(uptoChannel).Selected = True Then
                     .BackColor = Color.Red
@@ -739,34 +762,34 @@ DoneGeneration:
                 End If
             End With
 
-            With ChannelFaders(I).cFader
-                .Name = "dmrlblvs" & I
-                .Tag = uptoChannel
+            With ChannelFaders(I).dmrvs
+                '.Name = "dmrlblvs" & I
+                '.Tag = uptoChannel
                 .Visible = True
                 .Value = SceneData(SceneIndex).ChannelValues(uptoChannel).Value
             End With
 
-            With ChannelFaders(I).cTxtVal
-                .Name = "dmrtxtv" & I
-                .Tag = uptoChannel
+            With ChannelFaders(I).dmrtxtv
+                '.Name = "dmrtxtv" & I
+                '.Tag = uptoChannel
                 .Visible = True
                 .Text = SceneData(SceneIndex).ChannelValues(uptoChannel).Value
             End With
 
-            With ChannelFaders(I).cFixtureDescr
+            With ChannelFaders(I).dmrlblFC
 
                 If Not FixtureControls(uptoChannel).FixtureName = "" Then
                     .BackColor = FixtureControls(uptoChannel).BackColour
                     .ForeColor = FixtureControls(uptoChannel).ForeColour
                     Dim a() As String = Split(FixtureControls(uptoChannel).ActionAndValues, ",")
                     .Text = a(0)
-                    .Tag = uptoChannel
-                    .Name = "dmrlblFixtureChannel" & I
+                    '.Tag = uptoChannel
+                    '.Name = "dmrlblFixtureChannel" & I
                     .Visible = True
                 Else
                     .Text = uptoChannel
-                    .Tag = uptoChannel
-                    .Name = "dmrlblFixtureChannel" & I
+                    '.Tag = uptoChannel
+                    '.Name = "dmrlblFixtureChannel" & I
                     .Visible = False
                 End If
 
@@ -778,11 +801,11 @@ DoneGeneration:
             ChannelFaders(I).internalChannelFaderNumber = uptoChannel
 
             If uptoChannel > frmMain.numEndChannel.Value Or uptoChannel >= ChannelFaders.Count Then
-                ChannelFaders(I).cChannelLabel.Visible = False
-                ChannelFaders(I).cSelected.Visible = False
-                ChannelFaders(I).cFader.Visible = False
-                ChannelFaders(I).cTxtVal.Visible = False
-                ChannelFaders(I).cFixtureDescr.Visible = False
+                ChannelFaders(I).Visible = False
+                'ChannelFaders(I).cSelected.Visible = False
+                'ChannelFaders(I).cFader.Visible = False
+                'ChannelFaders(I).cTxtVal.Visible = False
+                'ChannelFaders(I).cFixtureDescr.Visible = False
             End If
 
             uptoChannel += 1
@@ -791,133 +814,6 @@ DoneGeneration:
         FadersRenaming = False
     End Sub
 
-    Private Sub cFader_Scroll(ByVal Sender As System.Object) 'ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If otherChanged = True Then Exit Sub
-        If FadersRenaming = True Then Exit Sub
-        Dim SceneIndex As Integer = 1
-        Do Until SceneData(SceneIndex).SceneName = cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim FaderNo As Integer = Val(Sender.tag) - numChannelFadersStart.Value + 1
-        Dim SceneChannelNo As Integer = Val(Sender.tag)
-        ' UpdateFixtureLabel(FaderNo)
-        If Not ChannelFaders(FaderNo).cTxtVal.Text = Sender.value Then
-            ChannelFaders(FaderNo).cTxtVal.Text = Sender.value
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Value = Sender.value
-            UpdateFixtureLabel(SceneChannelNo)
-        End If
-
-    End Sub
-    Private Sub cTxtVal_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If otherChanged = True Then Exit Sub
-        If FadersRenaming = True Then Exit Sub
-        Dim SceneIndex As Integer = 1
-        Do Until SceneData(SceneIndex).SceneName = cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim FaderNo As Integer = Val(sender.tag) - numChannelFadersStart.Value + 1
-        Dim SceneChannelNo As Integer = Val(sender.tag)
-        ' UpdateFixtureLabel(FaderNo)
-        If Not ChannelFaders(FaderNo).cFader.Value = Val(sender.text) Then
-            ChannelFaders(FaderNo).cFader.Value = Val(sender.text)
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Value = Val(sender.text)
-            UpdateFixtureLabel(SceneChannelNo)
-        End If
-    End Sub
-    Public Sub UpdateFixtureLabel(Optional ByVal channelno As Integer = 0)
-        If Not channelno = 0 Then
-            'Actionsandvalues= "Str1,0-79,Str2,80-160,Str3,161-255"
-            Dim a() As String = Split(FixtureControls(channelno - 1 + numChannelFadersStart.Value).ActionAndValues, ",")
-            If a.Length > 2 Then
-                Dim ActionIndex As Integer = 1
-                Do Until ActionIndex >= a.Length
-                    Dim b() As String = Split(a(ActionIndex), "-")
-                    If Val(ChannelFaders(channelno).cTxtVal.Text) >= b(0) And Val(ChannelFaders(channelno).cTxtVal.Text) <= b(1) Then
-                        'found value
-                        Exit Do
-                    End If
-                    ActionIndex += 2
-                Loop
-
-                'Val(ChannelFaders(channelno).cTxtVal.Text) >= ActionLow And Val(ChannelFaders(channelno).cTxtVal.Text) >= ActionHigh
-                ChannelFaders(channelno).cFixtureDescr.Text = a(ActionIndex - 1)
-
-            End If
-        Else
-
-        End If
-    End Sub
-    Private Sub cSelected_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim SceneIndex As Integer = 1
-        Do Until SceneData(SceneIndex).SceneName = cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim SceneChannelNo As Integer = Val(sender.tag)
-
-
-        If sender.backcolor = Color.Red Then
-            sender.backcolor = controlcolour
-            totalselected -= 1
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Selected = False
-            'GoTo ModsDown
-        ElseIf sender.backcolor = controlcolour Then
-            sender.backcolor = Color.Red
-            totalselected += 1
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Selected = True
-        End If
-
-
-
-        'ModsDown:
-        If shiftdown = True Then
-            Dim FaderControlNo As Integer = 1
-            Do Until Val(ChannelFaders(FaderControlNo).cSelected.Tag) = LastSelectedChannel : FaderControlNo += 1 : Loop
-            Dim I As Integer = LastSelectedChannel '                                  10         
-            If SceneChannelNo > LastSelectedChannel Then '                            20 > 10    
-                Do Until I > SceneChannelNo '                                         10 > 20    
-                    ChannelFaders(FaderControlNo).cSelected.BackColor = Color.Red   ' Red 10     
-                    SceneData(SceneIndex).ChannelValues(I).Selected = True   '        True 10    
-                    totalselected += 1
-                    FaderControlNo += 1
-                    I += 1
-                Loop
-            End If
-        End If
-
-        'If ctrldown = True Then
-
-        '    Dim I As Integer = LastSelectedChannel
-        '    If SceneChannelNo > LastSelectedChannel Then
-        '        Do Until I > SceneChannelNo
-        '            ChannelFaders(I).cSelected.BackColor = Color.Red
-        '            I += 1
-        '        Loop
-        '    End If
-        'End If
-
-        'Dim d() As String = Split(sender.tag, "|")
-
-        LastSelectedChannel = SceneChannelNo
-    End Sub
-    Private Sub cFixtureDescr_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If Not ctrldown = True Then cmdUnselectAll_Click(sender, Nothing)
-
-        Dim fixname As String = FixtureControls(Val(sender.tag)).FixtureName
-        Dim fixchan As Integer = FixtureControls(Val(sender.tag)).ChannelOfFixture
-        Dim fixIndex As Integer = Val(sender.tag)
-
-        'Dim FaderControlNo As Integer = 1
-        'Do Until ChannelFaders(FaderControlNo).cFixtureDescr.Name = sender.name : FaderControlNo += 1 : Loop
-
-        Dim I As Integer = 1
-
-        Do Until I >= FixtureControls.Length - 1
-            If FixtureControls(I).FixtureName = fixname Then
-                If FixtureControls(I).ChannelOfFixture = fixchan Then
-                    'FixtureControls(I).sButton.BackColor = Color.Red
-                    SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True
-                    ChannelFaders(I + (numChannelFadersStart.Value - 1)).cSelected.BackColor = Color.Red
-                    totalselected += 1
-                End If
-            End If
-            I += 1
-        Loop
-        LastSelectedChannel = fixIndex
-    End Sub
     'Public Sub tmrTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '    If formopened = False Then Exit Sub
     '    Dim SceneIndex As Integer = Split(sender.tag, "|")(0)

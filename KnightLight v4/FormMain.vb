@@ -443,6 +443,7 @@ found:
             tbpPresetsControls.Add(c)
         Next
         StartupProcess("Add Presets Controls to Memory")
+
         For Each c As Windows.Forms.Control In frmChannels.Controls
             frmChannelsControls.Add(c)
         Next
@@ -467,10 +468,13 @@ found:
 
         LoadBanksFromFile()
         StartupProcess("LoadBanks")
+
         LoadSettingsFromFile()
         StartupProcess("LoadSettings")
+
         SetupSerialConnections() 'Arduino setup
         StartupProcess("LoadArduino")
+
         LoadAsioDriverList()
         StartupProcess("LoadAsio")
 
@@ -479,13 +483,16 @@ found:
 
         LoadScenesFromFile()
         StartupProcess("LoadScenes")
+
         RenamePresetFaderOk = True
+
         GeneratePresetFormControls()
         StartupProcess("GeneratePresetFormControls")
 
 
         frmChannels.GenerateChannelFormControls()
         StartupProcess("frmChannels.GenerateChannelFormControls")
+
         LoadMusicTracks()
         StartupProcess("LoadMusicTracks")
 
@@ -493,7 +500,6 @@ found:
         '    SetupAsioOutputs()
         'End If
 
-        Application.DoEvents()
         SetupThreads()
         StartupProcess("SetupThreads")
 
@@ -1493,12 +1499,12 @@ DoneGeneration:
 
                 Dim I As Integer = 1
                 Do Until I >= ChannelFaders.Count
-                    If Not ChannelFaders(I).cFader Is Nothing Then
-                        If ChannelFaders(I).cFader.Tag = ChannelIndex Then
-                            ChannelFaders(I).cFader.Value = .Value
+                    If Not ChannelFaders(I) Is Nothing Then
+                        If ChannelFaders(I).iChannel = ChannelIndex Then
+                            ChannelFaders(I).dmrvs.Value = .Value
                             Exit Do
                         End If
-                        If ChannelIndex < Val(ChannelFaders(I).cFader.Tag) Then Exit Do
+                        If ChannelIndex < Val(ChannelFaders(I).iChannel) Then Exit Do
                     End If
 
                     I += 1
@@ -3645,8 +3651,8 @@ skipme:
 
         Dim I As Integer = 1
         Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I).cFader Is Nothing Then
-                ChannelFaders(I).cFader.BulletColor = coldialog.Color
+            If Not ChannelFaders(I) Is Nothing Then
+                ChannelFaders(I).dmrvs.BulletColor = coldialog.Color
             Else
                 Exit Do
             End If
@@ -3662,8 +3668,8 @@ skipme:
 
         Dim I As Integer = 1
         Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I).cFader Is Nothing Then
-                ChannelFaders(I).cFader.BackColor = coldialog.Color
+            If Not ChannelFaders(I) Is Nothing Then
+                ChannelFaders(I).dmrvs.BackColor = coldialog.Color
             Else
                 Exit Do
             End If
@@ -3679,8 +3685,8 @@ skipme:
 
         Dim I As Integer = 1
         Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I).cFader Is Nothing Then
-                ChannelFaders(I).cFader.FillColor = coldialog.Color
+            If Not ChannelFaders(I) Is Nothing Then
+                ChannelFaders(I).dmrvs.FillColor = coldialog.Color
             Else
                 Exit Do
             End If
@@ -3696,8 +3702,8 @@ skipme:
 
         Dim I As Integer = 1
         Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I).cChannelLabel Is Nothing Then
-                ChannelFaders(I).cChannelLabel.ForeColor = coldialog.Color
+            If Not ChannelFaders(I) Is Nothing Then
+                ChannelFaders(I).dmrlblTop.ForeColor = coldialog.Color
             Else
                 Exit Do
             End If

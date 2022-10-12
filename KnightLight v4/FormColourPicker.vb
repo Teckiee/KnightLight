@@ -30,13 +30,13 @@ Public Class FormColourPicker
         Dim iGChan2 As Integer = iGChan - frmChannels.numChannelFadersStart.Value + 1
         Dim iBChan2 As Integer = iBChan - frmChannels.numChannelFadersStart.Value + 1
         'If iRChan2 >= frmChannels.numChannelFadersStart.Value And iRChan2 < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage Then
-        ChannelFaders(iRChan2).cFader.Value = CurrentARGBColor.R
+        ChannelFaders(iRChan2).dmrvs.Value = CurrentARGBColor.R
         'End If
         'If iGChan >= frmChannels.numChannelFadersStart.Value And iGChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - frmChannels.numChannelFadersStart.Value Then
-        ChannelFaders(iGChan2).cFader.Value = CurrentARGBColor.G
+        ChannelFaders(iGChan2).dmrvs.Value = CurrentARGBColor.G
         'End If
         'If iBChan >= frmChannels.numChannelFadersStart.Value And iBChan < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - frmChannels.numChannelFadersStart.Value Then
-        ChannelFaders(iBChan2).cFader.Value = CurrentARGBColor.B
+        ChannelFaders(iBChan2).dmrvs.Value = CurrentARGBColor.B
         ' End If
 
 
@@ -47,7 +47,7 @@ Public Class FormColourPicker
                 SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iRChanSel(Ri)).Value = CurrentARGBColor.R
                 If iRChanSel(Ri) >= frmChannels.numChannelFadersStart.Value And iRChanSel(Ri) < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
                     'is on screen
-                    ChannelFaders(iRChanSel(Ri)).cFader.Value = CurrentARGBColor.R
+                    ChannelFaders(iRChanSel(Ri)).dmrvs.Value = CurrentARGBColor.R
                 End If
                 Ri += 1
             Loop
@@ -57,7 +57,7 @@ Public Class FormColourPicker
                 SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iGChanSel(Gi)).Value = CurrentARGBColor.G
                 If iGChanSel(Gi) >= frmChannels.numChannelFadersStart.Value And iGChanSel(Gi) < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
                     'is on screen
-                    ChannelFaders(iGChanSel(Gi)).cFader.Value = CurrentARGBColor.G
+                    ChannelFaders(iGChanSel(Gi)).dmrvs.Value = CurrentARGBColor.G
                 End If
                 Gi += 1
             Loop
@@ -67,7 +67,7 @@ Public Class FormColourPicker
                 SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iBChanSel(Bi)).Value = CurrentARGBColor.B
                 If iBChanSel(Bi) >= frmChannels.numChannelFadersStart.Value And iBChanSel(Bi) < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage - 1 Then
                     'is on screen
-                    ChannelFaders(iBChanSel(Bi)).cFader.Value = CurrentARGBColor.B
+                    ChannelFaders(iBChanSel(Bi)).dmrvs.Value = CurrentARGBColor.B
                 End If
                 Bi += 1
             Loop

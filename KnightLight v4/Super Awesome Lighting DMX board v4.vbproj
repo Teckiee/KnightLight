@@ -112,6 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioThread.vb" />
+    <Compile Include="ctrlDimmerChannel.Designer.vb">
+      <DependentUpon>ctrlDimmerChannel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ctrlDimmerChannel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomGroupBox.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ctrlDimmerChannel.resx">
+      <DependentUpon>ctrlDimmerChannel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
