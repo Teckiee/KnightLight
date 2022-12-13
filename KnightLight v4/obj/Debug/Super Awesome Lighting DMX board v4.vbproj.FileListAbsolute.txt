@@ -121,3 +121,34 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.pdb
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.32.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.64.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.exe.config
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.exe
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.pdb
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Drawing.Common.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.pdb
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.ctrlDimmerChannel.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Form1.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormChannels.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourGradient.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.CustomWaves.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.GenerateResource.cache
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CoreCompileInputs.cache
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb

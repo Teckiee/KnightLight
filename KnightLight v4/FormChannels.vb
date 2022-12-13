@@ -57,13 +57,13 @@ Public Class FormChannels
 
     Private Sub ctxFixtureLabels_Opening(sender As Object, e As CancelEventArgs) Handles ctxFixtureLabels.Opening
 
-        Dim parentitem As String = sender.SourceControl.Name.ToString
+        Dim parentChan As String = sender.SourceControl.Parent.iChannel
 
         'Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
         'Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
 
         'MessageBox.Show(cms.SourceControl.Name)
-        LoadFixtureFavourites(Mid(parentitem, GetIndexOfNumber(parentitem) + 1))
+        LoadFixtureFavourites(parentChan)
     End Sub
     Public Function GetIndexOfNumber(ByVal str As String) As Integer
 
@@ -176,7 +176,8 @@ Public Class FormChannels
         '    iCurrentScene += 1
         'Loop
 
-        Dim ChNo As Integer = Mid(cms.SourceControl.Tag, GetIndexOfNumber(cms.SourceControl.Tag) + 1) 'Val(cms.SourceControl.Tag)
+        Dim ChControl As ctrlDimmerChannel = cms.SourceControl.Parent 'Mid(cms.SourceControl.Tag, GetIndexOfNumber(cms.SourceControl.Tag) + 1) 'Val(cms.SourceControl.Tag)
+        Dim ChNo As Integer = ChControl.iChannel
         Dim firstchan As Integer = ChNo - FixtureControls(ChNo).ChannelOfFixture + 1
 
         Dim iR As Integer = SceneData(iCurrentScene).ChannelValues(firstchan - 1 + IndexOfChannelInFixture(firstchan, "Red")).Value
@@ -553,26 +554,6 @@ Public Class FormChannels
             'End With
 
 
-            'ChannelFaders(I).cChannelLabel.Location = New Point(StartX + XUpTo - 2, StartY + YUpTo)
-            'ChannelFaders(I).cFader.Location = New Point(StartX + XUpTo + vScrollXDiff, StartY + YUpTo + vScrollYDiff)
-            'ChannelFaders(I).cSelected.Location = New Point(StartX + XUpTo + sButtonXDiff, StartY + YUpTo + sButtonYDiff)
-            'ChannelFaders(I).cTxtVal.Location = New Point(StartX + XUpTo + vtxtBoxXDiff, StartY + YUpTo + vtxtBoxYDiff)
-            'ChannelFaders(I).cFixtureDescr.Location = New Point(StartX + XUpTo, StartY + YUpTo + cFixtureDescrYDiff)
-
-
-            'RemoveHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
-            'AddHandler ChannelFaders(I).cFader.ValueChanged, AddressOf cFader_Scroll
-
-            'RemoveHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
-            'AddHandler ChannelFaders(I).cSelected.Click, AddressOf cSelected_Click
-
-            'RemoveHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
-            'AddHandler ChannelFaders(I).cFixtureDescr.DoubleClick, AddressOf cFixtureDescr_DoubleClick
-
-            'RemoveHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
-            'AddHandler ChannelFaders(I).cTxtVal.TextChanged, AddressOf cTxtVal_TextChanged
-
-
 
             ChannelFaders(I).Location = New Point(StartX + XUpTo, StartY + YUpTo)
             If frmChannels.Controls.Contains(ChannelFaders(I)) = False Then frmChannels.Controls.Add(ChannelFaders(I))
@@ -628,6 +609,8 @@ DoneGeneration:
         For Each c As System.Windows.Forms.Control In frmChannels.Controls
             AddHandler c.KeyDown, AddressOf Form1_KeyDown
             AddHandler c.KeyUp, AddressOf Form1_KeyUp
+
+
         Next c
 
         RebuildTextOnChannelLabels()
@@ -676,7 +659,7 @@ DoneGeneration:
         'ChannelFaders(I).cSelected
         Dim J As Integer = 1
         Do Until J >= ChannelFaders.Length
-            If Not ChannelFaders(J).dmrbtn Is Nothing Then
+            If Not ChannelFaders(J) Is Nothing Then
                 ChannelFaders(J).dmrbtn.BackColor = controlcolour
             End If
             J += 1

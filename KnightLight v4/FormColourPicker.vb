@@ -8,10 +8,6 @@ Public Class FormColourPicker
     Public iGChanSel As New List(Of Integer)
     Public iBChanSel As New List(Of Integer)
 
-    Private Sub FormColourPicker_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
 
     Private Sub FormColourPicker_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         e.Cancel = True

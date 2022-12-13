@@ -10,8 +10,8 @@
         If FadersRenaming = True Then Exit Sub
         Dim SceneIndex As Integer = 1
         Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim FaderNo As Integer = Val(sender.tag) - frmChannels.numChannelFadersStart.Value + 1
-        Dim SceneChannelNo As Integer = Val(sender.tag)
+        Dim FaderNo As Integer = internalChannelFaderNumber - frmChannels.numChannelFadersStart.Value + 1
+        Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
         If Not ChannelFaders(FaderNo).dmrtxtv.Text = sender.value Then
             ChannelFaders(FaderNo).dmrtxtv.Text = sender.value
@@ -20,21 +20,45 @@
         End If
     End Sub
 
+    Public Sub Form1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown, dmrlblFC.KeyDown, dmrbtn.KeyDown, dmrlblTop.KeyDown, dmrtxtv.KeyDown, dmrvs.KeyDown
+        If e.Shift = True Then
+            frmChannels.shiftdown = True
+            'Label2.Text = "Shift Down"
+        ElseIf e.Control = True Then
+            frmChannels.ctrldown = True
+            'Label2.Text = "Ctrl Down"
+        ElseIf e.KeyCode = Keys.Escape Then
+            frmChannels.totalselected = 0
+            frmChannels.cmdUnselectAll_Click(sender, Nothing)
+        End If
+    End Sub
+    Public Sub Form1_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp, dmrlblFC.KeyUp, dmrbtn.KeyUp, dmrlblTop.KeyUp, dmrtxtv.KeyUp, dmrvs.KeyUp
+        If frmChannels.shiftdown = True Then
+            frmChannels.shiftdown = False
+            frmMain.lblUpDownTest.Text = "Shift Up"
+        End If
+        If frmChannels.ctrldown = True Then
+            frmChannels.ctrldown = False
+            frmMain.lblUpDownTest.Text = "Ctrl Up"
+        End If
+
+    End Sub
+
     Private Sub dmrbtn_Click(sender As Object, e As EventArgs) Handles dmrbtn.Click
         Dim SceneIndex As Integer = 1
         Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim SceneChannelNo As Integer = Val(sender.tag)
+        'Dim SceneChannelNo As Integer = internalChannelFaderNumber 'Val(sender.tag)
 
 
         If sender.backcolor = Color.Red Then
             sender.backcolor = controlcolour
             frmChannels.totalselected -= 1
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Selected = False
+            SceneData(SceneIndex).ChannelValues(internalChannelFaderNumber).Selected = False
             'GoTo ModsDown
         ElseIf sender.backcolor = controlcolour Then
             sender.backcolor = Color.Red
             frmChannels.totalselected += 1
-            SceneData(SceneIndex).ChannelValues(SceneChannelNo).Selected = True
+            SceneData(SceneIndex).ChannelValues(internalChannelFaderNumber).Selected = True
         End If
 
 
@@ -46,8 +70,8 @@
                 FaderControlNo += 1
             Loop
             Dim I As Integer = frmChannels.LastSelectedChannel '                                  10         
-            If SceneChannelNo > frmChannels.LastSelectedChannel Then '                            20 > 10    
-                Do Until I > SceneChannelNo '                                         10 > 20    
+            If internalChannelFaderNumber > frmChannels.LastSelectedChannel Then '                            20 > 10    
+                Do Until I > internalChannelFaderNumber '                                         10 > 20    
                     ChannelFaders(FaderControlNo).dmrbtn.BackColor = Color.Red   ' Red 10     
                     SceneData(SceneIndex).ChannelValues(I).Selected = True   '        True 10    
                     frmChannels.totalselected += 1
@@ -70,7 +94,7 @@
 
         'Dim d() As String = Split(sender.tag, "|")
 
-        frmChannels.LastSelectedChannel = SceneChannelNo
+        frmChannels.LastSelectedChannel = internalChannelFaderNumber
     End Sub
 
     Private Sub dmrtxtv_TextChanged(sender As Object, e As EventArgs) Handles dmrtxtv.TextChanged
@@ -79,8 +103,8 @@
         If FadersRenaming = True Then Exit Sub
         Dim SceneIndex As Integer = 1
         Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
-        Dim FaderNo As Integer = Val(sender.tag) - frmChannels.numChannelFadersStart.Value + 1
-        Dim SceneChannelNo As Integer = Val(sender.tag)
+        Dim FaderNo As Integer = internalChannelFaderNumber - frmChannels.numChannelFadersStart.Value + 1
+        Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
         If Not ChannelFaders(FaderNo).dmrvs.Value = Val(sender.text) Then
             ChannelFaders(FaderNo).dmrvs.Value = Val(sender.text)
@@ -93,9 +117,9 @@
     Private Sub dmrlblFC_DoubleClick(sender As Object, e As EventArgs) Handles dmrlblFC.DoubleClick
         If Not frmChannels.ctrldown = True Then frmChannels.cmdUnselectAll_Click(sender, Nothing)
 
-        Dim fixname As String = FixtureControls(Val(sender.tag)).FixtureName
-        Dim fixchan As Integer = FixtureControls(Val(sender.tag)).ChannelOfFixture
-        Dim fixIndex As Integer = Val(sender.tag)
+        Dim fixname As String = FixtureControls(internalChannelFaderNumber).FixtureName
+        Dim fixchan As Integer = FixtureControls(internalChannelFaderNumber).ChannelOfFixture
+        'Dim fixIndex As Integer = internalChannelFaderNumber
 
         'Dim FaderControlNo As Integer = 1
         'Do Until ChannelFaders(FaderControlNo).cFixtureDescr.Name = sender.name : FaderControlNo += 1 : Loop
@@ -113,7 +137,15 @@
             End If
             I += 1
         Loop
-        frmChannels.LastSelectedChannel = fixIndex
+        frmChannels.LastSelectedChannel = internalChannelFaderNumber
     End Sub
 
+    Private Sub ctrlDimmerChannel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        'For Each c As System.Windows.Forms.Control In frmChannels.Controls
+        '    AddHandler c.KeyDown, AddressOf Form1_KeyDown
+        '    AddHandler c.KeyUp, AddressOf Form1_KeyUp
+
+        'Next c
+    End Sub
 End Class

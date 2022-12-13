@@ -107,6 +107,8 @@ Public Class FormMain
                     Arduinos(SerialCount).Serial.StopBits = IO.Ports.StopBits.One
                     Arduinos(SerialCount).Serial.Handshake = IO.Ports.Handshake.None
                     Arduinos(SerialCount).Serial.Parity = IO.Ports.Parity.None
+                    Arduinos(SerialCount).Serial.ReadTimeout = -1
+                    Arduinos(SerialCount).Serial.WriteTimeout = -1
                     Arduinos(SerialCount).Serial.Open()
                     AddHandler Arduinos(SerialCount).Serial.DataReceived, AddressOf SerialPort_DataReceived
                     Arduinos(SerialCount).Serial.Write("UID," & Arduinos(SerialCount).PortNo & vbCrLf)
