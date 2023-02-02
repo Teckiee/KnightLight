@@ -15,6 +15,14 @@ Public Class FormChannels
     'Dim ColPicker As New ColorPickerLib.gColorPicker
     Public totalselected As Integer = 0
 
+    '<System.Runtime.InteropService.DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> 
+
+    'Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
+
+    'Private Declare Function SendMessage Lib "user32.dll" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
+
+    'Public Const WM_SETREDRAW As Integer = &HB
+
     Private Sub FormChannels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 #Disable Warning BC42025 ' Access of shared member, constant member, enum member or nested type through an instance
         If File.Exists(Application.StartupPath & "\WindowLocations.ini") Then
@@ -49,6 +57,7 @@ Public Class FormChannels
 
 #Enable Warning BC42025 ' Access of shared member, constant member, enum member or nested type through an instance
     End Sub
+
     Private Sub Form_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         e.Cancel = True
         'frmChannels.Hide()
@@ -392,7 +401,7 @@ Public Class FormChannels
                 ' otherChanged = False
             End If
 
-            If Not ChannelFaders(I).dmrbtn Is Nothing Then
+            If Not ChannelFaders(I) Is Nothing Then
                 If ChannelFaders(I).dmrbtn.BackColor = Color.Red Then
                     ' otherChanged = True
                     ChannelFaders(I).dmrvs.Value = Val(txtSelected.Text)
@@ -465,6 +474,9 @@ Public Class FormChannels
         Dim RunningRowNum As Integer = 1
 
         Dim I As Integer = 1
+        frmChannels.SuspendLayout()
+        'SendMessage(Parent.Handle, WM_SETREDRAW, False, 0)
+        'SendMessage(Me.Handle, WM_SETREDRAW, CType(0, IntPtr), IntPtr.Zero)
 
         frmChannels.Enabled = False
 
@@ -557,6 +569,9 @@ Public Class FormChannels
 
             ChannelFaders(I).Location = New Point(StartX + XUpTo, StartY + YUpTo)
             If frmChannels.Controls.Contains(ChannelFaders(I)) = False Then frmChannels.Controls.Add(ChannelFaders(I))
+
+
+
             'If frmChannels.Controls.Contains(ChannelFaders(I).cSelected) = False Then frmChannels.Controls.Add(ChannelFaders(I).cSelected)
             'If frmChannels.Controls.Contains(ChannelFaders(I).cFixtureDescr) = False Then frmChannels.Controls.Add(ChannelFaders(I).cFixtureDescr)
             'If frmChannels.Controls.Contains(ChannelFaders(I).cTxtVal) = False Then frmChannels.Controls.Add(ChannelFaders(I).cTxtVal)
@@ -612,10 +627,15 @@ DoneGeneration:
 
 
         Next c
+        frmChannels.ResumeLayout()
+        'SendMesssage(Me.hwnd, WM_SETREDRAW, True, 0)  ' re-enable drawing
+        'SendMessage(Me.Handle, WM_SETREDRAW, True, 0)
+
+        frmMain.StartupProcess("frmChannels.GenerateChannelFormControls")
 
         RebuildTextOnChannelLabels()
 
-
+        frmMain.StartupProcess("frmChannels.RebuildTextOnChannelLabels")
 
 
     End Sub

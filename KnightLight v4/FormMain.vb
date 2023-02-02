@@ -493,7 +493,7 @@ found:
 
 
         frmChannels.GenerateChannelFormControls()
-        StartupProcess("frmChannels.GenerateChannelFormControls")
+        'StartupProcess("frmChannels.GenerateChannelFormControls")
 
         LoadMusicTracks()
         StartupProcess("LoadMusicTracks")
@@ -510,11 +510,15 @@ found:
         'Next
 
 
-
-        For Each c As System.Windows.Forms.Control In Me.Controls
-            AddHandler c.KeyDown, AddressOf Form1_KeyDown
-            AddHandler c.KeyUp, AddressOf Form1_KeyUp
-        Next c
+        Dim thread As New Thread(
+            Sub()
+                For Each c As System.Windows.Forms.Control In Me.Controls
+                    AddHandler c.KeyDown, AddressOf Form1_KeyDown
+                    AddHandler c.KeyUp, AddressOf Form1_KeyUp
+                Next c
+            End Sub
+        )
+        thread.Start()
         StartupProcess("Keypresses")
 
         chkAsioMode.BackColor = Color.Black
@@ -786,7 +790,6 @@ found:
             SceneData(I).Automation.tTimer.Interval = 100
             SceneData(I).Automation.tTimer.Tag = I
             AddHandler SceneData(I).Automation.tTimer.Tick, AddressOf tmrPreset_Tick
-
             'lstDramaPresets.Items.Add(SceneData(I).SceneName)
             'cmbChannelPresetSelection.Items.Add(I & " | " & SceneData(I).SceneName)
 
@@ -878,6 +881,7 @@ found:
                                     End Select
                                 Next s
                                 '.Automation.tTimer.Enabled = .Automation.RunTimer
+
                                 AddHandler .Automation.tTimer.Tick, AddressOf tmrTimer_Tick
                                 '.Automation.IntervalSteps = (.Automation.Max - .Automation.Min) / (.Automation.TimeBetweenMinAndMax / 10)
                             End With
@@ -1201,14 +1205,15 @@ found:
 
 
             AddHandler PresetFaders(I).cSceneControl.vScroll.ValueChanged, AddressOf cPresetFader_Scroll
-            AddHandler PresetFaders(I).cSceneControl.cTxtVal.TextChanged, AddressOf cPresetTxtVal_TextChanged
-            AddHandler PresetFaders(I).cSceneControl.cAutoTime.ValueChanged, AddressOf cAutoTime_ValueChanged
-            AddHandler PresetFaders(I).cSceneControl.cBlackout.Click, AddressOf cPresetBlackout_Click
-            AddHandler PresetFaders(I).cSceneControl.cFull.Click, AddressOf cPresetFull_Click
-            AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseMove, AddressOf lblPresetName_MouseMove
-            AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseUp, AddressOf lblPresetName_MouseUp
+                    AddHandler PresetFaders(I).cSceneControl.cTxtVal.TextChanged, AddressOf cPresetTxtVal_TextChanged
+                    AddHandler PresetFaders(I).cSceneControl.cAutoTime.ValueChanged, AddressOf cAutoTime_ValueChanged
+                    AddHandler PresetFaders(I).cSceneControl.cBlackout.Click, AddressOf cPresetBlackout_Click
+                    AddHandler PresetFaders(I).cSceneControl.cFull.Click, AddressOf cPresetFull_Click
+                    AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseMove, AddressOf lblPresetName_MouseMove
+                    AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseUp, AddressOf lblPresetName_MouseUp
 
-            Try
+
+                    Try
                 tbpPresets.Controls.Add(PresetFaders(I).cSceneControl)
             Catch ex As Exception
 
@@ -1942,7 +1947,12 @@ DoneGeneration:
                 .Automation.ProgressRandomTimed = False
                 .Automation.ProgressSoundActivated = False
             End With
-            AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+            Dim thread As New Thread(
+                Sub()
+                    AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+                End Sub
+            )
+            thread.Start()
             I1 += 1
         Loop
         If Not PresetFixtureIndex = -1 Then
