@@ -8,12 +8,134 @@ Public Class AudioThread
     Dim iVolume As Integer
     Dim AudioCues(MusicCues.Length) As AudioCues1
 
-    Public Sub New() 'ByRef abData() As Byte, ByRef abKey() As Byte, ByVal n As Integer, ByRef abInitV() As Byte)
-        LoadInfo()
-        LoadSettingsFile()
+    Dim HasLoaded As Boolean = False
 
-        'MainThread = New System.Threading.Thread(AddressOf AudioLoop)
-        'MainThread.Start()
+    Public Sub New() 'ByRef abData() As Byte, ByRef abKey() As Byte, ByVal n As Integer, ByRef abInitV() As Byte)
+
+        MainThread = New System.Threading.Thread(AddressOf AudioLoop)
+        MainThread.IsBackground = True
+        MainThread.Start()
+    End Sub
+    Private Sub AudioLoop()
+        Do
+            If HasLoaded = False Then ' do once
+                LoadInfo()
+                LoadSettingsFile()
+
+
+                HasLoaded = True
+            End If
+
+            If cmdAudioThread.Count > 0 Then
+                Dim MPCommand() As String = Split(cmdAudioThread(0), " ", 2)
+                Select Case MPCommand(0)
+                    Case "Play"
+                        If ASIOMode = True Then
+
+                            'MusicCues(Qindex).asioOutput.Init(MusicCues(Qindex).AudioReader)
+
+                            AudioCues(MPCommand(1)).AudioReader.Volume = (iVolume / 100)
+                            AudioCues(MPCommand(1)).AudioReader.CurrentTime = TimeSpan.FromSeconds(0)
+                            AudioCues(MPCommand(1)).asioOutput.Play() ' start playing
+
+
+                        Else
+                            AudioCues(MPCommand(1)).mp3Reader.CurrentTime = TimeSpan.FromSeconds(0)
+                            AudioCues(MPCommand(1)).waveOut.Volume = (iVolume / 100)
+                            AudioCues(MPCommand(1)).waveOut.Play()
+                        End If
+                        cmdAudioThread.RemoveAt(0)
+                    Case "Stop"
+                        If ASIOMode = True Then
+                            AudioCues(MPCommand(1)).asioOutput.Stop()
+                        Else
+                            AudioCues(MPCommand(1)).waveOut.Stop()
+                        End If
+                        cmdAudioThread.RemoveAt(0)
+                    Case "Pause"
+
+                        If ASIOMode = True Then
+                            AudioCues(MPCommand(1)).asioOutput.Pause()
+                        Else
+                            AudioCues(MPCommand(1)).waveOut.Pause()
+                        End If
+                        cmdAudioThread.RemoveAt(0)
+                    Case "Resume"
+                        If ASIOMode = True Then
+                            AudioCues(MPCommand(1)).asioOutput.Play()
+                        Else
+                            AudioCues(MPCommand(1)).waveOut.Resume()
+                        End If
+                        cmdAudioThread.RemoveAt(0)
+                    Case "Prepare"
+                        Dim I As Integer = 0
+                        Dim Fullpath As String = MPCommand(1)
+                        Do Until I >= AudioCues.Length
+                            If AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(Fullpath) Then
+                                'exists
+                                'Setup WASAPI
+                                AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
+                                AudioCues(I).waveOut = New WaveOut
+                                AudioCues(I).waveOut.DesiredLatency = AudioLatency
+                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
+
+                                'Setup ASIO
+                                AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
+
+                                Exit Do
+                            ElseIf AudioCues(I).SongFileName = "" Then
+                                ' is new
+                                AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(Fullpath)
+                                'Setup WASAPI
+                                AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
+                                AudioCues(I).waveOut = New WaveOut
+                                AudioCues(I).waveOut.DesiredLatency = AudioLatency
+                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
+
+                                'Setup ASIO
+                                AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
+                                AudioCues(I).AsioOutIndex = 1
+                                If ASIOMode = True Then
+                                    Dim indx As Integer = AsioIndex(AudioCues(I).AsioOutIndex)
+                                    AudioCues(I).asioOutput = New AsioOut(AsioDevices(indx).DeviceName)
+                                    AudioCues(I).asioOutput.ChannelOffset = 0
+
+                                    If AudioCues(I).AudioReader.WaveFormat.SampleRate = 44100 Then
+
+                                        If AudioCues(I).HasBeenInitd = False Then
+                                            AudioCues(I).asioOutput.Init(AudioCues(I).AudioReader)
+                                            AudioCues(I).HasBeenInitd = True
+                                        End If
+                                    Else
+                                        ResampleFile(Fullpath, I)
+
+                                        AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
+                                        AudioCues(I).AsioOutIndex = 1
+                                        AudioCues(I).asioOutput = New AsioOut(AsioDevices(AsioIndex(AudioCues(I).AsioOutIndex)).DeviceName)
+                                        AudioCues(I).asioOutput.ChannelOffset = 0
+
+
+                                    End If
+
+                                End If
+                                Exit Do
+                            End If
+                            I += 1
+                        Loop
+                        Try
+
+                            cmdAudioThread.RemoveAt(0)
+                        Catch ex As Exception
+
+                        End Try
+                End Select
+
+            End If
+
+
+
+
+        Loop
     End Sub
     Private Sub LoadInfo()
 
@@ -36,22 +158,42 @@ Public Class AudioThread
 
     End Sub
     Private Sub LoadSettingsFile()
-        FileOpen(8, Application.StartupPath & "\AsioDriverSettings.ini", OpenMode.Input)
+        'FileOpen(8, Application.StartupPath & "\AsioDriverSettings.ini", OpenMode.Input, OpenAccess.Read)
 
-        Do Until EOF(8)
-            Dim a() As String = Split(LineInput(8), "=")
-            'a(0) = interface name
-            'a(1) = #
-            Dim I As Integer = 0
-            Do Until I >= AsioDevices.Length
-                If AsioDevices(I).DeviceName = a(0) Then
-                    AsioDevices(I).NumberAssigned = Val(a(1))
-                End If
-                I += 1
+        'Do Until EOF(8)
+        '    Dim a() As String = Split(LineInput(8), "=")
+        '    'a(0) = interface name
+        '    'a(1) = #
+        '    Dim I As Integer = 0
+        '    Do Until I >= AsioDevices.Length
+        '        If AsioDevices(I).DeviceName = a(0) Then
+        '            AsioDevices(I).NumberAssigned = Val(a(1))
+        '        End If
+        '        I += 1
+        '    Loop
+
+        'Loop
+        'FileClose(8)
+
+        Using r As StreamReader = New StreamReader(Application.StartupPath & "\AsioDriverSettings.ini")
+            Dim line As String = r.ReadLine()
+            Do While Not line = Nothing
+                Dim a() As String = Split(line, "=")
+                'a(0) = interface name
+                'a(1) = #
+                Dim I As Integer = 0
+                Do Until I >= AsioDevices.Length
+                    If AsioDevices(I).DeviceName = a(0) Then
+                        AsioDevices(I).NumberAssigned = Val(a(1))
+                    End If
+                    I += 1
+                Loop
+
+
+                line = r.ReadLine
             Loop
+        End Using
 
-        Loop
-        FileClose(8)
     End Sub
     Private Sub SaveSettingsFile()
         FileOpen(8, Application.StartupPath & "\AsioDriverSettings.ini", OpenMode.Output)
@@ -107,59 +249,7 @@ Public Class AudioThread
     End Sub
 
     Sub PrepareTrack(FullPath As String)
-        Dim I As Integer = 0
-        Do Until I >= AudioCues.Length
-            If AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(FullPath) Then
-                'exists
-                'Setup WASAPI
-                AudioCues(I).mp3Reader = New AudioFileReader(FullPath)
-                AudioCues(I).waveOut = New WaveOut
-                AudioCues(I).waveOut.DesiredLatency = AudioLatency
-                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
-
-                'Setup ASIO
-                AudioCues(I).AudioReader = New AudioFileReader(FullPath)
-
-                Exit Do
-            ElseIf AudioCues(I).SongFileName = "" Then
-                ' is new
-                AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(FullPath)
-                'Setup WASAPI
-                AudioCues(I).mp3Reader = New AudioFileReader(FullPath)
-                AudioCues(I).waveOut = New WaveOut
-                AudioCues(I).waveOut.DesiredLatency = AudioLatency
-                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
-
-                'Setup ASIO
-                AudioCues(I).AudioReader = New AudioFileReader(FullPath)
-                AudioCues(I).AsioOutIndex = 1
-                If ASIOMode = True Then
-                    Dim indx As Integer = AsioIndex(AudioCues(I).AsioOutIndex)
-                    AudioCues(I).asioOutput = New AsioOut(AsioDevices(indx).DeviceName)
-                    AudioCues(I).asioOutput.ChannelOffset = 0
-
-                    If AudioCues(I).AudioReader.WaveFormat.SampleRate = 44100 Then
-
-                        If AudioCues(I).HasBeenInitd = False Then
-                            AudioCues(I).asioOutput.Init(AudioCues(I).AudioReader)
-                            AudioCues(I).HasBeenInitd = True
-                        End If
-                    Else
-                        ResampleFile(FullPath, I)
-
-                        AudioCues(I).AudioReader = New AudioFileReader(FullPath)
-                        AudioCues(I).AsioOutIndex = 1
-                        AudioCues(I).asioOutput = New AsioOut(AsioDevices(AsioIndex(AudioCues(I).AsioOutIndex)).DeviceName)
-                        AudioCues(I).asioOutput.ChannelOffset = 0
-
-
-                    End If
-
-                End If
-                Exit Do
-            End If
-            I += 1
-        Loop
+        cmdAudioThread.Add("Prepare " & FullPath)
 
     End Sub
     Sub ResampleFile(FullPath As String, Qindex As Integer)
@@ -231,61 +321,22 @@ Public Class AudioThread
         MainThread.Join()
     End Sub
     Public Sub mPlay(TrackName As String)
-
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
-
-        If ASIOMode = True Then
-
-            'MusicCues(Qindex).asioOutput.Init(MusicCues(Qindex).AudioReader)
-
-            AudioCues(Qindex).AudioReader.Volume = (iVolume / 100)
-            AudioCues(Qindex).AudioReader.CurrentTime = TimeSpan.FromSeconds(0)
-            AudioCues(Qindex).asioOutput.Play() ' start playing
-
-
-        Else
-            AudioCues(Qindex).mp3Reader.CurrentTime = TimeSpan.FromSeconds(0)
-            AudioCues(Qindex).waveOut.Volume = (iVolume / 100)
-            AudioCues(Qindex).waveOut.Play()
-        End If
-        'frmMain.updatePlayer()
+        cmdAudioThread.Add("Play " & Qindex)
     End Sub
     Public Sub mStop(TrackName As String)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
-        If ASIOMode = True Then
-            AudioCues(Qindex).asioOutput.Stop()
-        Else
-            AudioCues(Qindex).waveOut.Stop()
-        End If
+        cmdAudioThread.Add("Stop " & Qindex)
     End Sub
     Public Sub mPause(TrackName As String)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
-        If ASIOMode = True Then
-            AudioCues(Qindex).asioOutput.Pause()
-        Else
-            AudioCues(Qindex).waveOut.Pause()
-        End If
-        frmMain.tmrMP3.Enabled = False
+        cmdAudioThread.Add("Pause " & Qindex)
     End Sub
     Public Sub mResume(TrackName As String)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
-        If ASIOMode = True Then
-            AudioCues(Qindex).asioOutput.Play()
-        Else
-            AudioCues(Qindex).waveOut.Resume()
-        End If
-        frmMain.tmrMP3.Start()
+        cmdAudioThread.Add("Resume " & Qindex)
     End Sub
-    Public Sub AudioLoop()
 
-        Do While closethreads = False
-            Thread.Sleep(1000)
-
-
-
-        Loop
-
-    End Sub
     Public Property DeviceNumber(sDeviceName As String) As Integer
 
         Get
@@ -385,7 +436,7 @@ Public Class AudioThread
         End Set
 
     End Property
-    Private Function GetMusicCueIndex(ByVal CueName As String) As Integer
+    Private Function GetAudioCueIndex(ByVal CueName As String) As Integer
         Dim I As Integer = 0
         Do Until I >= MusicCues.Length
             If MusicCues(I).SongFileName = CueName Then
@@ -395,7 +446,7 @@ Public Class AudioThread
             I += 1
         Loop
     End Function
-    Private Function GetAudioCueIndex(ByVal CueName As String) As Integer
+    Public Function GetMusicCueIndex(ByVal CueName As String) As Integer
         Dim I As Integer = 0
         Do Until I >= MusicCues.Length
             If MusicCues(I).SongFileName = CueName Then

@@ -9,8 +9,6 @@ Imports System.Management
 'Imports Arduino_DMX_USB.Main
 
 Public Class FormMain
-    Dim nat As New AudioThread()
-
 
     'Dim LastSelectedChannel As Integer = 1
     Dim shiftdown As Boolean
@@ -1028,12 +1026,14 @@ found:
         If tChannelsMultipleThreads = False Then
             tChannels(1) = New Thread(AddressOf threadloop)
             tChannels(1).Name = "tChannel"
+            tChannels(1).IsBackground = True
             tChannels(1).Start()
         Else
             Dim I As Integer = 0
             Do Until I >= numEndChannel.Value
                 tChannels(I) = New Thread(Sub() Me.MultipleThreadLoops(I))
                 tChannels(I).Name = "tChannel" & I
+                tChannels(I).IsBackground = True
                 tChannels(I).Start()
                 I += 1
             Loop
@@ -2336,7 +2336,7 @@ LoopsDone:
     Private Sub updatePlayer()
         tmrchangedmp3 = True
         'If lstPresetsSongs.SelectedItems.Count = 0 Then Exit Sub
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
 
         Dim PositionMilli As Double = 0 ' Math.Round(Player.controls.currentPosition, 2)
         If MusicCues(Qindex).IsMP3 = True Then
@@ -2474,7 +2474,7 @@ LoopsDone:
         tmrchangedmp32 = True
         'If lstPresetsSongs2.SelectedItems.Count = 0 Then Exit Sub
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
 
         Dim PositionMilli As Double = 0 ' Math.Round(Player.controls.currentPosition, 2)
         If MusicCues(Qindex).IsMP3 = True Then
@@ -2627,12 +2627,9 @@ LoopsDone:
     End Sub
 
     Private Sub cmdPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsPlay.Click, cmdEditPlay.Click, cmdDramaViewPlay.Click, cmdMusicPlay.Click
-        'Dim iSelectIndex As String = sender.name
         If lstPresetsSongs.SelectedIndex = -1 Then Exit Sub
-        'lstPresetsSongs.SelectedIndex = iSelectIndex
-        'lstMusicSongs.SelectedIndex = iSelectIndex
-        'lstDramaViewSongs.SelectedIndex = iSelectIndex
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
 
 
         If cmdPresetsPlay.Text = "Play" Then
@@ -2732,7 +2729,7 @@ LoopsDone:
 
     Private Sub cmdStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsStop.Click, cmdEditStop.Click, cmdDramaViewStop.Click, cmdMusicStop.Click
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
             AudioRun.mStop(MusicCues(Qindex).SongFileName)
@@ -2787,7 +2784,7 @@ LoopsDone:
 
     Private Sub cmdSkip_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsSkip.Click, cmdDramaViewSkip.Click, cmdMusicSkip.Click
         If lstPresetsSongs.Items.Count >= (lstPresetsSongs.SelectedIndex + 1) Then
-            Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+            Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mStop(MusicCues(Qindex).SongFileName)
 
@@ -2819,7 +2816,7 @@ LoopsDone:
     End Sub
 
     Private Sub trkVolume_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles trkPresetsVolume.Scroll, trkDramaViewVolume.Scroll, trkMusicVolume.Scroll
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
         Dim vol As Integer = sender.Value
         If MusicCues(Qindex).IsMP3 = True Then
             'MusicCues(Qindex).waveOut.Volume = (sender.Value / 100)
@@ -2839,7 +2836,7 @@ LoopsDone:
         'lstPresetsSongs2.SelectedIndex = iSelectIndex
         'lstMusicSongs2.SelectedIndex = iSelectIndex
         'lstDramaViewSongs2.SelectedIndex = iSelectIndex
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
 
 
         If cmdPresetsPlay2.Text = "Play" Then
@@ -2932,7 +2929,7 @@ LoopsDone:
 
     Private Sub cmdStop2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsStop2.Click, cmdDramaViewStop2.Click, cmdMusicStop2.Click
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
             AudioRun.mStop(MusicCues(Qindex).SongFileName)
@@ -2961,7 +2958,7 @@ LoopsDone:
 
     Private Sub cmdSkip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsSkip2.Click, cmdDramaViewSkip2.Click, cmdMusicSkip2.Click
         If lstPresetsSongs2.Items.Count >= (lstPresetsSongs2.SelectedIndex + 1) Then
-            Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
+            Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mStop(MusicCues(Qindex).SongFileName)
 
@@ -2992,7 +2989,7 @@ LoopsDone:
     End Sub
 
     Private Sub trkVolume2_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles trkPresetsVolume2.Scroll, trkDramaViewVolume2.Scroll, trkMusicVolume2.Scroll
-        Dim Qindex As Integer = GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
         Dim vol As Integer = sender.Value
         If MusicCues(Qindex).IsMP3 = True Then
             'MusicCues(Qindex).waveOut.Volume = (sender.Value / 100)
@@ -3083,6 +3080,7 @@ LoopsDone:
             'MusicCues(I).mp3filestream = New MemoryStream(MusicMP3InBank(I))
 
             AudioRun.PrepareTrack(MusicMP3InBank(I))
+
             'MusicCues(I).mp3Reader = New Mp3FileReader(MusicMP3InBank(I))
             'MusicCues(I).waveOut = New WaveOut
             'MusicCues(I).waveOut.DesiredLatency = AudioLatency
@@ -3211,7 +3209,7 @@ skipme:
     End Sub
     Private Sub lstSongs_Changed(ByVal songname As String)
 
-        Dim Qindex As Integer = GetMusicCueIndex(songname)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(songname)
 
         lstPresetsSongChanges1.Items.Clear()
         lstMusicSongChanges1.Items.Clear()
@@ -3251,7 +3249,7 @@ skipme:
     Dim OtherIndexChanged2 As Boolean = False
     Private Sub lstSongs2_Changed(ByVal songname As String)
 
-        Dim Qindex As Integer = GetMusicCueIndex(songname)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(songname)
 
         lstPresetsSongChanges2.Items.Clear()
         lstMusicSongChanges2.Items.Clear()
@@ -3318,16 +3316,7 @@ skipme:
         OtherIndexChanged = False
     End Sub
 
-    Private Function GetMusicCueIndex(ByVal CueName As String) As Integer
-        Dim I As Integer = 0
-        Do Until I >= MusicCues.Length
-            If MusicCues(I).SongFileName = CueName Then
-                Return I
-                Exit Function
-            End If
-            I += 1
-        Loop
-    End Function
+
 
     Private Sub lstDramaViewSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstDramaViewSongs2.SelectedIndexChanged
         If sender.SelectedIndex = -1 Then Exit Sub
@@ -3836,7 +3825,7 @@ skipme:
         If formopened = False Then Exit Sub
         If tmrchangedmp3 = True Then Exit Sub
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstMusicSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
             'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName) = vSongEdit.Value
@@ -3856,7 +3845,7 @@ skipme:
 
     Private Sub cmdCreatelink_Click(sender As Object, e As EventArgs) Handles cmdCreatelink.Click
         If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
-        Dim Qindex As Integer = GetMusicCueIndex(lstMusicSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = False Then
             Exit Sub
         End If
@@ -3914,7 +3903,7 @@ skipme:
 
     Private Sub cmdEditSongCopyNew_Click(sender As Object, e As EventArgs) Handles cmdEditSongCopyNew.Click
         If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
-        Dim Qindex As Integer = GetMusicCueIndex(lstSongEditPresets.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstSongEditPresets.SelectedItem)
         If MusicCues(Qindex).IsMP3 = False Then
             Exit Sub
         End If
@@ -3977,7 +3966,7 @@ skipme:
     End Sub
 
     Private Sub cmdEditSongSave_Click(sender As Object, e As EventArgs) Handles cmdEditSongSave.Click
-        Dim Qindex As Integer = GetMusicCueIndex(lstSongEditPresets.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstSongEditPresets.SelectedItem)
 
         MusicCues(Qindex).SongChangesDict.Clear()
         FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstMusicSongs.SelectedItem & ".chg", OpenMode.Output)
@@ -4056,7 +4045,7 @@ skipme:
         'If lstMusicSongChanges1.SelectedIndex = -1 Then Exit Sub
         If lstMusicSongChanges1.SelectedItems.Count = 0 Then Exit Sub
 
-        Dim Qindex As Integer = GetMusicCueIndex(lstMusicSongs.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
 
         EditUpdate = True
         'Dim a() As String = Split(lstMusicSongChanges1.SelectedItem, "|")

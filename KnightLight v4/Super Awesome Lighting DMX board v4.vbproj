@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="ArduinoDMX.vb" />
     <Compile Include="mdlGlobalVariables.vb" />
+    <Compile Include="mdlThreadCommands.vb" />
     <Compile Include="modGUI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
