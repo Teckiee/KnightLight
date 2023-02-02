@@ -54,11 +54,13 @@
             sender.backcolor = controlcolour
             frmChannels.totalselected -= 1
             SceneData(SceneIndex).ChannelValues(internalChannelFaderNumber).Selected = False
+            frmChannels.SelectedChannels.Remove(internalChannelFaderNumber)
             'GoTo ModsDown
         ElseIf sender.backcolor = controlcolour Then
             sender.backcolor = Color.Red
             frmChannels.totalselected += 1
             SceneData(SceneIndex).ChannelValues(internalChannelFaderNumber).Selected = True
+            frmChannels.SelectedChannels.Add(internalChannelFaderNumber)
         End If
 
 
@@ -74,6 +76,7 @@
                 Do Until I > internalChannelFaderNumber '                                         10 > 20    
                     ChannelFaders(FaderControlNo).dmrbtn.BackColor = Color.Red   ' Red 10     
                     SceneData(SceneIndex).ChannelValues(I).Selected = True   '        True 10    
+                    frmChannels.SelectedChannels.Add(I)
                     frmChannels.totalselected += 1
                     FaderControlNo += 1
                     I += 1
@@ -81,18 +84,6 @@
             End If
         End If
 
-        'If ctrldown = True Then
-
-        '    Dim I As Integer = LastSelectedChannel
-        '    If SceneChannelNo > LastSelectedChannel Then
-        '        Do Until I > SceneChannelNo
-        '            ChannelFaders(I).cSelected.BackColor = Color.Red
-        '            I += 1
-        '        Loop
-        '    End If
-        'End If
-
-        'Dim d() As String = Split(sender.tag, "|")
 
         frmChannels.LastSelectedChannel = internalChannelFaderNumber
     End Sub

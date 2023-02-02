@@ -15,6 +15,8 @@ Public Class FormChannels
     'Dim ColPicker As New ColorPickerLib.gColorPicker
     Public totalselected As Integer = 0
 
+    Public SelectedChannels As New List(Of Integer)
+
     '<System.Runtime.InteropService.DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> 
 
     'Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
@@ -393,20 +395,22 @@ Public Class FormChannels
         ' Dim SceneIndexI As Integer = GetSceneIndex(Split(cmbChannelPresetSelection.Text, "| ")(1))
 
         Dim I As Integer = 0
-        Do Until I >= SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues.Count
-            If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True Then
+        'Do Until I >= SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues.Count
+
+        Do Until I >= SelectedChannels.Count
+            If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Selected = True Then
                 ' otherChanged = True
 
-                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Value = Val(txtSelected.Text)
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Value = Val(txtSelected.Text)
                 ' otherChanged = False
             End If
 
-            If Not ChannelFaders(I) Is Nothing Then
-                If ChannelFaders(I).dmrbtn.BackColor = Color.Red Then
+            If Not ChannelFaders(SelectedChannels(I)) Is Nothing Then
+                If ChannelFaders(SelectedChannels(I)).dmrbtn.BackColor = Color.Red Then
                     ' otherChanged = True
-                    ChannelFaders(I).dmrvs.Value = Val(txtSelected.Text)
-                    ChannelFaders(I).dmrtxtv.Text = Val(txtSelected.Text)
-                    UpdateFixtureLabel(I)
+                    ChannelFaders(SelectedChannels(I)).dmrvs.Value = Val(txtSelected.Text)
+                    ChannelFaders(SelectedChannels(I)).dmrtxtv.Text = Val(txtSelected.Text)
+                    UpdateFixtureLabel(SelectedChannels(I))
                     ' otherChanged = False
                 End If
             End If
@@ -692,6 +696,7 @@ DoneGeneration:
             SceneData(SceneIndex).ChannelValues(I).Selected = False
             I += 1
         Loop
+        SelectedChannels.Clear()
         totalselected = 0
 
     End Sub
