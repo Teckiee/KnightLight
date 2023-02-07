@@ -155,7 +155,8 @@ void loop(){
       char buf[60];
       char buflat[7];
       strcpy(buf, "AVU,");
-      strcat(buf, dtostrf(incomingAudio, 4, 0, buflat));
+      int inc2 = incomingAudio - 512;
+      strcat(buf, dtostrf(inc2, 4, 0, buflat));
       Serial.println(buf);
       //digitalWrite(13,HIGH);
     } else {
@@ -164,7 +165,7 @@ void loop(){
 
   }
 
-  delay(50);
+  delay(10);
 }
 void recvWithEndMarker() {
     static byte ndx = 0;

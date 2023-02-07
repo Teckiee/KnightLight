@@ -57,14 +57,21 @@ Public Class AudioThread
                         If ASIOMode = True Then
                             AudioCues(MPCommand(1)).asioOutput.Pause()
                         Else
+                            'AudioCues(MPCommand(1)).SavedTime = AudioCues(MPCommand(1)).mp3Reader.CurrentTime
                             AudioCues(MPCommand(1)).waveOut.Pause()
                         End If
+
                         cmdAudioThread.RemoveAt(0)
+                        If AudioCues(MPCommand(1)).waveOut.PlaybackState = PlaybackState.Stopped Then
+                            AudioCues(MPCommand(1)).asioOutput.Stop()
+                        End If
                     Case "Resume"
                         If ASIOMode = True Then
+                            'AudioCues(MPCommand(1)).mp3Reader.CurrentTime = AudioCues(MPCommand(1)).SavedTime
                             AudioCues(MPCommand(1)).asioOutput.Play()
                         Else
-                            AudioCues(MPCommand(1)).waveOut.Resume()
+                            'AudioCues(MPCommand(1)).waveOut.Resume()
+                            AudioCues(MPCommand(1)).waveOut.Play()
                         End If
                         cmdAudioThread.RemoveAt(0)
                     Case "Prepare"
@@ -77,8 +84,10 @@ Public Class AudioThread
                                 AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
                                 AudioCues(I).waveOut = New WaveOut
                                 AudioCues(I).waveOut.DesiredLatency = AudioLatency
-                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
+                                'AudioCues(I).waveOut.NumberOfBuffers = 4
+                                'AudioCues(I).wp = New BufferedWaveProvider(waveformat1)
 
+                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
                                 'Setup ASIO
                                 AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
 
@@ -122,19 +131,16 @@ Public Class AudioThread
                             End If
                             I += 1
                         Loop
-                        Try
 
-                            cmdAudioThread.RemoveAt(0)
-                        Catch ex As Exception
+                        cmdAudioThread.RemoveAt(0)
 
-                        End Try
                 End Select
 
             End If
 
 
 
-
+            Thread.Sleep(10)
         Loop
     End Sub
     Private Sub LoadInfo()
@@ -476,8 +482,9 @@ Public Class AudioThread
         Dim asioOutput As AsioOut
         Dim HasBeenInitd As Boolean
 
-        'Dim resampled As Boolean
-        'Dim resampler As MediaFoundationResampler
+        Dim wp As BufferedWaveProvider
 
     End Structure
+
+    Public waveformat1 As New WaveFormat(48000, 2)
 End Class

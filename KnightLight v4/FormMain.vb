@@ -38,6 +38,8 @@ Public Class FormMain
     Dim IntervalX As Integer = tSC.Size.Width + 6
     Dim IntervalY As Integer = tSC.Size.Height + 4
 
+    Dim Averaging(20) As Integer
+    Dim AvgUpTo As Integer = 0
 
     'Dim vscrDiffX As Integer = 119
     'Dim vscrDiffY As Integer = 0
@@ -280,10 +282,15 @@ found:
             'Serial.println("AVU," + incomingAudio);
             Dim a() As String = Split(mymsg.msg, ",")
             If a.Length = 2 Then ' not 2 = data garbled
-                lblAudioActive.Text = Val(a(1))
+                Averaging(AvgUpTo) = Val(a(1))
+                lblAudioActive.Text = Math.Round(Averaging.Average())
                 tmrAVUCheck.Stop()
                 SoundActivationCurrentLevel = Val(a(1))
                 tmrAVUCheck.Start()
+                AvgUpTo += 1
+                If AvgUpTo >= Averaging.Length Then
+                    AvgUpTo = 0
+                End If
             End If
         ElseIf Mid(mymsg.msg, 1, 3) = "MUS" Then
             mymsg.arduinoindex = ArduinoFindPort(mymsg.portname)
@@ -2333,6 +2340,11 @@ LoopsDone:
     Private Sub tmrMP32_Tick(sender As Object, e As EventArgs) Handles tmrMP32.Tick
         updatePlayer2()
     End Sub
+
+    Private Sub UpdateVuMeter(ByVal indx As Integer)
+
+        'barVUmeter.Value = 100 - AudioRun.UpdateVuMeter(indx)
+    End Sub
     Private Sub updatePlayer()
         tmrchangedmp3 = True
         'If lstPresetsSongs.SelectedItems.Count = 0 Then Exit Sub
@@ -2391,6 +2403,11 @@ LoopsDone:
         lblDramaViewMP3PositionMilli.Text = PositionMilli
         lbleditPositionMilli.Text = PositionMilli
 
+        ' Start Vu meter
+
+        UpdateVuMeter(Qindex)
+
+        ' End Vu Meter
 
         If MusicCues(Qindex).SongChangesDict.Count > 0 Then
             ' # testing
@@ -2682,7 +2699,7 @@ LoopsDone:
 
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mPause(MusicCues(Qindex).SongFileName)
-
+                tmrMP3.Stop()
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -2704,6 +2721,7 @@ LoopsDone:
 
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.mResume(MusicCues(Qindex).SongFileName)
+                tmrMP3.Start()
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -3828,18 +3846,21 @@ skipme:
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
-            'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName) = vSongEdit.Value
+
             AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName) = vSongEdit.Value
-            'MusicCues(Qindex).vlcPlayer.Time = vSongEdit.Value
+
+            'Dim I As Integer = 0
+            'If lst Then
+            '    Do Until I
 
 
-        Else
+            '        Else
 
         End If
 
 
 
-        updatePlayer()
+            updatePlayer()
 
     End Sub
 

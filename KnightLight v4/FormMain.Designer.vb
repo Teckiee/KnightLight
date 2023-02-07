@@ -91,6 +91,7 @@ Partial Class FormMain
         Me.lblFadeIn = New System.Windows.Forms.Label()
         Me.numFadeOut = New System.Windows.Forms.NumericUpDown()
         Me.lblFadeOut = New System.Windows.Forms.Label()
+        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lstSongEditPresets = New System.Windows.Forms.ListBox()
         Me.cmdEditSongCopyNew = New System.Windows.Forms.Button()
         Me.cmdEditSongSave = New System.Windows.Forms.Button()
@@ -157,6 +158,10 @@ Partial Class FormMain
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
+        Me.lstStartup = New System.Windows.Forms.ListView()
+        Me.ColumnHeader32 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader33 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader34 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.lblSceneBorderColour = New System.Windows.Forms.Label()
         Me.cmdSceneBorderColor = New System.Windows.Forms.Button()
         Me.cmdAsioDown = New System.Windows.Forms.Button()
@@ -234,12 +239,8 @@ Partial Class FormMain
         Me.tmrserial = New System.Windows.Forms.Timer(Me.components)
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
-        Me.lstStartup = New System.Windows.Forms.ListView()
-        Me.ColumnHeader32 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader33 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader34 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
+        Me.barVUmeter = New System.Windows.Forms.VScrollBar()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -964,6 +965,19 @@ Partial Class FormMain
         Me.lblFadeOut.TabIndex = 327
         Me.lblFadeOut.Text = "Fade Out:"
         '
+        'vSongEdit
+        '
+        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.vSongEdit.BackColor = System.Drawing.Color.White
+        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
+        Me.vSongEdit.FillColor = System.Drawing.Color.Black
+        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
+        Me.vSongEdit.Maximum = 5000000
+        Me.vSongEdit.Name = "vSongEdit"
+        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
+        Me.vSongEdit.TabIndex = 335
+        '
         'lstSongEditPresets
         '
         Me.lstSongEditPresets.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1680,6 +1694,33 @@ Partial Class FormMain
         Me.tbpSettings.Text = "Settings"
         Me.tbpSettings.UseVisualStyleBackColor = True
         '
+        'lstStartup
+        '
+        Me.lstStartup.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34})
+        Me.lstStartup.FullRowSelect = True
+        Me.lstStartup.HideSelection = False
+        Me.lstStartup.Location = New System.Drawing.Point(770, 120)
+        Me.lstStartup.MultiSelect = False
+        Me.lstStartup.Name = "lstStartup"
+        Me.lstStartup.Size = New System.Drawing.Size(350, 404)
+        Me.lstStartup.TabIndex = 350
+        Me.lstStartup.UseCompatibleStateImageBehavior = False
+        Me.lstStartup.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader32
+        '
+        Me.ColumnHeader32.Text = "Item"
+        Me.ColumnHeader32.Width = 180
+        '
+        'ColumnHeader33
+        '
+        Me.ColumnHeader33.Text = "Time"
+        '
+        'ColumnHeader34
+        '
+        Me.ColumnHeader34.Text = "Difference"
+        Me.ColumnHeader34.Width = 72
+        '
         'lblSceneBorderColour
         '
         Me.lblSceneBorderColour.BackColor = System.Drawing.Color.Gold
@@ -2331,33 +2372,6 @@ Partial Class FormMain
         Me.lblAudio2.TabIndex = 345
         Me.lblAudio2.Text = "Incoming Audio Signal:"
         '
-        'lstStartup
-        '
-        Me.lstStartup.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34})
-        Me.lstStartup.FullRowSelect = True
-        Me.lstStartup.HideSelection = False
-        Me.lstStartup.Location = New System.Drawing.Point(770, 120)
-        Me.lstStartup.MultiSelect = False
-        Me.lstStartup.Name = "lstStartup"
-        Me.lstStartup.Size = New System.Drawing.Size(350, 404)
-        Me.lstStartup.TabIndex = 350
-        Me.lstStartup.UseCompatibleStateImageBehavior = False
-        Me.lstStartup.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader32
-        '
-        Me.ColumnHeader32.Text = "Item"
-        Me.ColumnHeader32.Width = 180
-        '
-        'ColumnHeader33
-        '
-        Me.ColumnHeader33.Text = "Time"
-        '
-        'ColumnHeader34
-        '
-        Me.ColumnHeader34.Text = "Difference"
-        Me.ColumnHeader34.Width = 72
-        '
         'vsMaster
         '
         Me.vsMaster.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2371,24 +2385,21 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'vSongEdit
+        'barVUmeter
         '
-        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.vSongEdit.BackColor = System.Drawing.Color.White
-        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
-        Me.vSongEdit.FillColor = System.Drawing.Color.Black
-        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
-        Me.vSongEdit.Maximum = 5000000
-        Me.vSongEdit.Name = "vSongEdit"
-        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
-        Me.vSongEdit.TabIndex = 335
+        Me.barVUmeter.Location = New System.Drawing.Point(1846, 413)
+        Me.barVUmeter.Name = "barVUmeter"
+        Me.barVUmeter.Size = New System.Drawing.Size(44, 295)
+        Me.barVUmeter.TabIndex = 346
+        Me.barVUmeter.Value = 100
+        Me.barVUmeter.Visible = False
         '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1904, 952)
+        Me.Controls.Add(Me.barVUmeter)
         Me.Controls.Add(Me.lblAudio2)
         Me.Controls.Add(Me.lblAudioActive)
         Me.Controls.Add(Me.Button6)
@@ -2650,4 +2661,5 @@ Partial Class FormMain
     Friend WithEvents ColumnHeader32 As ColumnHeader
     Friend WithEvents ColumnHeader33 As ColumnHeader
     Friend WithEvents ColumnHeader34 As ColumnHeader
+    Friend WithEvents barVUmeter As VScrollBar
 End Class
