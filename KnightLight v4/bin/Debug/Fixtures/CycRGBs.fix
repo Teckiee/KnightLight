@@ -1,0 +1,14 @@
+Channels=9
+D|Dmr,0-255
+X|Red,0-255
+X|Green,0-255
+X|Blue,0-255
+X|ColMacOff,0-15,ColMac,16-255
+X|StrbOff,0-15,StrbOn,16-255|Strobe`eOff 0-15`eOn 16-255
+X|AutoOff,0-31,DmrAsc,32-63,DmrDesc,64-95,DmrSlide,96-127,ColFade,128-159,7ColSnap,160-191,18ColSnap,192-223,Snd1,224-249,Snd2,250-255|Auto Programs`e0-31 NoFunc`e32-63 0-100%`e64-95 100-0%`e96-127 100-0-100%`e128-159 Colour Fade`e160-191 7 Colour Snap`e192-223 18 Colour Snap`e224-249 Sound Active 1`e250-255 Sound Active 2
+X|AutoSpd,0-255|Auto`eProgram Speed for ch7 32-223`eSound Sensitivity for ch7 224-255
+X|DmrSpd,0-51,OffDmrSpd,52-101,FastDmrSpd,102-152,MedDmrSpd,153-203,SlowDmrSpd,204-255|Dimmer Speed Mode`e0-51 Dimmer speed set from display`e52-101 Dimmer speed mode off`e102-152 Fast Dimmer speed mode`e153-203 Medium Dimmer speed mode`e204-255 Slow Dimmer speed mode
+
+
+
+

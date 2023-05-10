@@ -1,0 +1,14 @@
+Channels=13
+X|Pan,0-255
+X|Panfine,0-255
+X|Tilt,0-255
+X|Tiltfine,0-255
+X|VecSpd,0-255
+X|Auto1,0-255
+D|Red,0-255
+D|Green,0-255
+D|Blue,0-255
+D|White,0-255
+X|Auto2,0-255
+X|Automation,0-255
+X|MacRest,0-255

@@ -1,0 +1,3 @@
+Channels=2
+X|FogOff,0-2,FogOn,3-255|Fog`e0-2 Off`e3-255 On
+X|Fan,0-255

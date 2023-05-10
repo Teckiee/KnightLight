@@ -1,0 +1,13 @@
+Channels=12
+X|Pan,0-255
+X|Panfine,0-255
+X|Tilt,0-255
+X|Tiltfine,0-255
+X|Vec spd,0-255
+D|Dim,0-255
+X|Red,0-255
+X|Green,0-255
+X|Blue,0-255
+X|flash,0-255
+X|Clrmac,0-255
+X|Movemac,0-255

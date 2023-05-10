@@ -1,0 +1,5 @@
+Channels=4
+X|PrgOff,0-4,Chase1,5-39,Chase2,40-79,Fade,80-119,PulseAsc,120-159,PulseUpDownup,160-199,Strobe,200-239,SndP1P5,240-255|Programs`e0-4 Program Off`e5-39 P1 3-zone chase 1`e40-79 P2 3-zone chase 2`e80-119 P3 3-zone fade`e120-159 P4 Pulse 0-100%`e160-199 P5 Pulse 0-100-0%`e200-239 P6 Strobe`e240-255 Sound-active (cycles P1-P5)
+X|PrgSpd,0-255
+X|Strobe,0-250,Sound,251-255|Strobe/Lightning`e0-250 Strobe slow to fast when ch-1 not on Strobe`e251-255 Sound Active Strobe`e0-250 Lightning slow to fast when ch-1 is Strobe`e251-255 Sound Active Lightning
+D|Dmr,0-255

@@ -1,0 +1,14 @@
+Channels=13
+X|Pan,0-255
+X|Tilt,0-255
+X|Strobe,0-255
+X|Dimmer,0-255
+X|Something,0-255
+D|Red,0-255
+D|Green,0-255
+D|Blue,0-255
+X|Auto1,0-255
+X|Auto1,0-255
+X|Auto1,0-255
+X|Auto1,0-255
+X|Sound,0-255
