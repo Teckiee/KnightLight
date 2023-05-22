@@ -2092,7 +2092,7 @@ DoneGeneration:
             SaveScene(newname)
         End If
 
-
+        RenamePresetFaderControls()
     End Sub
 
     Private Sub cmdPresetsBlackoutAllTimer_Click(sender As Object, e As EventArgs) Handles cmdPresetsBlackoutAllTimer.Click, cmdDramaBlackoutAllTimer.Click
