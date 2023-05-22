@@ -122,10 +122,12 @@
                 If FixtureControls(I).ChannelOfFixture = fixchan Then
                     'FixtureControls(I).sButton.BackColor = Color.Red
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True
-                    ChannelFaders(I + (frmChannels.numChannelFadersStart.Value - 1)).dmrbtn.BackColor = Color.Red
+                    If (I + (frmChannels.numChannelFadersStart.Value - 1)) <= ChannelControlSetsPerPage Then
+                        ChannelFaders(I + (frmChannels.numChannelFadersStart.Value - 1)).dmrbtn.BackColor = Color.Red
+                    End If
                     frmChannels.totalselected += 1
+                    End If
                 End If
-            End If
             I += 1
         Loop
         frmChannels.LastSelectedChannel = internalChannelFaderNumber

@@ -122,6 +122,14 @@ Public Class FormChannels
         SceneData(iCurrentScene).ChannelValues(chno).Selected = True
         'MessageBox.Show(chno & vbCrLf & Favname)
         Dim iSelected As Integer = 1
+
+        'Dim iChannelControlNo As Integer = 0
+        'Do Until iChannelControlNo >= ChannelFaders.Count
+
+        '    iChannelControlNo += 1
+        '    If ChannelFaders(iChannelControlNo).iChannel = iSelected Then
+        'Loop
+
         Do Until iSelected >= SceneData(iCurrentScene).ChannelValues.Count
             If SceneData(iCurrentScene).ChannelValues(iSelected).Selected = True Then
                 Dim iSelectedParent As Integer = FixtureControls(iSelected).ParentChannelNo
@@ -135,7 +143,8 @@ Public Class FormChannels
 
                             Case "v"
                                 SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Value = b(1)
-                                ChannelFaders(iSelectedParent - 1 + a(0)).dmrvs.Value = b(1)
+                                ChannelFaders(iSelectedParent - numChannelFadersStart.Value + a(0)).dmrvs.Value = b(1)
+
                             Case "TimerEnabled", "timerenabled"
                                 SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
                             Case "AutoTimeBetween"
