@@ -82,8 +82,10 @@ Public Class AudioThread
                                 'exists
                                 'Setup WASAPI
                                 AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
+
                                 AudioCues(I).waveOut = New WaveOut
                                 AudioCues(I).waveOut.DesiredLatency = AudioLatency
+
                                 'AudioCues(I).waveOut.NumberOfBuffers = 4
                                 'AudioCues(I).wp = New BufferedWaveProvider(waveformat1)
 

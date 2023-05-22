@@ -54,7 +54,6 @@ Partial Class FormChannels
         '
         'cmdChannelsSave
         '
-        Me.cmdChannelsSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdChannelsSave.Location = New System.Drawing.Point(544, 12)
         Me.cmdChannelsSave.Name = "cmdChannelsSave"
         Me.cmdChannelsSave.Size = New System.Drawing.Size(102, 23)

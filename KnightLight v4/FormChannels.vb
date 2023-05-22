@@ -133,56 +133,57 @@ Public Class FormChannels
         Do Until iSelected >= SceneData(iCurrentScene).ChannelValues.Count
             If SceneData(iCurrentScene).ChannelValues(iSelected).Selected = True Then
                 Dim iSelectedParent As Integer = FixtureControls(iSelected).ParentChannelNo
-                FileOpen(1, Application.StartupPath & "\Fixtures\" & FixtureControls(iSelectedParent).FixtureName & "\" & Favname & ".dmr", OpenMode.Input)
-                Do Until EOF(1)
-                    Dim a() As String = Split(LineInput(1), "|")
-                    Dim I As Integer = 0
-                    Do Until I >= a.Length
-                        Dim b() As String = Split(a(I), ",")
-                        Select Case b(0)
+                If File.Exists(Application.StartupPath & "\Fixtures\" & FixtureControls(iSelectedParent).FixtureName & "\" & Favname & ".dmr") Then
+                    FileOpen(1, Application.StartupPath & "\Fixtures\" & FixtureControls(iSelectedParent).FixtureName & "\" & Favname & ".dmr", OpenMode.Input)
+                    Do Until EOF(1)
+                        Dim a() As String = Split(LineInput(1), "|")
+                        Dim I As Integer = 0
+                        Do Until I >= a.Length
+                            Dim b() As String = Split(a(I), ",")
+                            Select Case b(0)
 
-                            Case "v"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Value = b(1)
-                                ChannelFaders(iSelectedParent - numChannelFadersStart.Value + a(0)).dmrvs.Value = b(1)
+                                Case "v"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Value = b(1)
+                                    ChannelFaders(iSelectedParent - numChannelFadersStart.Value + a(0)).dmrvs.Value = b(1)
 
-                            Case "TimerEnabled", "timerenabled"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
-                            Case "AutoTimeBetween"
-                                If b(1) = 0 Then
-                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = 10
-                                Else
-                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = b(1)
-                                End If
+                                Case "TimerEnabled", "timerenabled"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
+                                Case "AutoTimeBetween"
+                                    If b(1) = 0 Then
+                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = 10
+                                    Else
+                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = b(1)
+                                    End If
 
-                            Case "RandomStart"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressRandomTimed = Convert.ToBoolean(b(1))
-                            Case "InOrder"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressInOrder = Convert.ToBoolean(b(1))
-                            Case "RandomSound"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressSoundActivated = Convert.ToBoolean(b(1))
-                            Case "IsLooped"
-                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressLoop = Convert.ToBoolean(b(1))
-                            Case "ProgressList"
-                                If b.Length = 1 Then
-                                    'nothing in progress list
-                                Else
+                                Case "RandomStart"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressRandomTimed = Convert.ToBoolean(b(1))
+                                Case "InOrder"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressInOrder = Convert.ToBoolean(b(1))
+                                Case "RandomSound"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressSoundActivated = Convert.ToBoolean(b(1))
+                                Case "IsLooped"
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressLoop = Convert.ToBoolean(b(1))
+                                Case "ProgressList"
+                                    If b.Length = 1 Then
+                                        'nothing in progress list
+                                    Else
 
-                                    For Each iList As String In b
-                                        If Not iList = "ProgressList" Then
-                                            SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressList.Add(Val(iList))
-                                        End If
-                                    Next
-                                End If
-                        End Select
+                                        For Each iList As String In b
+                                            If Not iList = "ProgressList" Then
+                                                SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.ProgressList.Add(Val(iList))
+                                            End If
+                                        Next
+                                    End If
+                            End Select
 
-                        I += 1
+                            I += 1
+                        Loop
+
                     Loop
-
-                Loop
-                FileClose(1)
-
+                    FileClose(1)
+                End If
             End If
-            iSelected += 1
+                iSelected += 1
         Loop
         SceneData(iCurrentScene).ChannelValues(chno).Selected = wasselected
     End Sub
@@ -409,21 +410,25 @@ Public Class FormChannels
         Do Until I >= SelectedChannels.Count
             If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Selected = True Then
                 ' otherChanged = True
-
                 SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Value = Val(txtSelected.Text)
                 ' otherChanged = False
             End If
 
-            If Not ChannelFaders(SelectedChannels(I)) Is Nothing Then
-                If ChannelFaders(SelectedChannels(I)).dmrbtn.BackColor = Color.Red Then
-                    ' otherChanged = True
-                    ChannelFaders(SelectedChannels(I)).dmrvs.Value = Val(txtSelected.Text)
-                    ChannelFaders(SelectedChannels(I)).dmrtxtv.Text = Val(txtSelected.Text)
-                    UpdateFixtureLabel(SelectedChannels(I))
-                    ' otherChanged = False
-                End If
-            End If
 
+            If SelectedChannels(I) >= numChannelFadersStart.Value And SelectedChannels(I) < numChannelFadersStart.Value + ChannelControlSetsPerPage Then
+                'ChannelFaders(I - (frmChannels.numChannelFadersStart.Value) + 1).dmrbtn.BackColor = Color.Red
+                Dim chanI As Integer = SelectedChannels(I) Mod ChannelControlSetsPerPage
+                If Not ChannelFaders(chanI) Is Nothing Then
+                    If ChannelFaders(chanI).dmrbtn.BackColor = Color.Red Then
+                        ' otherChanged = True
+                        ChannelFaders(chanI).dmrvs.Value = Val(txtSelected.Text)
+                        ChannelFaders(chanI).dmrtxtv.Text = Val(txtSelected.Text)
+                        UpdateFixtureLabel(chanI)
+                        ' otherChanged = False
+                    End If
+                End If
+
+            End If
 
             I += 1
         Loop
@@ -465,7 +470,7 @@ Public Class FormChannels
         GenerateChannelFormControls()
     End Sub
     Public Sub GenerateChannelFormControls()
-
+        FadersRenaming = True
         Dim StartX As Integer = 12
         Dim StartY As Integer = 24
         'Dim IntervalX As Integer = 35
@@ -649,7 +654,7 @@ DoneGeneration:
         RebuildTextOnChannelLabels()
 
         frmMain.StartupProcess("frmChannels.RebuildTextOnChannelLabels")
-
+        FadersRenaming = False
 
     End Sub
 

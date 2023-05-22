@@ -95,6 +95,9 @@
         Dim SceneIndex As Integer = 1
         Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
         Dim FaderNo As Integer = internalChannelFaderNumber - frmChannels.numChannelFadersStart.Value + 1
+        'If FaderNo = 0 Then
+        '    FaderNo = frmChannels.numChannelFadersStart.Value + 1
+        'End If
         Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
         If Not ChannelFaders(FaderNo).dmrvs.Value = Val(sender.text) Then
@@ -122,8 +125,9 @@
                 If FixtureControls(I).ChannelOfFixture = fixchan Then
                     'FixtureControls(I).sButton.BackColor = Color.Red
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True
-                    If (I + (frmChannels.numChannelFadersStart.Value - 1)) <= ChannelControlSetsPerPage Then
-                        ChannelFaders(I + (frmChannels.numChannelFadersStart.Value - 1)).dmrbtn.BackColor = Color.Red
+                    frmChannels.SelectedChannels.Add(I)
+                    If I >= frmChannels.numChannelFadersStart.Value And I < frmChannels.numChannelFadersStart.Value + ChannelControlSetsPerPage Then
+                        ChannelFaders(I - (frmChannels.numChannelFadersStart.Value) + 1).dmrbtn.BackColor = Color.Red
                     End If
                     frmChannels.totalselected += 1
                     End If
@@ -141,4 +145,5 @@
 
         'Next c
     End Sub
+
 End Class

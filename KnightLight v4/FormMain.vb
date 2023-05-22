@@ -603,29 +603,31 @@ found:
                     channelcount = Val(a(1))
                     s = LineInput(2)
                 End If
-                FixtureControls(ParentChannelNo + channelupto).BackColour = Color.FromName(sline(2))
-                FixtureControls(ParentChannelNo + channelupto).ForeColour = Color.FromName(sline(3))
-                FixtureControls(ParentChannelNo + channelupto).FixtureName = sline(1)
+                If Not s = "" Then
+                    FixtureControls(ParentChannelNo + channelupto).BackColour = Color.FromName(sline(2))
+                    FixtureControls(ParentChannelNo + channelupto).ForeColour = Color.FromName(sline(3))
+                    FixtureControls(ParentChannelNo + channelupto).FixtureName = sline(1)
 
-                Dim AnV() As String = Split(s, "|")
-                If AnV.Length = 3 Then 'has a long description
-                    FixtureControls(ParentChannelNo + channelupto).LongDescr = AnV(2).Replace("`e", vbCrLf)
-                End If
-                FixtureControls(ParentChannelNo + channelupto).ActionAndValues = AnV(1)
-                If InStr(AnV(1), "Red") > 0 Then
-                    FixtureControls(ParentChannelNo).fColPicker.iRChan = ParentChannelNo + channelupto
-                End If
-                If InStr(AnV(1), "Grn") > 0 Or InStr(AnV(1), "Green") > 0 Then
-                    FixtureControls(ParentChannelNo).fColPicker.iGChan = ParentChannelNo + channelupto
-                End If
-                If InStr(AnV(1), "Blue") > 0 Or InStr(AnV(1), "Blu") > 0 Then
-                    FixtureControls(ParentChannelNo).fColPicker.iBChan = ParentChannelNo + channelupto
-                End If
+                    Dim AnV() As String = Split(s, "|")
+                    If AnV.Length = 3 Then 'has a long description
+                        FixtureControls(ParentChannelNo + channelupto).LongDescr = AnV(2).Replace("`e", vbCrLf)
+                    End If
+                    FixtureControls(ParentChannelNo + channelupto).ActionAndValues = AnV(1)
+                    If InStr(AnV(1), "Red") > 0 Then
+                        FixtureControls(ParentChannelNo).fColPicker.iRChan = ParentChannelNo + channelupto
+                    End If
+                    If InStr(AnV(1), "Grn") > 0 Or InStr(AnV(1), "Green") > 0 Then
+                        FixtureControls(ParentChannelNo).fColPicker.iGChan = ParentChannelNo + channelupto
+                    End If
+                    If InStr(AnV(1), "Blue") > 0 Or InStr(AnV(1), "Blu") > 0 Then
+                        FixtureControls(ParentChannelNo).fColPicker.iBChan = ParentChannelNo + channelupto
+                    End If
 
-                FixtureControls(ParentChannelNo + channelupto).ParentChannelNo = ParentChannelNo
-                FixtureControls(ParentChannelNo + channelupto).ChannelOfFixture = channelupto + 1
-                If Mid(s, 1, 2) = "D|" Then FixtureControls(ParentChannelNo + channelupto).IsDimmable = True
-                channelupto += 1
+                    FixtureControls(ParentChannelNo + channelupto).ParentChannelNo = ParentChannelNo
+                    FixtureControls(ParentChannelNo + channelupto).ChannelOfFixture = channelupto + 1
+                    If Mid(s, 1, 2) = "D|" Then FixtureControls(ParentChannelNo + channelupto).IsDimmable = True
+                    channelupto += 1
+                End If
             Loop
             FileClose(2)
             ReDim FixtureControls(ParentChannelNo).Favourites(100)
@@ -1954,12 +1956,23 @@ DoneGeneration:
                 .Automation.ProgressRandomTimed = False
                 .Automation.ProgressSoundActivated = False
             End With
-            Dim thread As New Thread(
-                Sub()
-                    AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-                End Sub
-            )
-            thread.Start()
+            Try
+                'Thread.Sleep(5)
+
+                AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+
+                'Dim thread As New Thread(
+                '        Sub()
+
+                '        End Sub
+                '                    )
+                'thread.Start()
+
+
+            Catch ex As Exception
+
+            End Try
+
             I1 += 1
         Loop
         If Not PresetFixtureIndex = -1 Then
