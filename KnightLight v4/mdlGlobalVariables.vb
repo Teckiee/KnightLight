@@ -176,7 +176,7 @@ Module mdlGlobalVariables
         'Dim cBlackout As Button
         'Dim cFull As Button
         ''Dim cFader As GScrollBar
-        Dim border As Rectangle
+        'Dim border As Rectangle
         Dim cSceneControl As SceneControl1
         Dim OrigTop As Integer
         Dim OrigLeft As Integer

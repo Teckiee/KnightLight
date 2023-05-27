@@ -115,7 +115,7 @@ Public Class FormMain
                     Arduinos(SerialCount).InUse = True
                     'newrow.SubItems.Add("True")
                 Catch
-                    'Dim thread1 As New Thread(Sub()
+                    'Dim thread1 As New Thread(S ub()
                     '                              Arduinos(SerialCount).Serial.Close()
                     '                          End Sub)
                     'thread1.Start()
@@ -752,26 +752,26 @@ found:
         FileClose(1)
 
     End Sub
-    Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles tbpPresets.Paint
+    'Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles tbpPresets.Paint
 
-        'Draws the border.
-        Dim I As Integer = 1
-        Do Until I >= PresetFaders.Count
-            If Not PresetFaders(I).cSceneControl Is Nothing Then
+    '    'Draws the border.
+    '    Dim I As Integer = 1
+    '    Do Until I >= PresetFaders.Count
+    '        If Not PresetFaders(I).cSceneControl Is Nothing Then
 
-                ControlPaint.DrawBorder(e.Graphics, PresetFaders(I).border, borderColor,
-                borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
-                ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
-                borderColor, borderWidth, ButtonBorderStyle.Solid)
-
-
-            End If
-
-            I += 1
-        Loop
+    '            ControlPaint.DrawBorder(e.Graphics, PresetFaders(I).border, borderColor,
+    '            borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
+    '            ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
+    '            borderColor, borderWidth, ButtonBorderStyle.Solid)
 
 
-    End Sub
+    '        End If
+
+    '        I += 1
+    '    Loop
+
+
+    'End Sub
     Private Sub LoadBanksFromFile()
         lstBanks.Items.Clear()
 
@@ -1081,9 +1081,19 @@ found:
             'If I <= 12 Then
             'PresetFaders(I).OrigLeft = StartX + XUpTo
             'PresetFaders(I).OrigTop = StartY + YUpTo
-            PresetFaders(I).border = New Rectangle(StartX + XUpTo - 1, StartY + YUpTo - 1, 292 + 2, SceneControlHeight + 2)
+            'PresetFaders(I).border = New Rectangle(StartX + XUpTo - 1, StartY + YUpTo - 1, 292 + 2, SceneControlHeight + 2)
 
             'End If
+            If I Mod 2 = 0 Then
+                'Even
+                PresetFaders(I).cSceneControl.BackColor = Color.FromArgb(64, 64, 64)
+                PresetFaders(I).cSceneControl.cPresetName.BackColor = Color.FromArgb(32, 32, 32)
+            Else
+                'Odd
+                PresetFaders(I).cSceneControl.BackColor = Color.Black
+                PresetFaders(I).cSceneControl.cPresetName.BackColor = Color.Black
+            End If
+
 
             '(StartX + XUpTo, StartY + YUpTo)
             With PresetFaders(I).cSceneControl
@@ -1115,7 +1125,7 @@ found:
                 '.cFull.T1ag = I + PresetModifier
 
                 .cPresetName.Text = SceneData(I).SceneName
-                .cPresetName.BackColor = Color.Black
+                '.cPresetName.BackColor = Color.Black
                 .cPresetName.ForeColor = lblSceneLabelColour.BackColor
                 '.cPresetName.T1ag = I + PresetModifier
                 .cPresetName.ContextMenuStrip = ctxPresetLabelActions
@@ -1962,7 +1972,7 @@ DoneGeneration:
                 AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
 
                 'Dim thread As New Thread(
-                '        Sub()
+                '        S ub()
 
                 '        End Sub
                 '                    )
@@ -4443,7 +4453,7 @@ skipme:
 
 
         Dim oldname As String = SceneData(obj.SceneIndex).SceneName
-        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", "")
+        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
         If newname = "" Then Exit Sub
         CreateNewScene(newname)
 

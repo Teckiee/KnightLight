@@ -31,6 +31,7 @@
 
     End Sub
 
+
     ' SceneData(I).LocIndex is X/Y index on Presets tab WHICH IS SceneControls1.PresetFixture
     ' SceneData(I).PageNo is Page 1/2/3/4/5/6/7/8
     ' SceneIndex is Index in Scene Array
