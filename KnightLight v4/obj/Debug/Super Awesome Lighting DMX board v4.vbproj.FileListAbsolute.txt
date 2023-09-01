@@ -90,7 +90,6 @@ C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
 C:\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbprojAssemblyReference.cache
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
@@ -152,3 +151,18 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting D
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.pdb
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.SuggestedBindingRedirects.cache
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe.config
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.IO.Pipelines.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Memory.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Buffers.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe.config
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.IO.Pipelines.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Memory.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Buffers.dll

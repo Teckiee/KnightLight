@@ -77,6 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Enttec Open DMX.dll</HintPath>
     </Reference>
+    <Reference Include="Haukcode.sACN">
+      <HintPath>..\Haukcode.sACN\src\Haukcode.sACN\bin\Debug\net6.0-windows\Haukcode.sACN.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.WMPLib">
       <HintPath>obj\Debug\Interop.WMPLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -212,6 +215,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SACN Sender.vb" />
     <Compile Include="SceneControl1.Designer.vb">
       <DependentUpon>SceneControl1.vb</DependentUpon>
     </Compile>
@@ -288,6 +292,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="packages\NAudio.Lame.1.1.6\build\NAudio.Lame.targets" Condition="Exists('packages\NAudio.Lame.1.1.6\build\NAudio.Lame.targets')" />

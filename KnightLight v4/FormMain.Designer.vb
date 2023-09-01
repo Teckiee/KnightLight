@@ -91,7 +91,6 @@ Partial Class FormMain
         Me.lblFadeIn = New System.Windows.Forms.Label()
         Me.numFadeOut = New System.Windows.Forms.NumericUpDown()
         Me.lblFadeOut = New System.Windows.Forms.Label()
-        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lstSongEditPresets = New System.Windows.Forms.ListBox()
         Me.cmdEditSongCopyNew = New System.Windows.Forms.Button()
         Me.cmdEditSongSave = New System.Windows.Forms.Button()
@@ -158,6 +157,7 @@ Partial Class FormMain
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
+        Me.chkMusicNextFollows = New System.Windows.Forms.CheckBox()
         Me.lstStartup = New System.Windows.Forms.ListView()
         Me.ColumnHeader32 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader33 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -225,7 +225,7 @@ Partial Class FormMain
         Me.tmrMaster = New System.Windows.Forms.Timer(Me.components)
         Me.cmdColourTest = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.cmdForceUID = New System.Windows.Forms.Button()
         Me.lblAudioActive = New System.Windows.Forms.Label()
         Me.ctxPresetLabelEditChannels = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxPresetRenameScene = New System.Windows.Forms.ToolStripMenuItem()
@@ -239,8 +239,9 @@ Partial Class FormMain
         Me.tmrserial = New System.Windows.Forms.Timer(Me.components)
         Me.tmrAVUCheck = New System.Windows.Forms.Timer(Me.components)
         Me.lblAudio2 = New System.Windows.Forms.Label()
-        Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.barVUmeter = New System.Windows.Forms.VScrollBar()
+        Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
+        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -965,19 +966,6 @@ Partial Class FormMain
         Me.lblFadeOut.TabIndex = 327
         Me.lblFadeOut.Text = "Fade Out:"
         '
-        'vSongEdit
-        '
-        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.vSongEdit.BackColor = System.Drawing.Color.White
-        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
-        Me.vSongEdit.FillColor = System.Drawing.Color.Black
-        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
-        Me.vSongEdit.Maximum = 5000000
-        Me.vSongEdit.Name = "vSongEdit"
-        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
-        Me.vSongEdit.TabIndex = 335
-        '
         'lstSongEditPresets
         '
         Me.lstSongEditPresets.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1643,6 +1631,7 @@ Partial Class FormMain
         '
         'tbpSettings
         '
+        Me.tbpSettings.Controls.Add(Me.chkMusicNextFollows)
         Me.tbpSettings.Controls.Add(Me.lstStartup)
         Me.tbpSettings.Controls.Add(Me.lblSceneBorderColour)
         Me.tbpSettings.Controls.Add(Me.cmdSceneBorderColor)
@@ -1693,6 +1682,18 @@ Partial Class FormMain
         Me.tbpSettings.TabIndex = 4
         Me.tbpSettings.Text = "Settings"
         Me.tbpSettings.UseVisualStyleBackColor = True
+        '
+        'chkMusicNextFollows
+        '
+        Me.chkMusicNextFollows.AutoSize = True
+        Me.chkMusicNextFollows.Checked = True
+        Me.chkMusicNextFollows.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkMusicNextFollows.Location = New System.Drawing.Point(122, 313)
+        Me.chkMusicNextFollows.Name = "chkMusicNextFollows"
+        Me.chkMusicNextFollows.Size = New System.Drawing.Size(166, 17)
+        Me.chkMusicNextFollows.TabIndex = 351
+        Me.chkMusicNextFollows.Text = "Music 2 Follows Music 1 Next"
+        Me.chkMusicNextFollows.UseVisualStyleBackColor = True
         '
         'lstStartup
         '
@@ -2280,15 +2281,15 @@ Partial Class FormMain
         Me.Button5.Text = "Colour Test"
         Me.Button5.UseVisualStyleBackColor = True
         '
-        'Button6
+        'cmdForceUID
         '
-        Me.Button6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button6.Location = New System.Drawing.Point(1838, 920)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(60, 25)
-        Me.Button6.TabIndex = 316
-        Me.Button6.Text = "Serial"
-        Me.Button6.UseVisualStyleBackColor = True
+        Me.cmdForceUID.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdForceUID.Location = New System.Drawing.Point(1838, 920)
+        Me.cmdForceUID.Name = "cmdForceUID"
+        Me.cmdForceUID.Size = New System.Drawing.Size(60, 25)
+        Me.cmdForceUID.TabIndex = 316
+        Me.cmdForceUID.Text = "Serial"
+        Me.cmdForceUID.UseVisualStyleBackColor = True
         '
         'lblAudioActive
         '
@@ -2372,6 +2373,15 @@ Partial Class FormMain
         Me.lblAudio2.TabIndex = 345
         Me.lblAudio2.Text = "Incoming Audio Signal:"
         '
+        'barVUmeter
+        '
+        Me.barVUmeter.Location = New System.Drawing.Point(1846, 413)
+        Me.barVUmeter.Name = "barVUmeter"
+        Me.barVUmeter.Size = New System.Drawing.Size(44, 295)
+        Me.barVUmeter.TabIndex = 346
+        Me.barVUmeter.Value = 100
+        Me.barVUmeter.Visible = False
+        '
         'vsMaster
         '
         Me.vsMaster.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2385,14 +2395,18 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'barVUmeter
+        'vSongEdit
         '
-        Me.barVUmeter.Location = New System.Drawing.Point(1846, 413)
-        Me.barVUmeter.Name = "barVUmeter"
-        Me.barVUmeter.Size = New System.Drawing.Size(44, 295)
-        Me.barVUmeter.TabIndex = 346
-        Me.barVUmeter.Value = 100
-        Me.barVUmeter.Visible = False
+        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.vSongEdit.BackColor = System.Drawing.Color.White
+        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
+        Me.vSongEdit.FillColor = System.Drawing.Color.Black
+        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
+        Me.vSongEdit.Maximum = 5000000
+        Me.vSongEdit.Name = "vSongEdit"
+        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
+        Me.vSongEdit.TabIndex = 335
         '
         'FormMain
         '
@@ -2402,7 +2416,7 @@ Partial Class FormMain
         Me.Controls.Add(Me.barVUmeter)
         Me.Controls.Add(Me.lblAudio2)
         Me.Controls.Add(Me.lblAudioActive)
-        Me.Controls.Add(Me.Button6)
+        Me.Controls.Add(Me.cmdForceUID)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.cmdColourTest)
         Me.Controls.Add(Me.chkAsioMode)
@@ -2582,7 +2596,7 @@ Partial Class FormMain
     Public WithEvents lblSceneLabelColour As Label
     Friend WithEvents cmdColourTest As Button
     Friend WithEvents Button5 As Button
-    Friend WithEvents Button6 As Button
+    Friend WithEvents cmdForceUID As Button
     Friend WithEvents txtSerialIn As TextBox
     Friend WithEvents cmdSerialClear As Button
     Friend WithEvents lblAudioActive As Label
@@ -2662,4 +2676,5 @@ Partial Class FormMain
     Friend WithEvents ColumnHeader33 As ColumnHeader
     Friend WithEvents ColumnHeader34 As ColumnHeader
     Friend WithEvents barVUmeter As VScrollBar
+    Friend WithEvents chkMusicNextFollows As CheckBox
 End Class

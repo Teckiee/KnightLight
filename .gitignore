@@ -10,3 +10,30 @@ KnightLight v4/.vs/Super Awesome Lighting DMX board v4/v16/.suo
 KnightLight v4/bin/Debug/Save Files/Testing7/desktop.ini
 KnightLight v4/bin/Debug/Save Files/Testing7/SC 48 Money for Nothing with intro thunder and wind EP 01112015.mp3
 *.mp3
+Haukcode.sACN/.gitattributes
+Haukcode.sACN/.github/workflows/main.yml
+Haukcode.sACN/example/Haukcode.sACN.ConsoleExample.csproj
+Haukcode.sACN/example/Program.cs
+Haukcode.sACN/Haukcode.sACN.sln
+Haukcode.sACN/README.md
+Haukcode.sACN/src/Haukcode.sACN/BigEndianBinaryReader.cs
+Haukcode.sACN/src/Haukcode.sACN/BigEndianBinaryWriter.cs
+Haukcode.sACN/src/Haukcode.sACN/Haukcode.sACN.csproj
+Haukcode.sACN/src/Haukcode.sACN/Internal/ReceiveDataBase.cs
+Haukcode.sACN/src/Haukcode.sACN/Internal/ReceiveDataPacket.cs
+Haukcode.sACN/src/Haukcode.sACN/Internal/ReceiveDataRaw.cs
+Haukcode.sACN/src/Haukcode.sACN/Internal/SendData.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/DataFramingLayer.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/DMPLayer.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/FramingLayer.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/FramingOptions.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/RootLayer.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/SACNDataPacket.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/SACNPacket.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/SendStatistics.cs
+Haukcode.sACN/src/Haukcode.sACN/Model/SyncFramingLayer.cs
+Haukcode.sACN/src/Haukcode.sACN/SACNClient.cs
+Haukcode.sACN/src/Haukcode.sACN/SACNCommon.cs
+Haukcode.sACN/test/BigEndianBinaryReaderTests.cs
+Haukcode.sACN/test/Haukcode.sACN.UnitTest.csproj
+Haukcode.sACN/test/SACNPacketTests.cs

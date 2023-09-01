@@ -62,9 +62,10 @@ Public Class AudioThread
                         End If
 
                         cmdAudioThread.RemoveAt(0)
-                        If AudioCues(MPCommand(1)).waveOut.PlaybackState = PlaybackState.Stopped Then
-                            AudioCues(MPCommand(1)).asioOutput.Stop()
-                        End If
+                        'If AudioCues(MPCommand(1)).waveOut.PlaybackState = PlaybackState.Stopped Then
+
+                        '    AudioCues(MPCommand(1)).asioOutput.Stop()
+                        'End If
                     Case "Resume"
                         If ASIOMode = True Then
                             'AudioCues(MPCommand(1)).mp3Reader.CurrentTime = AudioCues(MPCommand(1)).SavedTime
@@ -398,6 +399,20 @@ Public Class AudioThread
                 Else
                     Return AudioCues(Qindex).mp3Reader.TotalTime.ToString("mm\:ss")
                 End If
+            End If
+
+        End Get
+
+    End Property
+
+    Public ReadOnly Property TrackStatus(TrackName As String) As String
+
+        Get
+            Dim Qindex As Integer = GetAudioCueIndex(TrackName)
+            If ASIOMode = True Then
+                Return AudioCues(Qindex).asioOutput.PlaybackState
+            Else
+                Return AudioCues(Qindex).waveOut.PlaybackState
             End If
 
         End Get

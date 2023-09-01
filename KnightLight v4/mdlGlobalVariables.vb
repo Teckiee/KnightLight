@@ -1,4 +1,5 @@
 ﻿Imports NAudio.Wave
+
 Module mdlGlobalVariables
     Public frmMain As FormMain
     Public frmTouchPad As FormTouchPad
@@ -10,6 +11,7 @@ Module mdlGlobalVariables
 
     'Public DMX As New Arduino_DMX_USB.Main
     Public ArdDMX As ArduinoDMX
+    Public sACNController As SACN_Sender
 
     'Public WithEvents Player(200) As New WMPLib.WindowsMediaPlayer
     'Public WithEvents Player2 As New WMPLib.WindowsMediaPlayer
@@ -22,6 +24,7 @@ Module mdlGlobalVariables
     Public BankChanged As Boolean = False
     Public SoundActivationCurrentLevel As Integer = 0
     Public closethreads As Boolean = False
+    Public enableUID As Boolean = False
 
     Public SceneData(600) As Scenes1
     Public SceneDataLocations As New Dictionary(Of Integer, SCLocs)

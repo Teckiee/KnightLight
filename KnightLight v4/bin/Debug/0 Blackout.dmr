@@ -36,7 +36,7 @@ ChangeMS|2000
 33|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
 34|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
 35|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
-36|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
+36|v,42|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
 37|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
 38|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False
 39|v,0|TimerEnabled,False|AutoMax,255|AutoMin,0|AutoTimeBetween,0|RandomStart,False

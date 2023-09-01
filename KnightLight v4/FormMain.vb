@@ -111,7 +111,7 @@ Public Class FormMain
                     Arduinos(SerialCount).Serial.WriteTimeout = -1
                     Arduinos(SerialCount).Serial.Open()
                     AddHandler Arduinos(SerialCount).Serial.DataReceived, AddressOf SerialPort_DataReceived
-                    Arduinos(SerialCount).Serial.Write("UID," & Arduinos(SerialCount).PortNo & vbCrLf)
+                    If enableUID Then Arduinos(SerialCount).Serial.Write("UID," & Arduinos(SerialCount).PortNo & vbCrLf)
                     Arduinos(SerialCount).InUse = True
                     'newrow.SubItems.Add("True")
                 Catch
@@ -153,17 +153,29 @@ Public Class FormMain
             Dim a() As String = Split(LineInput(9), "=")
             I = 0
             Do Until I >= Arduinos.Length
-                If Arduinos(I).UID = a(1) Then
-                    GoTo found
-                ElseIf Arduinos(I).HasDevice = False Then
+                If Arduinos(I).HasDevice = False Then
                     GoTo found
                 End If
+                If enableUID Then
+                    If Arduinos(I).UID = a(1) Then
+                        GoTo found
+                    End If
+                Else
+                    If Arduinos(I).PortNo = a(1) Then
+                        GoTo found
+                    End If
+                End If
+
                 I += 1
             Loop
 found:
             If Not I >= Arduinos.Length Then
                 'found a match
-                Arduinos(I).UID = a(1)
+                If enableUID Then
+                    Arduinos(I).UID = a(1)
+                Else
+                    Arduinos(I).PortNo = a(1)
+                End If
                 Select Case a(0)
                     Case ArduinoModes.ctlMusic1
                         Arduinos(I).Job = ArduinoModes.ctlMusic1
@@ -208,7 +220,12 @@ found:
         Dim I As Integer = 0
         Do Until I >= Arduinos.Length
             If Arduinos(I).HasDevice = True Then
-                PrintLine(8, Arduinos(I).Job & "=" & Arduinos(I).UID)
+                If enableUID Then
+                    PrintLine(8, Arduinos(I).Job & "=" & Arduinos(I).UID)
+                Else
+                    PrintLine(8, Arduinos(I).Job & "=" & Arduinos(I).PortNo)
+                End If
+
             End If
             I += 1
         Loop
@@ -331,14 +348,24 @@ found:
                     End If
                     'AudioRun.mPause(songtitle)
                 Case "Stop"
+                    If Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic1 Then
+                        cmdStop_Click(Nothing, Nothing)
+                    ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
+                        cmdStop2_Click(Nothing, Nothing)
+                    End If
                     'AudioRun.mStop(songtitle)
-                    cmdStop_Click(Nothing, Nothing)
                 Case "Back"
                     If Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic1 Then
                         If lstPresetsSongs.SelectedIndex = 0 Then
                             'cmdPlay_Click(Nothing, Nothing)
                         Else
                             lstPresetsSongs.SelectedIndex -= 1
+                            If chkMusicNextFollows.Checked Then
+                                If lstPresetsSongs.SelectedIndex > 0 Then
+
+                                    lstPresetsSongs2.SelectedIndex = lstPresetsSongs.SelectedIndex - 1
+                                End If
+                            End If
                             'cmdPlay_Click(Nothing, Nothing)
                         End If
                     ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
@@ -346,6 +373,7 @@ found:
                             'cmdPlay2_Click(Nothing, Nothing)
                         Else
                             lstPresetsSongs2.SelectedIndex -= 1
+
                             'cmdPlay2_Click(Nothing, Nothing)
                         End If
                     End If
@@ -356,12 +384,19 @@ found:
                             'cmdSkip_Click(Nothing, Nothing)
 
                         Else
-                            If cmdPresetsPlay.Text = "Pause" Then
-                                cmdSkip_Click(Nothing, Nothing)
-                            Else
-                                lstPresetsSongs.SelectedIndex += 1
+                            'If cmdPresetsPlay.Text = "Pause" Then
+                            '    cmdSkip_Click(Nothing, Nothing)
+                            'Else
+                            '    lstPresetsSongs.SelectedIndex += 1
+                            'End If
+                            lstPresetsSongs.SelectedIndex += 1
+                            If chkMusicNextFollows.Checked Then
+                                If lstPresetsSongs.SelectedIndex < lstPresetsSongs2.Items.Count Then
+
+                                    lstPresetsSongs2.SelectedIndex = lstPresetsSongs.SelectedIndex + 1
+                                End If
                             End If
-                            'lstPresetsSongs.SelectedIndex += 1
+
                             'cmdSkip_Click(Nothing, Nothing)
                         End If
                             'cmdSkip_Click(Nothing, Nothing)
@@ -410,9 +445,12 @@ found:
 
         AudioRun = New AudioThread
         StartupProcess("AudioThread")
-        'AudioRun.join()
+
         ArdDMX = New ArduinoDMX
         StartupProcess("ArduinoDMX")
+
+        'sACNController = New SACN_Sender
+        'StartupProcess("SACNstartup")
 
         frmMain = Me
         frmTouchPad = New FormTouchPad
@@ -545,6 +583,11 @@ found:
         lblMaster.ForeColor = lblChannelNumberColour.BackColor
 
         For Each c As Control In tbpMusic.Controls
+            If c.GetType Is GetType(Label) Then
+                c.ForeColor = lblChannelNumberColour.BackColor
+            End If
+        Next
+        For Each c As Control In tbpPresets.Controls
             If c.GetType Is GetType(Label) Then
                 c.ForeColor = lblChannelNumberColour.BackColor
             End If
@@ -697,6 +740,8 @@ found:
                     ResaveOnSceneLoad = Convert.ToBoolean(a(1))
                 Case "AudioLatency"
                     AudioLatency = Val(a(1))
+                Case "MusicNextFollows"
+                    chkMusicNextFollows.Checked = Convert.ToBoolean(a(1))
                 Case "SCSIPaddress"
                     SCSIPaddress = a(1)
                     txtSCSIPaddress.Text = SCSIPaddress
@@ -748,6 +793,7 @@ found:
         PrintLine(1, "SCSPort=" & SCSPort)
         PrintLine(1, "ScenesWithFader=" & bWithFader)
         PrintLine(1, "ASIOMode=" & ASIOMode)
+        PrintLine(1, "MusicNextFollows=" & chkMusicNextFollows.Checked)
 
         FileClose(1)
 
@@ -1224,15 +1270,15 @@ found:
 
 
             AddHandler PresetFaders(I).cSceneControl.vScroll.ValueChanged, AddressOf cPresetFader_Scroll
-                    AddHandler PresetFaders(I).cSceneControl.cTxtVal.TextChanged, AddressOf cPresetTxtVal_TextChanged
-                    AddHandler PresetFaders(I).cSceneControl.cAutoTime.ValueChanged, AddressOf cAutoTime_ValueChanged
-                    AddHandler PresetFaders(I).cSceneControl.cBlackout.Click, AddressOf cPresetBlackout_Click
-                    AddHandler PresetFaders(I).cSceneControl.cFull.Click, AddressOf cPresetFull_Click
-                    AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseMove, AddressOf lblPresetName_MouseMove
-                    AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseUp, AddressOf lblPresetName_MouseUp
+            AddHandler PresetFaders(I).cSceneControl.cTxtVal.TextChanged, AddressOf cPresetTxtVal_TextChanged
+            AddHandler PresetFaders(I).cSceneControl.cAutoTime.ValueChanged, AddressOf cAutoTime_ValueChanged
+            AddHandler PresetFaders(I).cSceneControl.cBlackout.Click, AddressOf cPresetBlackout_Click
+            AddHandler PresetFaders(I).cSceneControl.cFull.Click, AddressOf cPresetFull_Click
+            AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseMove, AddressOf lblPresetName_MouseMove
+            AddHandler PresetFaders(I).cSceneControl.cPresetName.MouseUp, AddressOf lblPresetName_MouseUp
 
 
-                    Try
+            Try
                 tbpPresets.Controls.Add(PresetFaders(I).cSceneControl)
             Catch ex As Exception
 
@@ -1957,7 +2003,12 @@ DoneGeneration:
 
             With SceneData(IemptyScene).ChannelValues(I1)
                 .Automation.tTimer = New Windows.Forms.Timer
-                .Value = 0
+                If I1 = 36 Then
+                    .Value = 42
+                Else
+                    .Value = 0
+                End If
+
                 .Automation.tTimer.Interval = 100
                 .Automation.tTimer.Enabled = False
                 .Automation.tTimer.Tag = IemptyScene & "|" & I1
@@ -2243,6 +2294,7 @@ LoopsDone:
             EnttecOpenDMX.OpenDMX.setDmxValue(Dmxno, Value)
         End If
         ArdDMX.SendData(Univ, Dmxno) = Value
+        'sACNController.SendData(Univ, Dmxno) = Value
 
     End Sub
 #End Region
@@ -3271,6 +3323,29 @@ skipme:
             I += 1
         Loop
 
+        'Stopped = 0
+        'Playing = 1
+        'Paused = 2
+
+        If AudioRun.TrackStatus(songname) = 0 Then
+            'Stopped
+            cmdPresetsPlay.Text = "Play"
+            cmdDramaViewPlay.Text = "Play"
+            cmdEditPlay.Text = "Play"
+            cmdMusicPlay.Text = "Play"
+        ElseIf AudioRun.TrackStatus(songname) = 1 Then
+            'Stopped
+            cmdPresetsPlay.Text = "Pause"
+            cmdDramaViewPlay.Text = "Pause"
+            cmdEditPlay.Text = "Pause"
+            cmdMusicPlay.Text = "Pause"
+        ElseIf AudioRun.TrackStatus(songname) = 2 Then
+            'Stopped
+            cmdPresetsPlay.Text = "Resume"
+            cmdDramaViewPlay.Text = "Resume"
+            cmdEditPlay.Text = "Resume"
+            cmdMusicPlay.Text = "Resume"
+        End If
 
         'AfterChgFile:
 
@@ -3310,6 +3385,27 @@ skipme:
             lstDramaViewSongChanges2.Items.Add(newrow.Clone)
             I += 1
         Loop
+
+        'Stopped = 0
+        'Playing = 1
+        'Paused = 2
+
+        If AudioRun.TrackStatus(songname) = 0 Then
+            'Stopped
+            cmdPresetsPlay2.Text = "Play"
+            cmdDramaViewPlay2.Text = "Play"
+            cmdMusicPlay2.Text = "Play"
+        ElseIf AudioRun.TrackStatus(songname) = 1 Then
+            'Stopped
+            cmdPresetsPlay2.Text = "Pause"
+            cmdDramaViewPlay2.Text = "Pause"
+            cmdMusicPlay2.Text = "Pause"
+        ElseIf AudioRun.TrackStatus(songname) = 2 Then
+            'Stopped
+            cmdPresetsPlay2.Text = "Resume"
+            cmdDramaViewPlay2.Text = "Resume"
+            cmdMusicPlay2.Text = "Resume"
+        End If
 
 
         'AfterChgFile:
@@ -3379,7 +3475,7 @@ skipme:
         lstSongs2_Changed(lstMusicSongs2.SelectedItem)
         OtherIndexChanged2 = False
     End Sub
-    Private Sub lstPresetsSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstDramaViewSongs2.SelectedIndexChanged
+    Private Sub lstPresetsSongs2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstPresetsSongs2.SelectedIndexChanged
         If sender.SelectedIndex = -1 Then Exit Sub
         If OtherIndexChanged2 = True Then Exit Sub
         OtherIndexChanged2 = True
@@ -4270,7 +4366,7 @@ skipme:
         SetupSerialConnections()
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles cmdForceUID.Click
         Arduinos(0).Serial.Write("UID," & Arduinos(0).PortNo & vbCrLf)
     End Sub
 
@@ -4470,6 +4566,8 @@ skipme:
         RenamePresetFaderControls()
 
     End Sub
+
+
 
     'Private Sub lstASIOInterfaces_Changed()
     '    ' If formopened = False Then Exit Sub
