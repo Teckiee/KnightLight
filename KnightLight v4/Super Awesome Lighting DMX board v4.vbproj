@@ -183,12 +183,6 @@
       <DependentUpon>FormMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTouchPad.Designer.vb">
-      <DependentUpon>FormTouchPad.vb</DependentUpon>
-    </Compile>
-    <Compile Include="FormTouchPad.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GScrollBar.designer.vb">
       <DependentUpon>GScrollBar.vb</DependentUpon>
     </Compile>
@@ -247,9 +241,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormTouchPad.resx">
-      <DependentUpon>FormTouchPad.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GScrollBar.resx">
       <DependentUpon>GScrollBar.vb</DependentUpon>

@@ -20,16 +20,7 @@
         'Sets the location of the form w.r.t the position
         'formRegion = New Rectangle(0, 0, 292 + 4, SizeHeight + 4) 'Here 653 and 408 is form's Size
     End Sub
-    Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) ' Handles MyBase.Paint
 
-        'Draws the border.
-
-        'ControlPaint.DrawBorder(e.Graphics, formRegion, borderColor,
-        '    borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
-        '    ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
-        '    borderColor, borderWidth, ButtonBorderStyle.Solid)
-
-    End Sub
 
 
     ' SceneData(I).LocIndex is X/Y index on Presets tab WHICH IS SceneControls1.PresetFixture

@@ -101,7 +101,6 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
@@ -141,7 +140,6 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_D
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormColourPicker.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormMain.resources
-D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormTouchPad.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.GScrollBar.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.Resources.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
@@ -151,18 +149,10 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting D
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.dll
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.pdb
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.SuggestedBindingRedirects.cache
-D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe.config
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.dll
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.IO.Pipelines.dll
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Memory.dll
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Buffers.dll
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Kadmium-sACN.pdb
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe.config
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.IO.Pipelines.dll
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Memory.dll
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Buffers.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.SuggestedBindingRedirects.cache
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.pdb

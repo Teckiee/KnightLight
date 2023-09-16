@@ -1,0 +1,10 @@
+Channels=9
+X|Pan,0-255
+X|PnSpd,0-255|Pan Speed
+X|Tilt,0-255
+X|TltSpd,0-255|Tilt Speed
+D|Dmr,0-255|Dimmer
+X|3kwhite,0-255|3000K - Warm White
+X|6kwhite,0-255|6000K - Cool White
+X|Zoom,0-255
+X|Strb,0-255|Strobe Speed

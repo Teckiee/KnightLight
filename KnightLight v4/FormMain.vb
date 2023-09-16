@@ -6,6 +6,8 @@ Imports System.Threading
 Imports System.Runtime.InteropServices
 Imports System.ComponentModel
 Imports System.Management
+Imports Super_Awesome_Lighting_DMX_board_v4.mdlGlobalVariables
+Imports NAudio.SoundFont
 'Imports Arduino_DMX_USB.Main
 
 Public Class FormMain
@@ -41,31 +43,11 @@ Public Class FormMain
     Dim Averaging(20) As Integer
     Dim AvgUpTo As Integer = 0
 
-    'Dim vscrDiffX As Integer = 119
-    'Dim vscrDiffY As Integer = 0
-    'Dim txtDiffX As Integer = 119 '364
-    'Dim txtDiffY As Integer = 0
-    'Dim numChangeMSDiffX As Integer = 119
-    'Dim numChangeMSDiffY As Integer = 21
-    'Dim cmdBlackoutDiffX As Integer = 231
-    'Dim cmdBlackoutDiffY As Integer = 0
-    'Dim cmdFullDiffX As Integer = 170
-    'Dim cmdFullDiffY As Integer = 0
-
     Dim PresetsPerColumn As Integer = 0
     Dim PresetsPerRow As Integer = 0
 
     Dim PresetVisualUpdate As Boolean = False
     Dim RenamePresetFaderOk As Boolean = False
-
-    'Dim txtDiffX As Integer = 119
-    'Dim txtDiffY As Integer = 0
-    'Dim numChangeMSDiffX As Integer = 119
-    'Dim numChangeMSDiffY As Integer = 21
-    'Dim cmdBlackoutDiffX As Integer = 231
-    'Dim cmdBlackoutDiffY As Integer = 0
-    'Dim cmdFullDiffX As Integer = 170
-    'Dim cmdFullDiffY As Integer = 0
 
     Dim HoldLeft, HoldTop As Integer
     Dim TopSet, LeftSet As Boolean
@@ -399,8 +381,8 @@ found:
 
                             'cmdSkip_Click(Nothing, Nothing)
                         End If
-                            'cmdSkip_Click(Nothing, Nothing)
-                        ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
+                        'cmdSkip_Click(Nothing, Nothing)
+                    ElseIf Arduinos(mymsg.arduinoindex).Job = ArduinoModes.ctlMusic2 Then
                         'lstPresetsSongs2.SelectedIndex += 1
                         If lstPresetsSongs2.SelectedIndex = lstPresetsSongs2.Items.Count Then
                             'cmdSkip2_Click(Nothing, Nothing)
@@ -453,12 +435,13 @@ found:
         'StartupProcess("SACNstartup")
 
         frmMain = Me
-        frmTouchPad = New FormTouchPad
+        'frmTouchPad = New FormTouchPad
         Dim iDim As Integer = 0
         Do Until iDim >= frmDimmerAutomation.Length
-            frmDimmerAutomation(iDim) = New FormDimmerAutomation
-            frmDimmerAutomation(iDim).Icon = frmMain.Icon
-            frmDimmerAutomation(iDim).BackColor = Color.Black
+            frmDimmerAutomation(iDim) = New FormDimmerAutomation With {
+                .Icon = frmMain.Icon,
+                .BackColor = Color.Black
+            }
             iDim += 1
         Loop
         StartupProcess("frmDimmerAutomation")
@@ -467,7 +450,7 @@ found:
         frmChannels = New FormChannels
         frmChannels.Show()
         frmChannels.SendToBack()
-        frmTouchPad.Icon = frmMain.Icon
+        'frmTouchPad.Icon = frmMain.Icon
         StartupProcess("frmChannels")
 
 
@@ -503,7 +486,7 @@ found:
                 Else
                     Testmode = True
                 End If
-                'Unable to load DLL 'FTD2XX.dll': The specified module could not be found. (Exception from HRESULT: 0x8007007E)
+
             End Try
 
 
@@ -511,7 +494,7 @@ found:
         'tbpPresetsControls = tbpPresets.Controls
         ' frmChannelsControls = frmChannels.Controls
 
-        LoadBanksFromFile()
+        LoadBankTextToListBox()
         StartupProcess("LoadBanks")
 
         LoadSettingsFromFile()
@@ -526,19 +509,22 @@ found:
         LoadFixtureInformation()
         StartupProcess("LoadFixtures")
 
+        GeneratePresetFormControls() 'Run Only on Startup or Location Reset
+
         LoadScenesFromFile()
         StartupProcess("LoadScenes")
 
         RenamePresetFaderOk = True
 
-        GeneratePresetFormControls()
+
+        'RenamePresetFaderControls() ' Replacing With UpdatePresetControls
+        ResetAllPresetControls()
         StartupProcess("GeneratePresetFormControls")
 
 
         frmChannels.GenerateChannelFormControls()
-        'StartupProcess("frmChannels.GenerateChannelFormControls")
 
-        LoadMusicTracks()
+        LoadMusicTracks() 'Needs rewrite
         StartupProcess("LoadMusicTracks")
 
         'If ASIOMode = True Then
@@ -548,11 +534,10 @@ found:
         SetupThreads()
         StartupProcess("SetupThreads")
 
-        'For Each c As Windows.Forms.Control In tbpPresetsControls
-        '    tbpPresets.Controls.Add(c)
-        'Next
 
 
+
+        ' -------------------------------------------- Start Colouring
         Dim thread As New Thread(
             Sub()
                 For Each c As System.Windows.Forms.Control In Me.Controls
@@ -607,12 +592,9 @@ found:
             End If
         Next
         StartupProcess("Colouring")
+        ' -------------------------------------------- End Colouring
 
-        'frmChannels.BackColor = Color.Black
-        'tbpPresets.BackColor = Color.Black
-        'tbpSettings.BackColor = Color.Black
-        'tbpMusic.BackColor = Color.Black
-        'tbpDramaChanges.BackColor = Color.Black
+
         ChannelFaderPageCurrentSceneDataIndex = 1
         formopened = True
         Dim iStart As Integer = 1
@@ -798,36 +780,26 @@ found:
         FileClose(1)
 
     End Sub
-    'Private Sub Form1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles tbpPresets.Paint
 
-    '    'Draws the border.
-    '    Dim I As Integer = 1
-    '    Do Until I >= PresetFaders.Count
-    '        If Not PresetFaders(I).cSceneControl Is Nothing Then
+    Private Sub LoadBankTextToListBox(Optional ByVal selectitem As String = "")
 
-    '            ControlPaint.DrawBorder(e.Graphics, PresetFaders(I).border, borderColor,
-    '            borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
-    '            ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
-    '            borderColor, borderWidth, ButtonBorderStyle.Solid)
+        'Dim oldItem As String = lstBanks.SelectedItem
 
-
-    '        End If
-
-    '        I += 1
-    '    Loop
-
-
-    'End Sub
-    Private Sub LoadBanksFromFile()
         lstBanks.Items.Clear()
+        Dim I As Integer = 0
 
         For Each S As String In Directory.GetDirectories(Application.StartupPath & "\Save Files\")
             Dim a() As String = Split(S, "\")
             lstBanks.Items.Add(a(a.Length - 1))
+            If Not selectitem = "" And a(a.Length - 1) = selectitem Then
+                lstBanks.SelectedItem = selectitem
+            End If
         Next S
-        Application.DoEvents()
+        'Application.DoEvents()
     End Sub
-    Private Sub LoadScenesFromFile()
+    Private Sub LoadScenesFromFile(Optional ByVal LoadName As String = "", Optional ByVal LoadIndex As Integer = 0)
+
+        ' Loads only on Bank change and new opening
 
         lstDramaPresets.Items.Clear()
         lstSongEditPresets.Items.Clear()
@@ -839,30 +811,23 @@ found:
         Do Until I >= SceneData.Length
             ReDim SceneData(I).ChannelValues(2048)
             ' SET DEFAULTS
-            SceneData(I).Automation.tTimer = New Windows.Forms.Timer
-            SceneData(I).Automation.tTimer.Interval = 100
-            SceneData(I).Automation.tTimer.Tag = I
+            SceneData(I).Automation.tTimer = New Windows.Forms.Timer With {
+                .Interval = 100,
+                .Tag = I
+            }
+            SceneData(I).Automation.tmrDirection = ""
             AddHandler SceneData(I).Automation.tTimer.Tick, AddressOf tmrPreset_Tick
-            'lstDramaPresets.Items.Add(SceneData(I).SceneName)
-            'cmbChannelPresetSelection.Items.Add(I & " | " & SceneData(I).SceneName)
+
 
 
             If I <= PresetsInBank.Length Then    '---------- IS A SAVE FILE ----------------
                 Dim a1() As String = Split(PresetsInBank(I - 1), "\")
-                SceneData(I).SceneName = Mid(a1(a1.Length - 1), 1, a1(a1.Length - 1).Length - 4)
-                lstDramaPresets.Items.Add(SceneData(I).SceneName)
-                lstSongEditPresets.Items.Add(SceneData(I).SceneName)
+                Dim NewSceneName As String = Mid(a1(a1.Length - 1), 1, a1(a1.Length - 1).Length - 4)
 
-                frmChannels.cmbChannelPresetSelection.Items.Add(SceneData(I).SceneName)
+                Dim NewIndex As Integer = CreateNewScene(NewSceneName) '---------- New important bit ----------------
 
-                SceneData(I).Automation.Max = 100 ' Set Default
-                SceneData(I).Automation.Min = 0 ' Set Default
-                SceneData(I).Automation.TimeBetweenMinAndMax = 0 ' Set Default
-                SceneData(I).MasterValue = 0 ' Set Default
-                SceneData(I).LocIndex = -1 ' Set Default
-                SceneData(I).PageNo = -1 ' Set Default
 
-                FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & SceneData(I).SceneName & ".dmr", OpenMode.Input)
+                FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & NewSceneName & ".dmr", OpenMode.Input)
                 Do Until EOF(1)
                     Dim a() As String = Split(LineInput(1), "|")
                     Select Case a(0)
@@ -871,27 +836,17 @@ found:
                         Case "M"
 
                         Case "LocIndex"
-                            SceneData(I).LocIndex = Val(a(1))
+                            SceneData(NewIndex).LocIndex = Val(a(1))
                         Case "PageNo"
-                            SceneData(I).PageNo = Val(a(1))
+                            SceneData(NewIndex).PageNo = Val(a(1))
                             Dim newLoc As SCLocs
-                            newLoc.PageNo = SceneData(I).PageNo
-                            newLoc.PresetIndex = SceneData(I).LocIndex
-                            SceneDataLocations.Add(I, newLoc)
+                            newLoc.PageNo = SceneData(NewIndex).PageNo
+                            newLoc.PresetIndex = SceneData(NewIndex).LocIndex
+                            SceneDataLocations.Add(NewIndex, newLoc)
                         Case "ChangeMS"
                             SceneData(I).Automation.TimeBetweenMinAndMax = a(1)
                         Case Is > 0
-                            With SceneData(I).ChannelValues(a(0))
-                                .Automation.tTimer = New Windows.Forms.Timer
-                                .Automation.tTimer.Interval = 100 ' Set Default
-                                .Automation.tTimer.Tag = I & "|" & a(0)
-                                .Automation.RunTimer = False
-                                .Automation.ProgressInOrder = True
-                                .Automation.ProgressLoop = True
-                                .Automation.ProgressRandomTimed = False
-                                .Automation.ProgressSoundActivated = False
-                                .Automation.SoundActivationThreshold = 500
-                                .Automation.ProgressList = New List(Of Integer)
+                            With SceneData(NewIndex).ChannelValues(a(0))
 
 
                                 For Each s As String In a
@@ -933,77 +888,25 @@ found:
 
                                     End Select
                                 Next s
-                                '.Automation.tTimer.Enabled = .Automation.RunTimer
 
-                                AddHandler .Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-                                '.Automation.IntervalSteps = (.Automation.Max - .Automation.Min) / (.Automation.TimeBetweenMinAndMax / 10)
                             End With
 
                     End Select
 
 
                 Loop
-                Dim I2 As Integer = 1
-                Do Until I2 >= SceneData(I).ChannelValues.Length
-                    If SceneData(I).ChannelValues(I2).Automation.tTimer Is Nothing Then
-                        SceneData(I).ChannelValues(I2).Automation.tTimer = New Windows.Forms.Timer
-                        SceneData(I).ChannelValues(I2).Automation.tTimer.Tag = I & "|" & I2
-                        AddHandler SceneData(I).ChannelValues(I2).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-                    End If
-                    I2 += 1
-                Loop
-                FileClose(1)
-
-            Else '---------- IS NO SAVE FILE ----------------
-
-                'SceneData(I).SceneName = " "
-                ''lstDramaPresets.Items.Add(SceneData(I).SceneName)
-                'frmChannels.cmbChannelPresetSelection.Items.Add(SceneData(I).SceneName)
-
-                'Dim I1 As Integer = 1
-
-                'SceneData(I).MasterValue = 0 ' Set Default
-                'SceneData(I).Automation.TimeBetweenMinAndMax = 1000 ' Set Default
-                'SceneData(I).Automation.Max = 100 ' Set Default
-                'SceneData(I).Automation.Min = 0 ' Set Default
-                'SceneData(I).LocIndex = -1 ' Set Default
-                'SceneData(I).PageNo = -1 ' Set Default
-
-                'Do Until I1 >= ChannelFaders.Count
-
-                '    With SceneData(I).ChannelValues(I1)
-                '        .Automation.tTimer = New Windows.Forms.Timer
-                '        .Value = 0
-                '        .Automation.tTimer.Interval = 100
-                '        .Automation.tTimer.Enabled = False
-                '        .Automation.tTimer.Tag = I & "|" & I1
-                '        .Automation.ProgressInOrder = False
-                '        .Automation.ProgressLoop = False
-                '        .Automation.ProgressRandomTimed = False
-                '        .Automation.ProgressSoundActivated = False
-                '    End With
-                '    AddHandler SceneData(I).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-                '    I1 += 1
+                'Dim I2 As Integer = 1
+                'Do Until I2 >= SceneData(I).ChannelValues.Length
+                '    If SceneData(I).ChannelValues(I2).Automation.tTimer Is Nothing Then
+                '        SceneData(I).ChannelValues(I2).Automation.tTimer = New Windows.Forms.Timer
+                '        SceneData(I).ChannelValues(I2).Automation.tTimer.Tag = I & "|" & I2
+                '        AddHandler SceneData(I).ChannelValues(I2).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+                '    End If
+                '    I2 += 1
                 'Loop
-
+                FileClose(1)
+                UpdatePresetControls(NewIndex)
             End If
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             I += 1
         Loop
@@ -1012,69 +915,15 @@ found:
 
         If frmChannels.cmbChannelPresetSelection.SelectedIndex = -1 Then frmChannels.cmbChannelPresetSelection.SelectedIndex = 0
 
-
-
-        'Dim I As Integer = 1
-        'Do Until I >= PresetControls.Length
-        '    If PresetControls(I).PresetName = "" Then Exit Do
-
-        '    FileOpen(1, Application.StartupPath & "\Save Files\" & cmbBank.SelectedItem & "\" & PresetControls(I).PresetName & ".dmr", OpenMode.Input)
-        '    Do Until EOF(1)
-        '        Dim a() As String = Split(LineInput(1), "|")
-        '        Select Case a(0)
-        '            Case "M"
-        '                a(0) = "P"
-        '            Case "P"
-        '                a(1) = 0 'sets preset starting value to 0 because whats the point of something going up on bank change?
-        '                PresetControls(I).vScroll.Value = a(1)
-        '                PresetControls(I).vtxtBox.Text = a(1)
-        '                If a(1) > 0 Then
-        '                    PresetControls(I).cmdTouchbutton.BackColor = Color.Red
-        '                End If
-        '            Case "ChangeMS"
-        '                PresetControls(I).Automation.numChangeMS.Value = a(1)
-        '            Case Is > 0
-        '                With PresetControls(I).Dmrs(a(0))
-        '                    For Each s As String In a
-        '                        Dim b() As String = Split(s, ",")
-        '                        Select Case b(0)
-        '                            Case "v"
-        '                                '.vScroll.Value = b(1)
-        '                                .vtxtBox.Text = b(1)
-        '                            Case "tmr"
-        '                                .Automation.tTimer.Interval = b(1)
-        '                            Case "timerenabled"
-        '                                .Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
-        '                            Case "AutoMax"
-        '                                .Automation.Max = b(1)
-        '                            Case "AutoMin"
-        '                                .Automation.Min = b(1)
-        '                            Case "AutoTimeBetween"
-        '                                .Automation.Timebetween = b(1)
-        '                            Case "RandomStart"
-        '                                .Automation.randomstart = Convert.ToBoolean(b(1))
-        '                        End Select
-        '                    Next s
-        '                End With
-
-        '        End Select
-
-        '    Loop
-
-        '    FileClose(1)
-
-        '    I += 1
-        'Loop
-
-        'Try
-        '    FileClose(1)
-        'Catch ex As Exception
-
-        'End Try
     End Sub
 
     Private Sub cmdReloadPresetLocations_Click(sender As Object, e As EventArgs) Handles cmdReloadPresetLocations.Click
         GeneratePresetFormControls()
+
+        ResetAllPresetControls()
+
+        'RenamePresetFaderControls()
+
     End Sub
     Private Sub SetupThreads()
 
@@ -1098,10 +947,14 @@ found:
     End Sub
 
     Sub GeneratePresetFormControls()
+        'Run Only on Startup or Location Reset
+
+
         tbpPresets.Controls.Clear()
         PresetsPerColumn = 0
         PresetsPerRow = 0
 
+        ' Full graphical reset
 
         For Each c As Windows.Forms.Control In tbpPresetsControls
             tbpPresets.Controls.Add(c)
@@ -1112,7 +965,6 @@ found:
 
         Dim RunningColumnNum As Integer = 1
 
-        Dim I As Integer = 1
 
         Dim PresetModifier As Integer = 0
         If cmdPresetP1.BackColor = Color.Red Then PresetModifier = 0
@@ -1122,6 +974,9 @@ found:
         If cmdPresetP5.BackColor = Color.Red Then PresetModifier = PresetFadersTotal * 4
         If cmdPresetP6.BackColor = Color.Red Then PresetModifier = PresetFadersTotal * 5
 
+
+
+        Dim I As Integer = 1
         Do Until I > PresetFaders.Count - 1
             PresetFaders(I).cSceneControl = New SceneControl1
             'If I <= 12 Then
@@ -1143,7 +998,7 @@ found:
 
             '(StartX + XUpTo, StartY + YUpTo)
             With PresetFaders(I).cSceneControl
-                .SceneIndex = I + PresetModifier
+                .SceneIndex = -1
                 .PresetFixture = I
                 .WithFader = bWithFader
 
@@ -1157,116 +1012,30 @@ found:
 
 
                 .cAutoTime.ForeColor = lblSceneLabelColour.BackColor
-                '.cAutoTime.T1ag = I + PresetModifier
                 .cAutoTime.Maximum = 100000
                 .cAutoTime.Minimum = 0
-                .cAutoTime.Value = 2000
+                .cAutoTime.Value = 800
 
                 .cBlackout.BackColor = lblSceneBlackoutColour.BackColor
                 .cBlackout.ForeColor = lblSceneLabelColour.BackColor
-                '.cBlackout.T1ag = I + PresetModifier
 
                 .cFull.BackColor = Color.Black
                 .cFull.ForeColor = lblSceneLabelColour.BackColor
-                '.cFull.T1ag = I + PresetModifier
 
                 .cPresetName.Text = SceneData(I).SceneName
-                '.cPresetName.BackColor = Color.Black
                 .cPresetName.ForeColor = lblSceneLabelColour.BackColor
-                '.cPresetName.T1ag = I + PresetModifier
                 .cPresetName.ContextMenuStrip = ctxPresetLabelActions
 
                 .cTxtVal.BackColor = Color.Black
                 .cTxtVal.ForeColor = lblSceneLabelColour.BackColor
                 .cTxtVal.Text = "0"
-                '.cTxtVal.T1ag = I + PresetModifier
 
             End With
-
-            'PresetFaders(I).cAutoTime = New Windows.Forms.NumericUpDown
-            'With PresetFaders(I).cAutoTime
-            '    .Size = New Point(50, 23)
-            '    .Name = "prsnumAutoTime" & (I + PresetModifier)
-            '    .BackColor = Color.Black
-            '    .ForeColor = lblSceneLabelColour.BackColor
-            '    .T1ag = I + PresetModifier
-            '    .Maximum = 100000
-            '    .Minimum = 0
-            '    .Value = 2000
-            'End With
-
-            'PresetFaders(I).cBlackout = New Button
-            'With PresetFaders(I).cBlackout
-            '    .Size = New Point(60, 42) '(60, 22)
-            '    .Text = "Blackout"
-            '    .Name = "prscmdBlackout" & (I + PresetModifier)
-            '    '.BackColor = controlcolour
-            '    .BackColor = lblSceneBlackoutColour.BackColor
-            '    .ForeColor = lblSceneLabelColour.BackColor
-            '    .FlatStyle = FlatStyle.Flat
-            '    .T1ag = I + PresetModifier
-            'End With
-
-            'PresetFaders(I).cFull = New Button
-            'With PresetFaders(I).cFull
-            '    .Size = New Point(60, 42) '(60, 22)
-            '    .Text = "Full"
-            '    .Name = "prscmdFull" & (I + PresetModifier)
-            '    '.BackColor = controlcolour
-            '    .BackColor = Color.Black
-            '    .ForeColor = lblSceneLabelColour.BackColor
-            '    .FlatStyle = FlatStyle.Flat
-            '    .T1ag = I + PresetModifier
-            'End With
-
-            'PresetFaders(I).cPresetName = New Label
-            'With PresetFaders(I).cPresetName
-            '    .Size = New Point(113, 42)
-            '    .Text = SceneData(I).SceneName
-            '    .Name = "prslbl" & (I + PresetModifier)
-            '    .BackColor = Color.Black
-            '    .ForeColor = lblSceneLabelColour.BackColor
-            '    .BorderStyle = BorderStyle.FixedSingle
-            '    .T1ag = I + PresetModifier
-            '    .ContextMenuStrip = ctxPresetLabelActions
-            'End With
-
-            'PresetFaders(I).cFader = New GScrollBar
-            'With PresetFaders(I).cFader
-            '    '.LargeChange = 1
-            '    .Orientation = GControlOrientation.Horizontal
-            '    .BackColor = lblSceneBackColour.BackColor
-            '    .FillColor = lblSceneFillColour.BackColor
-            '    .BulletColor = lblSceneBulletColour.BackColor
-            '    .Maximum = 100
-            '    .Value = 0
-            '    .Size = New System.Drawing.Size(239, 42)
-            '    .Name = "prsvScroll" & (I + PresetModifier)
-            '    .T1ag = I + PresetModifier
-            'End With
-
-            'PresetFaders(I).cTxtVal = New TextBox
-            'With PresetFaders(I).cTxtVal
-            '    .Size = New Point(50, 23)
-            '    .BackColor = Color.Black
-            '    .ForeColor = lblSceneLabelColour.BackColor
-            '    .Text = "0"
-            '    .Name = "prsvtxt" & (I + PresetModifier)
-            '    .T1ag = I + PresetModifier
-            'End With
 
 
             PresetFaders(I).cSceneControl.Location = New Point(StartX + XUpTo, StartY + YUpTo)
             PresetFaders(I).OrigLeft = StartX + XUpTo
             PresetFaders(I).OrigTop = StartY + YUpTo
-
-            'PresetFaders(I).cPresetName.Location = New Point(StartX + XUpTo, StartY + YUpTo)
-            'PresetFaders(I).cFader.Location = New Point(StartX + XUpTo + vscrDiffX, StartY + YUpTo + vscrDiffY)
-            'PresetFaders(I).cTxtVal.Location = New Point(StartX + XUpTo + txtDiffX, StartY + YUpTo + txtDiffY)
-            'PresetFaders(I).cAutoTime.Location = New Point(StartX + XUpTo + numChangeMSDiffX, StartY + YUpTo + numChangeMSDiffY)
-            'PresetFaders(I).cBlackout.Location = New Point(StartX + XUpTo + cmdBlackoutDiffX, StartY + YUpTo + cmdBlackoutDiffY)
-            'PresetFaders(I).cFull.Location = New Point(StartX + XUpTo + cmdFullDiffX, StartY + YUpTo + cmdFullDiffY)
-
 
 
             AddHandler PresetFaders(I).cSceneControl.vScroll.ValueChanged, AddressOf cPresetFader_Scroll
@@ -1285,16 +1054,6 @@ found:
             End Try
 
 
-            'tbpPresets.Controls.Add(PresetFaders(I).cPresetName)
-            'tbpPresets.Controls.Add(PresetFaders(I).cFader)
-            'tbpPresets.Controls.Add(PresetFaders(I).cTxtVal)
-            'tbpPresets.Controls.Add(PresetFaders(I).cAutoTime)
-            'tbpPresets.Controls.Add(PresetFaders(I).cBlackout)
-            'tbpPresets.Controls.Add(PresetFaders(I).cFull)
-
-
-
-
             YUpTo += IntervalY
 
             If StartY + YUpTo + PresetFaders(I).cSceneControl.Size.Height >= lstPresetsSongs.Location.Y Then
@@ -1310,8 +1069,6 @@ found:
             End If
 
 
-
-
             I += 1
         Loop
 
@@ -1320,190 +1077,9 @@ found:
 DoneGeneration:
         'PresetsPerRow = I / PresetsPerColumn
         PresetFadersTotal = I
-        RenamePresetFaderControls()
+
 
     End Sub
-
-    Private Sub RenamePresetFaderControls()
-        If RenamePresetFaderOk = False Then Exit Sub
-        PagingChanged = True
-        'Dim sw As New Stopwatch
-        'sw.Start()
-        Dim resetI As Integer = 1
-        Dim CurrentPageNo As Integer = 1
-        Do Until resetI > PresetFadersTotal 'clears presetfaders
-            PresetFaders(resetI).cSceneControl.SceneIndex = -1
-            'PresetFaders(resetI).cSceneControl.PresetFixture = -1
-            PresetFaders(resetI).cSceneControl.cPresetName.Text = ""
-
-            'PresetFaders(resetI).cSceneControl.cBlackout.BackColor = lblSceneBlackoutColour.BackColor
-            'PresetFaders(resetI).cSceneControl.cFull.BackColor = Color.Black
-            resetI += 1
-        Loop
-
-        If cmdPresetP1.BackColor = Color.Red Then
-            CurrentPageNo = 1
-            PresetFaderControlModifier = 0
-        End If
-        If cmdPresetP2.BackColor = Color.Red Then
-            CurrentPageNo = 2
-            PresetFaderControlModifier = PresetFadersTotal
-        End If
-        If cmdPresetP3.BackColor = Color.Red Then
-            CurrentPageNo = 3
-            PresetFaderControlModifier = PresetFadersTotal * 2
-        End If
-        If cmdPresetP4.BackColor = Color.Red Then
-            CurrentPageNo = 4
-            PresetFaderControlModifier = PresetFadersTotal * 3
-        End If
-        If cmdPresetP5.BackColor = Color.Red Then
-            CurrentPageNo = 5
-            PresetFaderControlModifier = PresetFadersTotal * 4
-        End If
-        If cmdPresetP6.BackColor = Color.Red Then
-            CurrentPageNo = 6
-            PresetFaderControlModifier = PresetFadersTotal * 5
-        End If
-
-        Dim SceneI As Integer = 1
-
-        ' Loop where PageNo is set
-        Do Until SceneI >= SceneData.Length
-            If SceneData(SceneI).PageNo = CurrentPageNo Then
-                If SceneData(SceneI).LocIndex > -1 Then
-                    If SceneData(SceneI).LocIndex > PresetFadersTotal Then
-                        ' Has page set to this page, but would appear offscreen
-                        ' reset location
-                        SceneData(SceneI).LocIndex = -1
-                        SceneData(SceneI).PageNo = -1
-                    Else
-                        With PresetFaders(SceneData(SceneI).LocIndex).cSceneControl
-                            'PresetFaders(SceneData(SceneI)).border = New Rectangle(StartX + XUpTo - 1, StartY + YUpTo - 1, 292 + 2, SceneControlHeight + 2)
-
-                            If .SceneIndex = -1 Then
-                                'Preset is empty and available for a Scene
-                                '.PresetFixture = SceneData(SceneI).LocIndex
-                                .SceneIndex = SceneI
-
-                                .cAutoTime.Value = SceneData(SceneI).Automation.TimeBetweenMinAndMax
-                                .cPresetName.Text = SceneData(SceneI).SceneName
-                                .cTxtVal.Text = SceneData(SceneI).MasterValue
-
-                            Else
-                                ' Preset Location was already taken. Set attempted Scene to Locationless -1
-                                SceneData(SceneI).LocIndex = -1
-                                If ResaveOnSceneLoad = True Then
-                                    SaveScene(SceneData(SceneI).SceneName)
-                                End If
-                            End If
-
-                        End With
-                    End If
-
-                End If
-            End If
-            UpdatePresetControls(SceneI)
-            SceneI += 1
-        Loop
-
-
-        SceneI = 1
-        'remaining undefined
-        Do Until SceneI >= SceneData.Length
-            Dim PresetI As Integer = 0
-            If SceneData(SceneI).PageNo = -1 Or (SceneData(SceneI).PageNo = CurrentPageNo And SceneData(SceneI).LocIndex = -1) Then
-                'If PresetFaders(PresetI).cSceneControl Is Nothing Then Exit Do
-
-                PresetI = SetupNewSceneLocation(SceneI)
-
-            End If
-
-            SceneI += 1
-            If PresetI > PresetFaders.Length Then
-                SceneI = PresetFadersTotal + 5
-            End If
-        Loop
-        resetI = 1
-        Do Until resetI > PresetFadersTotal
-
-            If PresetFaders(resetI).cSceneControl.SceneIndex = -1 And PresetFaders(resetI).cSceneControl.cPresetName.Text = "" Then
-
-                PresetFaders(resetI).cSceneControl.cBlackout.BackColor = lblSceneBlackoutColour.BackColor
-                PresetFaders(resetI).cSceneControl.cFull.BackColor = Color.Black
-                PresetFaders(resetI).cSceneControl.cTxtVal.Text = 0
-                PresetFaders(resetI).cSceneControl.vScroll.Value = 0
-            End If
-
-            resetI += 1
-        Loop
-
-        'MsgBox(sw.Elapsed.ToString)
-        'sw.Stop()
-        PagingChanged = False
-    End Sub
-
-    Function SetupNewSceneLocation(ByVal SceneI As Integer)
-        Dim CurrentPageNo As Integer = 1
-        If cmdPresetP1.BackColor = Color.Red Then
-            CurrentPageNo = 1
-        End If
-        If cmdPresetP2.BackColor = Color.Red Then
-            CurrentPageNo = 2
-        End If
-        If cmdPresetP3.BackColor = Color.Red Then
-            CurrentPageNo = 3
-        End If
-        If cmdPresetP4.BackColor = Color.Red Then
-            CurrentPageNo = 4
-        End If
-        If cmdPresetP5.BackColor = Color.Red Then
-            CurrentPageNo = 5
-        End If
-        If cmdPresetP6.BackColor = Color.Red Then
-            CurrentPageNo = 6
-        End If
-
-        Dim PresetI As Integer = 1
-        Do Until PresetI > PresetFadersTotal 'PresetFaders(PresetI).cSceneControl.SceneIndex = -1
-
-            If PresetFaders(PresetI).cSceneControl.SceneIndex = -1 Then
-
-                ' PresetI now indexes an empty PresetFader
-
-                SceneData(SceneI).PageNo = CurrentPageNo
-                SceneData(SceneI).LocIndex = PresetI
-
-                With PresetFaders(PresetI).cSceneControl
-                    If Not PresetI + PresetFaderControlModifier >= PresetFaders.Length Then ' Double checks Scene and Preset are currently on active page
-
-                        '.PresetFixture = PresetI
-                        .SceneIndex = SceneI
-
-                        ' Load SceneData into SceneControl1
-                        .cAutoTime.Value = SceneData(SceneI + PresetFaderControlModifier).Automation.TimeBetweenMinAndMax
-                        .cPresetName.Text = SceneData(SceneI).SceneName
-                        .cTxtVal.Text = SceneData(SceneI).MasterValue
-
-                    End If
-
-                End With
-                If ResaveOnSceneLoad = True Then
-                    SaveScene(SceneData(SceneI).SceneName)
-                End If
-
-                UpdatePresetControls(SceneI)
-                Exit Do
-            End If
-            PresetI += 1
-            'If PresetI > PresetFadersTotal Then
-            '    ' Empty PresetFader was not found
-            '    CurrentPageNo += 1
-            '    PresetI = 1
-            'End If
-        Loop
-        Return PresetI
-    End Function
 
 #End Region
 
@@ -1838,7 +1414,8 @@ DoneGeneration:
             I += 1
         Loop
 
-        RenamePresetFaderControls()
+        'RenamePresetFaderControls()
+        ResetAllPresetControls()
 
 
 
@@ -1866,6 +1443,7 @@ DoneGeneration:
                     End If
                 ElseIf IsEnabled = False Then
                     .tTimer.Enabled = False
+                    .CurrentIofList = 0
                 End If
             End With
             I += 1
@@ -1937,6 +1515,10 @@ DoneGeneration:
             Else
                 SceneData(I).MasterValue += SceneData(I).Automation.IntervalSteps
             End If
+        ElseIf SceneData(I).Automation.tmrDirection = "lol" Then
+            SceneData(I).Automation.tTimer.Stop()
+        ElseIf SceneData(I).Automation.tmrDirection = "" Then
+            SceneData(I).Automation.tTimer.Stop()
         End If
         If SceneData(I).MasterValue > 0 Then StartChannelTimers(I, True)
 
@@ -1947,7 +1529,7 @@ DoneGeneration:
         'PresetVisualUpdate = False
         UpdatePresetControls(I)
     End Sub
-    Private Sub CreateNewScene(ByVal SceneName As String, Optional ByVal PresetFixtureIndex As Integer = -1)
+    Private Function CreateNewScene(ByVal SceneName As String, Optional ByVal PresetFixtureIndex As Integer = -1) As Integer
         Dim CurrentPageNo As Integer = 0
         If cmdPresetP1.BackColor = Color.Red Then
             CurrentPageNo = 1
@@ -1983,12 +1565,21 @@ DoneGeneration:
         Loop
 
         SceneData(IemptyScene).SceneName = SceneName
-        If PresetFaders(PresetFadersTotal).cSceneControl.cPresetName.Text = "" Then
-            'If PresetFixtureIndex = -1 Then
-            SceneData(IemptyScene).PageNo = CurrentPageNo
-        Else
+
+        lstDramaPresets.Items.Add(SceneName)
+        lstSongEditPresets.Items.Add(SceneName)
+
+        If PresetFaders(PresetFadersTotal).cSceneControl Is Nothing Then
             SceneData(IemptyScene).PageNo = -1
+        Else
+            If PresetFaders(PresetFadersTotal).cSceneControl.cPresetName.Text = "" Then
+                'If PresetFixtureIndex = -1 Then
+                SceneData(IemptyScene).PageNo = CurrentPageNo
+            Else
+                SceneData(IemptyScene).PageNo = -1
+            End If
         End If
+
         SceneData(IemptyScene).LocIndex = PresetFixtureIndex
 
         Dim I1 As Integer = 1
@@ -1997,6 +1588,7 @@ DoneGeneration:
         SceneData(IemptyScene).Automation.TimeBetweenMinAndMax = 1000 ' Set Default
         SceneData(IemptyScene).Automation.Max = 100 ' Set Default
         SceneData(IemptyScene).Automation.Min = 0 ' Set Default
+        SceneData(IemptyScene).Automation.tmrDirection = ""
         frmChannels.cmbChannelPresetSelection.Items.Add(SceneData(IemptyScene).SceneName)
 
         Do Until I1 >= ChannelFaders.Count
@@ -2012,23 +1604,20 @@ DoneGeneration:
                 .Automation.tTimer.Interval = 100
                 .Automation.tTimer.Enabled = False
                 .Automation.tTimer.Tag = IemptyScene & "|" & I1
-                .Automation.ProgressInOrder = False
+                .Automation.ProgressInOrder = True
                 .Automation.ProgressLoop = False
                 .Automation.ProgressRandomTimed = False
                 .Automation.ProgressSoundActivated = False
+                .Automation.SoundActivationThreshold = 500
+                .Automation.RunTimer = False
+                .Automation.ProgressList = New List(Of Integer)
+                .Automation.CurrentIofList = 0
+
             End With
             Try
                 'Thread.Sleep(5)
 
                 AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-
-                'Dim thread As New Thread(
-                '        S ub()
-
-                '        End Sub
-                '                    )
-                'thread.Start()
-
 
             Catch ex As Exception
 
@@ -2041,8 +1630,9 @@ DoneGeneration:
             PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
         End If
 
-        SetupNewSceneLocation(IemptyScene)
-    End Sub
+        UpdatePresetControls(IemptyScene)
+        Return IemptyScene
+    End Function
     Private Sub cmdPresetP1_Click(sender As Object, e As EventArgs) Handles cmdPresetP1.Click, cmdPresetP2.Click, cmdPresetP3.Click, cmdPresetP4.Click, cmdPresetP5.Click, cmdPresetP6.Click
         cmdPresetP1.BackColor = controlcolour
         cmdPresetP2.BackColor = controlcolour
@@ -2060,7 +1650,8 @@ DoneGeneration:
 
         sender.backcolor = Color.Red
         sender.forecolor = Color.White
-        RenamePresetFaderControls()
+        'RenamePresetFaderControls()
+        ResetAllPresetControls()
     End Sub
     Private Sub ckxPresetLabelEditChannels_Click(sender As Object, e As EventArgs) Handles ctxPresetLabelEditChannels.Click
         Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
@@ -2085,53 +1676,14 @@ DoneGeneration:
         Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
         Dim obj As SceneControl1 = cms.SourceControl.Parent
 
-        'Dim CurrentPageNo As Integer = 0
-        'If cmdPresetP1.BackColor = Color.Red Then
-        '    CurrentPageNo = 1
-        '    PresetFaderControlModifier = 0
-        'End If
-        'If cmdPresetP2.BackColor = Color.Red Then
-        '    CurrentPageNo = 2
-        '    PresetFaderControlModifier = PresetFadersTotal
-        'End If
-        'If cmdPresetP3.BackColor = Color.Red Then
-        '    CurrentPageNo = 3
-        '    PresetFaderControlModifier = PresetFadersTotal * 2
-        'End If
-        'If cmdPresetP4.BackColor = Color.Red Then
-        '    CurrentPageNo = 4
-        '    PresetFaderControlModifier = PresetFadersTotal * 3
-        'End If
-        'If cmdPresetP5.BackColor = Color.Red Then
-        '    CurrentPageNo = 5
-        '    PresetFaderControlModifier = PresetFadersTotal * 4
-        'End If
-        'If cmdPresetP6.BackColor = Color.Red Then
-        '    CurrentPageNo = 6
-        '    PresetFaderControlModifier = PresetFadersTotal * 5
-        'End If
-
-        'Do Until I >= PresetFaders.Count
-        '    If PresetFaders(I).cSceneControl.cPresetName.Text = obj.cPresetName.Text Then
-        '        'oldprefix = Split(cms.SourceControl.Text, " |")(0)
-        '        oldname = obj.cPresetName.Text
-        '        Exit Do
-        '    End If
-        '    I += 1
-        'Loop
-
-
         If obj.SceneIndex = -1 Then
             'is new scene
             Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", "")
             If newname = "" Then Exit Sub
 
-
             PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
 
 
-            lstDramaPresets.Items.Add(newname)
-            lstSongEditPresets.Items.Add(newname)
             CreateNewScene(newname, obj.PresetFixture)
             SaveScene(newname)
         Else
@@ -2153,7 +1705,7 @@ DoneGeneration:
             SaveScene(newname)
         End If
 
-        RenamePresetFaderControls()
+        UpdatePresetControls(obj.SceneIndex)
     End Sub
 
     Private Sub cmdPresetsBlackoutAllTimer_Click(sender As Object, e As EventArgs) Handles cmdPresetsBlackoutAllTimer.Click, cmdDramaBlackoutAllTimer.Click
@@ -2676,46 +2228,169 @@ LoopsDone:
         tmrchangedmp3 = False
 
     End Sub
+    Public Sub ResetAllPresetControls()
+        Dim CurrentPageNo As Integer = 1
+        If cmdPresetP1.BackColor = Color.Red Then
+            CurrentPageNo = 1
+        End If
+        If cmdPresetP2.BackColor = Color.Red Then
+            CurrentPageNo = 2
+        End If
+        If cmdPresetP3.BackColor = Color.Red Then
+            CurrentPageNo = 3
+        End If
+        If cmdPresetP4.BackColor = Color.Red Then
+            CurrentPageNo = 4
+        End If
+        If cmdPresetP5.BackColor = Color.Red Then
+            CurrentPageNo = 5
+        End If
+        If cmdPresetP6.BackColor = Color.Red Then
+            CurrentPageNo = 6
+        End If
 
-    Public Sub UpdatePresetControls(ByVal SceneIndex As Integer) 'ByVal Value As Integer, 
+        Dim resetI As Integer = 1
+        Do Until resetI > PresetFadersTotal 'clears presetfaders
+            PresetFaders(resetI).cSceneControl.SceneIndex = -1
+            PresetFaders(resetI).cSceneControl.cPresetName.Text = ""
+            PresetFaders(resetI).cSceneControl.cBlackout.BackColor = lblSceneBlackoutColour.BackColor
+            PresetFaders(resetI).cSceneControl.cFull.BackColor = Color.Black
+            PresetFaders(resetI).cSceneControl.cTxtVal.Text = 0
+            PresetFaders(resetI).cSceneControl.vScroll.Value = 0
+
+            resetI += 1
+        Loop
+
         Dim I As Integer = 1
-        PresetVisualUpdate = True
-        Do Until I >= PresetFaders.Length
-            'If SceneData(SceneIndex).SceneName = "" Then
-            '    I = SceneIndex
-            'End If
-            If Not PresetFaders(I).cSceneControl Is Nothing Then
-                If PresetFaders(I).cSceneControl.SceneIndex = SceneIndex Then
-
-                    PresetFaders(I).cSceneControl.cTxtVal.Text = Math.Round(SceneData(SceneIndex).MasterValue, 0)
-                    PresetFaders(I).cSceneControl.vScroll.Value = Val(PresetFaders(I).cSceneControl.cTxtVal.Text)
-
-                    If SceneData(SceneIndex).MasterValue = 0 Then
-                        PresetFaders(I).cSceneControl.cBlackout.BackColor = lblSceneBlackoutColour.BackColor
-                        PresetFaders(I).cSceneControl.cFull.BackColor = Color.Black
-                    ElseIf SceneData(SceneIndex).MasterValue = 100 Then
-                        PresetFaders(I).cSceneControl.cBlackout.BackColor = Color.Black
-                        PresetFaders(I).cSceneControl.cFull.BackColor = lblSceneUpColour.BackColor
-                    Else
-
-                        If SceneData(SceneIndex).Automation.tTimer.Enabled = True And SceneData(SceneIndex).Automation.tmrDirection = "Up" Then
-                            PresetFaders(I).cSceneControl.cBlackout.BackColor = Color.Black
-                            PresetFaders(I).cSceneControl.cFull.BackColor = ControlPaint.Light(lblSceneUpColour.BackColor)
-                        ElseIf SceneData(SceneIndex).Automation.tTimer.Enabled = True And SceneData(SceneIndex).Automation.tmrDirection = "Down" Then
-                            PresetFaders(I).cSceneControl.cBlackout.BackColor = ControlPaint.LightLight(lblSceneBlackoutColour.BackColor)
-                            PresetFaders(I).cSceneControl.cFull.BackColor = lblSceneUpColour.BackColor
-
-                        End If
-
-                    End If
-                    Exit Do
-                    'End If
-                    'End If
+        Do Until I >= SceneData.Length
+            If SceneData(I).PageNo = CurrentPageNo Then
+                If SceneData(I).LocIndex <> -1 Then
+                    ' Has full location data
+                    UpdatePresetControls(I)
                 End If
             End If
             I += 1
         Loop
+
+        I = 1
+        Do Until I >= SceneData.Length
+            If SceneData(I).PageNo = -1 Or (SceneData(I).PageNo = CurrentPageNo And SceneData(I).LocIndex = -1) Then
+                ' MISSING  location data
+                Dim I2 As Integer = 1
+                Do Until I2 >= PresetFaders.Length
+                    If Not PresetFaders(I2).cSceneControl Is Nothing Then
+                        If PresetFaders(I2).cSceneControl.SceneIndex = -1 Then
+                            SceneData(I).PageNo = CurrentPageNo
+                            SceneData(I).LocIndex = I2
+                            UpdatePresetControls(I)
+                            Exit Do
+                        End If
+                    End If
+
+                    I2 += 1
+                Loop
+
+            End If
+            I += 1
+        Loop
+
+
+    End Sub
+
+    Public Sub UpdatePresetControls(ByVal SceneI As Integer) 'ByVal Value As Integer, 
+        Dim CurrentPageNo As Integer = 1
+        If cmdPresetP1.BackColor = Color.Red Then
+            CurrentPageNo = 1
+        End If
+        If cmdPresetP2.BackColor = Color.Red Then
+            CurrentPageNo = 2
+        End If
+        If cmdPresetP3.BackColor = Color.Red Then
+            CurrentPageNo = 3
+        End If
+        If cmdPresetP4.BackColor = Color.Red Then
+            CurrentPageNo = 4
+        End If
+        If cmdPresetP5.BackColor = Color.Red Then
+            CurrentPageNo = 5
+        End If
+        If cmdPresetP6.BackColor = Color.Red Then
+            CurrentPageNo = 6
+        End If
+
+        PresetVisualUpdate = True
+
+
+
+        ' Needs Some PageNo and LocIndex Logic from old RenamePresetFaderControls
+
+
+
+        ' Loop where PageNo is set
+        If SceneData(SceneI).PageNo = CurrentPageNo Then
+            If SceneData(SceneI).LocIndex > -1 Then
+                If SceneData(SceneI).LocIndex > PresetFadersTotal Then
+                    ' Has page set to this page, but would appear offscreen
+                    ' reset location
+                    SceneData(SceneI).LocIndex = -1
+                    SceneData(SceneI).PageNo = -1
+                Else
+
+                    If PresetFaders(SceneData(SceneI).LocIndex).cSceneControl.SceneIndex = SceneI Then
+                        'This scene is in this Preset Slot
+                        UpdatePresetFromScene(SceneData(SceneI).LocIndex, SceneI)
+                    ElseIf PresetFaders(SceneData(SceneI).LocIndex).cSceneControl.SceneIndex = -1 Then
+                        'Preset is empty and available for a Scene
+
+                        PresetFaders(SceneData(SceneI).LocIndex).cSceneControl.SceneIndex = SceneI
+                        UpdatePresetFromScene(SceneData(SceneI).LocIndex, SceneI)
+                    Else
+                        ' Preset Location was already taken. Set attempted Scene to Locationless -1
+                        SceneData(SceneI).LocIndex = -1
+                        If ResaveOnSceneLoad = True Then
+                            SaveScene(SceneData(SceneI).SceneName)
+                        End If
+                        'UpdatePresetFromScene(SceneData(SceneI).LocIndex, SceneI)
+                    End If
+
+                End If
+
+            End If
+        End If
+
+
         PresetVisualUpdate = False
+    End Sub
+    Private Sub UpdatePresetFromScene(ByVal PresetI As Integer, ByVal SceneI As Integer)
+
+        With PresetFaders(PresetI).cSceneControl
+
+            .SceneIndex = SceneI
+
+            .cAutoTime.Value = SceneData(SceneI).Automation.TimeBetweenMinAndMax
+            .cPresetName.Text = SceneData(SceneI).SceneName
+            .cTxtVal.Text = Math.Round(SceneData(SceneI).MasterValue, 0)
+            .vScroll.Value = Val(.cTxtVal.Text)
+
+            If SceneData(SceneI).MasterValue = 0 Then
+                .cBlackout.BackColor = lblSceneBlackoutColour.BackColor
+                .cFull.BackColor = Color.Black
+            ElseIf SceneData(SceneI).MasterValue = 100 Then
+                .cBlackout.BackColor = Color.Black
+                .cFull.BackColor = lblSceneUpColour.BackColor
+            Else
+
+                If SceneData(SceneI).Automation.tTimer.Enabled = True And SceneData(SceneI).Automation.tmrDirection = "Up" Then
+                    .cBlackout.BackColor = Color.Black
+                    .cFull.BackColor = ControlPaint.Light(lblSceneUpColour.BackColor)
+                ElseIf SceneData(SceneI).Automation.tTimer.Enabled = True And SceneData(SceneI).Automation.tmrDirection = "Down" Then
+                    .cBlackout.BackColor = ControlPaint.LightLight(lblSceneBlackoutColour.BackColor)
+                    .cFull.BackColor = lblSceneUpColour.BackColor
+
+                End If
+
+            End If
+        End With
     End Sub
 
     Private Sub cmdPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPresetsPlay.Click, cmdEditPlay.Click, cmdDramaViewPlay.Click, cmdMusicPlay.Click
@@ -2915,6 +2590,7 @@ LoopsDone:
             'MusicCues(Qindex).waveOut.Volume = (sender.Value / 100)
             'MusicCues(Qindex).AudioReader.Volume = (sender.Value / 100)
             AudioRun.Volume = trkMusicVolume.Value
+
         Else
         End If
 
@@ -3109,7 +2785,9 @@ LoopsDone:
         Return I
     End Function
 
-    Private Sub LoadMusicTracks()
+    Private Sub LoadMusicTracks(Optional ByVal MusicCueIndex As Integer = -1)
+        'MsgBox("Needs rewrite")
+        'Exit Sub
 
         lstPresetsSongs.Items.Clear()
         lstPresetsSongs2.Items.Clear()
@@ -3135,12 +2813,7 @@ LoopsDone:
         Loop
         AudioRun.ClearTracks()
 
-        'lstPresetsSongChanges.Items.Clear()
-        'lstPresetsSongChanges2.Items.Clear()
-        'lstMusicSongChanges.Items.Clear()
-        'lstMusicSongChanges2.Items.Clear()
-        'lstDramaViewSongChanges.Items.Clear()
-        'lstDramaViewSongChanges.Items.Clear()
+
 
         Dim I As Integer = 0
         Dim MusicMP3InBank() As String = Directory.GetFiles(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\", "*.mp3")
@@ -3167,20 +2840,8 @@ LoopsDone:
             MusicCues(I).IsMP3 = True
             MusicCues(I).IsSCS = False
             MusicCues(I).AsioOutIndex = 1
-            'MusicCues(I).vlcMedia = New Media(VLCmain, New Uri(MusicMP3InBank(I)))
-            'MusicCues(I).vlcPlayer = New MediaPlayer(MusicCues(I).vlcMedia)
-            'MusicCues(I).vlcPlayer.Stop()
-            'MusicCues(I).mp3filestream = New MemoryStream(MusicMP3InBank(I))
 
             AudioRun.PrepareTrack(MusicMP3InBank(I))
-
-            'MusicCues(I).mp3Reader = New Mp3FileReader(MusicMP3InBank(I))
-            'MusicCues(I).waveOut = New WaveOut
-            'MusicCues(I).waveOut.DesiredLatency = AudioLatency
-            'MusicCues(I).waveOut.Init(MusicCues(I).mp3Reader)
-
-            'MusicCues(I).AudioReader = New AudioFileReader(MusicMP3InBank(I))
-
 
             MusicCues(I).SongChangesDict = New Dictionary(Of SongChangesStr, Double)
 
@@ -3280,21 +2941,24 @@ skipme:
         Do Until EOF(2)
             Dim newline As String = LineInput(2)
             'SongDict1
-            Dim b() As String = Split(newline, "|", 2)
+            If Not newline = "" Then
+                Dim b() As String = Split(newline, "|", 2)
 
-            Dim NewSongChange As New SongChangesStr
-            Dim a() As String = Split(newline, "|")
-            NewSongChange.TimeCode = a(0)
-            NewSongChange.SceneName = a(1)
-            NewSongChange.SceneIndex = GetSceneIndex(a(1))
-            If a.Length > 2 Then
-                NewSongChange.TimeToGoUp = a(2)
-                NewSongChange.TimeToGoDown = a(3)
-            Else
-                NewSongChange.TimeToGoUp = 0
-                NewSongChange.TimeToGoDown = 0
+                Dim NewSongChange As New SongChangesStr
+                Dim a() As String = Split(newline, "|")
+                NewSongChange.TimeCode = a(0)
+                NewSongChange.SceneName = a(1)
+                NewSongChange.SceneIndex = GetSceneIndex(a(1))
+                If a.Length > 2 Then
+                    NewSongChange.TimeToGoUp = a(2)
+                    NewSongChange.TimeToGoDown = a(3)
+                Else
+                    NewSongChange.TimeToGoUp = 0
+                    NewSongChange.TimeToGoDown = 0
+                End If
+                MusicCues(MusicCuesIndex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
             End If
-            MusicCues(MusicCuesIndex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
+
             'SongChanges1.Add(NewSongChange)
 
         Loop
@@ -3498,16 +3162,22 @@ skipme:
         Dim s As String = InputBox("Name of new bank:")
         If s = "" Then Exit Sub
         Directory.CreateDirectory(Application.StartupPath & "\Save Files\" & s)
-        File.Copy(Application.StartupPath & "\0 Blackout.dmr", Application.StartupPath & "\Save Files\" & s & "\0 Blackout.dmr")
-        LoadBanksFromFile()
+        Try
+            File.Copy(Application.StartupPath & "\0 Blackout.dmr", Application.StartupPath & "\Save Files\" & s & "\0 Blackout.dmr")
+        Catch ex As Exception
+
+        End Try
+
+        LoadBankTextToListBox(s)
     End Sub
 
     Private Sub cmdBankRename_Click(sender As Object, e As EventArgs) Handles cmdBankRename.Click
+
         If lstBanks.SelectedIndex = -1 Then Exit Sub
         Dim s As String = InputBox("Name of new bank:")
         If s = "" Then Exit Sub
         Directory.Move(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem, Application.StartupPath & "\Save Files\" & s)
-        LoadBanksFromFile()
+        LoadBankTextToListBox(s)
     End Sub
 
     Private Sub cmd4KSize_Click(sender As Object, e As EventArgs) Handles cmd4KSize.Click
@@ -3517,40 +3187,7 @@ skipme:
     Private Sub lstBanks_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstBanks.SelectedIndexChanged
         If formopened = False Then Exit Sub
 
-        'Dim I As Integer = 1
-        'Do Until I >= SceneData.Length
-        '    Dim I1 As Integer = 1
-
-        '    SceneData(I).SceneName = ""
-        '    SceneData(I).MasterValue = 0
-        '    SceneData(I).Automation.TimeBetweenMinAndMax = 1000
-        '    SceneData(I).Automation.Max = 100
-        '    SceneData(I).Automation.Min = 0
-
-        '    'SceneData(I).ChannelValues = Nothing
-
-        '    'Do Until I1 >= 512
-        '    '    SceneData(I).ChannelValues = Nothing
-        '    '    With SceneData(I).ChannelValues(I1)
-        '    '        .Automation.tTimer = New Windows.Forms.Timer
-        '    '        .Value = 0
-        '    '        .Automation.tTimer.Interval = 10
-        '    '        .Automation.tTimer.Enabled = False
-        '    '        .Automation.Max = 255
-        '    '        .Automation.Min = 0
-        '    '        .Automation.TimeBetweenMinAndMax = 1000
-        '    '        .Automation.randomstart = False
-        '    '    End With
-        '    '    I1 += 1
-        '    'Loop
-        '    I += 1
-        'Loop
         BankChanged = True
-
-        LoadScenesFromFile()
-        LoadMusicTracks()
-
-
         cmdPresetP1.BackColor = Color.Red
         cmdPresetP2.BackColor = controlcolour
         cmdPresetP3.BackColor = controlcolour
@@ -3565,7 +3202,12 @@ skipme:
         cmdPresetP5.ForeColor = Color.Black
         cmdPresetP6.ForeColor = Color.Black
 
-        RenamePresetFaderControls()
+        LoadScenesFromFile()
+
+        LoadMusicTracks()
+
+        'RenamePresetFaderControls()
+        ResetAllPresetControls()
 
         BankChanged = False
         SaveSettingsToFile()
@@ -3598,7 +3240,7 @@ skipme:
         '    Loop
         'End If
         closethreads = True
-        If Not tTouchPadLoad Is Nothing Then tTouchPadLoad.Abort()
+        'If Not tTouchPadLoad Is Nothing Then tTouchPadLoad.Abort()
         Dim chanLocation As Point = frmChannels.Location
         Dim chanstate As FormWindowState = frmChannels.WindowState
         FileOpen(7, Application.StartupPath & "\WindowLocations.ini", OpenMode.Output)
@@ -3612,7 +3254,7 @@ skipme:
     End Sub
 
     Private Sub cmdOpenTouchpad_Click(sender As Object, e As EventArgs) Handles cmdOpenTouchpad.Click
-        frmTouchPad.Show()
+        'frmTouchPad.Show()
     End Sub
 
 
@@ -3657,7 +3299,7 @@ skipme:
 
                 chanline &= "InOrder," & .Automation.ProgressInOrder & "|"
                 chanline &= "RandomSound," & .Automation.ProgressSoundActivated & "|"
-                chanline &= "SoundThreshold" & .Automation.SoundActivationThreshold & "|"
+                chanline &= "SoundThreshold," & .Automation.SoundActivationThreshold & "|"
                 chanline &= "IsLooped," & .Automation.ProgressLoop & "|"
                 chanline &= "ProgressList"
 
@@ -3734,7 +3376,7 @@ skipme:
     End Sub
 
     Private Sub cmdMasterFull_Click(sender As Object, e As EventArgs) Handles cmdMasterFull.Click
-        frmTouchPad.cmdMasterUp.BackColor = Color.Red
+        'frmTouchPad.cmdMasterUp.BackColor = Color.Red
         If numChangeMS.Value = 0 Then
             txtMaster.Text = 100
             vsMaster.Value = Val(txtMaster.Text)
@@ -3766,7 +3408,7 @@ skipme:
     End Sub
 
     Private Sub cmdMasterBlackout_Click(sender As Object, e As EventArgs) Handles cmdMasterBlackout.Click
-        frmTouchPad.cmdMasterUp.BackColor = controlcolour
+        'frmTouchPad.cmdMasterUp.BackColor = controlcolour
         If numChangeMS.Value = 0 Then
             txtMaster.Text = 0
             vsMaster.Value = Val(txtMaster.Text)
@@ -3935,7 +3577,9 @@ skipme:
 
         cmdPresetsBlackoutAllInstant_Click(sender, e)
         ' PresetControls(PresetIndex(lstPrsets.SelectedItem)).vtxtBox.Text = 100
-
+        numFadeIn.Value = 0
+        numFadeOut.Value = 0
+        txtEditTime.Text = ""
         Dim I As Integer = 1
         Do Until I >= SceneData.Length
             ' If SceneData(I).MasterValue = 0 Then 'preset is above blackout
@@ -3993,8 +3637,8 @@ skipme:
         Dim newrow As New ListViewItem
         newrow.Text = lbleditPositionMilli.Text 'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
         newrow.SubItems.Add(lstSongEditPresets.SelectedItem)
-        newrow.SubItems.Add(numFadeOut.Value)
         newrow.SubItems.Add(numFadeIn.Value)
+        newrow.SubItems.Add(numFadeOut.Value)
 
         Dim NewSongChange As New SongChangesStr
 
@@ -4042,6 +3686,7 @@ skipme:
     End Sub
 
     Private Sub cmdEditSongCopyNew_Click(sender As Object, e As EventArgs) Handles cmdEditSongCopyNew.Click
+
         If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstSongEditPresets.SelectedItem)
         If MusicCues(Qindex).IsMP3 = False Then
@@ -4050,59 +3695,52 @@ skipme:
 
         Dim defaultnewname As String = lstSongEditPresets.SelectedItem
         Dim newname As String = InputBox("Enter name of new Scene preset", , defaultnewname & " copy")
-        If File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstSongEditPresets.SelectedItem & ".dmr") = True Then
-            If File.Exists(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & newname & ".dmr") = False Then
-                File.Copy(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & lstSongEditPresets.SelectedItem & ".dmr", Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & newname & ".dmr")
-                lstSongEditPresets.Items.Add(newname)
-                lstDramaPresets.Items.Add(newname)
-                frmChannels.cmbChannelPresetSelection.Items.Add(newname)
-                Dim oldindex As Integer = GetSceneIndex(lstSongEditPresets.SelectedItem)
-                Dim I As Integer = 1
-                Do Until I >= SceneData.Count
-                    If SceneData(I).SceneName = " " Then
-                        SceneData(I).SceneName = newname
-                        SceneData(I).Automation = SceneData(oldindex).Automation
-                        SceneData(I).ChannelValues = SceneData(oldindex).ChannelValues
-                        SceneData(I).PageNo = -1
-                        SceneData(I).LocIndex = -1
+
+        If newname = "" Then Exit Sub
+        Dim newI As Integer = CreateNewScene(newname)
+        Dim oldindex As Integer = GetSceneIndex(lstSongEditPresets.SelectedItem)
+        'SceneData(newI).ChannelValues = SceneData(oldindex).ChannelValues
+        Array.Copy(SceneData(oldindex).ChannelValues, SceneData(newI).ChannelValues, SceneData(oldindex).ChannelValues.Length)
+
+        SceneData(newI).LocIndex = -1
+        SceneData(newI).Automation = SceneData(oldindex).Automation
+        SaveScene(newname)
+
+        'Dim I2 As Integer = 1
+        'Do Until I2 >= PresetFaders.Length
+        '    If PresetFaders(I2).cSceneControl.SceneIndex = -1 Then
+        '        SceneData(I).PageNo = CurrentPageNo
+        '        SceneData(I).LocIndex = I2
+        '        UpdatePresetControls(I)
+        '    End If
+        '    I2 += 1
+        'Loop
+        'UpdatePresetControls(newI)
+        ResetAllPresetControls()
 
 
+        ' Update the listboxes directly
+
+        Dim newrow As New ListViewItem
+        newrow.Text = lbleditPositionMilli.Text 'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
+        newrow.SubItems.Add(newname)
+        newrow.SubItems.Add(numFadeIn.Value)
+        newrow.SubItems.Add(numFadeOut.Value)
+
+        Dim NewSongChange As New SongChangesStr
+
+        NewSongChange.TimeCode = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
+        NewSongChange.SceneName = newname
+        NewSongChange.SceneIndex = newI
+        NewSongChange.TimeToGoUp = numFadeIn.Value
+        NewSongChange.TimeToGoDown = numFadeOut.Value
 
 
-                        CreateNewScene(newname, -1)
-                        SaveScene(newname)
+        MusicCues(Qindex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
+
+        ResortSongChange1FromDictionary(Qindex)
 
 
-
-                        Dim NewSongChange As New SongChangesStr
-
-                        NewSongChange.TimeCode = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
-                        NewSongChange.SceneName = newname
-                        NewSongChange.SceneIndex = GetSceneIndex(newname)
-                        NewSongChange.TimeToGoUp = numFadeIn.Value
-                        NewSongChange.TimeToGoDown = numFadeOut.Value
-
-                        MusicCues(Qindex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
-
-                        ResortSongChange1FromDictionary(Qindex)
-
-                        'lstMusicSongChanges1.Items.Add(newrow)
-                        'lstPresetsSongChanges1.Items.Add(newrow)
-                        'lstDramaViewSongChanges1.Items.Add(newrow)
-
-                        Exit Do
-
-                    End If
-                    I += 1
-                Loop
-
-
-            End If
-
-        End If
-        RenamePresetFaderControls()
-
-        'lstMusicSongChanges.Items.Item(lstMusicSongChanges.SelectedIndex) = Math.Round(Player.controls.currentPosition, 2) & "|" & lstSongEditPresets.SelectedItem & "|" & numFadeOut.Value & "|" & numFadeIn.Value
     End Sub
 
     Private Sub cmdEditSongSave_Click(sender As Object, e As EventArgs) Handles cmdEditSongSave.Click
@@ -4157,8 +3795,9 @@ skipme:
         Song1EditingOrig = New SongChangesStr
 
         Dim selrow As ListViewItem = lstMusicSongChanges1.SelectedItems(0)
-        txtEditTime.Text = Math.Round(Val(selrow.Text), 2)
+
         lstSongEditPresets.SelectedItem = selrow.SubItems(1).Text
+        txtEditTime.Text = Math.Round(Val(selrow.Text), 2)
         Song1EditingOrig.SceneIndex = GetSceneIndex(selrow.SubItems(1).Text)
         Song1EditingOrig.SceneName = selrow.SubItems(1).Text
         Song1EditingOrig.TimeCode = Math.Round(Val(selrow.Text), 2)
@@ -4184,15 +3823,15 @@ skipme:
         If chkEnableSongEdit.Visible = True And chkEnableSongEdit.Checked = False Then Exit Sub
         'If lstMusicSongChanges1.SelectedIndex = -1 Then Exit Sub
         If lstMusicSongChanges1.SelectedItems.Count = 0 Then Exit Sub
-
+        Dim oldSceneName As String = lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
 
         EditUpdate = True
         'Dim a() As String = Split(lstMusicSongChanges1.SelectedItem, "|")
-        lstMusicSongChanges1.SelectedItems(0).Text = txtEditTime.Text
-        lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text = lstSongEditPresets.SelectedItem
-        lstMusicSongChanges1.SelectedItems(0).SubItems(2).Text = numFadeIn.Value
-        lstMusicSongChanges1.SelectedItems(0).SubItems(3).Text = numFadeOut.Value
+        'lstMusicSongChanges1.SelectedItems(0).Text = txtEditTime.Text
+        'lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text = lstSongEditPresets.SelectedItem
+        'lstMusicSongChanges1.SelectedItems(0).SubItems(2).Text = numFadeIn.Value
+        'lstMusicSongChanges1.SelectedItems(0).SubItems(3).Text = numFadeOut.Value
 
         Dim newchange As New SongChangesStr
 
@@ -4217,6 +3856,14 @@ skipme:
 
         Song1EditingOrig = newchange
         ResortSongChange1FromDictionary(Qindex)
+        Dim Idx As Integer = 0
+        Do Until Idx >= lstMusicSongChanges1.Items.Count
+            If lstMusicSongChanges1.Items(Idx).SubItems(1).Text = oldSceneName Then
+                lstMusicSongChanges1.Items(Idx).Selected = True
+            End If
+            Idx += 1
+        Loop
+
         EditUpdate = False
     End Sub
 
@@ -4366,9 +4013,6 @@ skipme:
         SetupSerialConnections()
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles cmdForceUID.Click
-        Arduinos(0).Serial.Write("UID," & Arduinos(0).PortNo & vbCrLf)
-    End Sub
 
     Private Sub cmdSetMusic1_Click(sender As Object, e As EventArgs) Handles cmdSetMusic1.Click
         If lstCOMdevices.SelectedItems.Count = 0 Then Exit Sub
@@ -4551,6 +4195,125 @@ skipme:
         Dim oldname As String = SceneData(obj.SceneIndex).SceneName
         Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
         If newname = "" Then Exit Sub
+        Dim newI As Integer = CreateNewScene(newname)
+
+        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
+        Array.Copy(SceneData(obj.SceneIndex).ChannelValues, SceneData(newI).ChannelValues, SceneData(obj.SceneIndex).ChannelValues.Length)
+
+        SceneData(newI).Automation = SceneData(obj.SceneIndex).Automation
+
+
+
+        SaveScene(newname)
+        'UpdatePresetControls(newI)
+        ResetAllPresetControls()
+    End Sub
+
+    Private Sub ctxDramaEditChannels_Click(sender As Object, e As EventArgs) Handles ctxDramaEditChannels.Click
+        If tbcControls1.SelectedTab Is tbpScriptChanges Then
+            If lstDramaPresets.SelectedIndex = -1 Then Exit Sub
+
+            frmChannels.cmbChannelPresetSelection.SelectedItem = lstDramaPresets.SelectedItem
+            ChannelFaderPageCurrentSceneDataIndex = GetSceneIndex(lstDramaPresets.SelectedItem)
+
+        ElseIf tbcControls1.SelectedTab Is tbpMusic Then
+            If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
+
+            frmChannels.cmbChannelPresetSelection.SelectedItem = lstSongEditPresets.SelectedItem
+            ChannelFaderPageCurrentSceneDataIndex = GetSceneIndex(lstSongEditPresets.SelectedItem)
+
+        End If
+
+        frmChannels.BringToFront()
+    End Sub
+
+    Private Sub ctxDramaSaveScene_Click(sender As Object, e As EventArgs) Handles ctxDramaSaveScene.Click
+        If tbcControls1.SelectedTab Is tbpScriptChanges Then
+            If lstDramaPresets.SelectedIndex = -1 Then Exit Sub
+
+            SaveScene(lstDramaPresets.SelectedItem)
+
+        ElseIf tbcControls1.SelectedTab Is tbpMusic Then
+            If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
+
+            SaveScene(lstSongEditPresets.SelectedItem)
+
+        End If
+
+    End Sub
+
+
+    Private Sub ctxDramaRenameScene_Click(sender As Object, e As EventArgs) Handles ctxDramaRenameScene.Click
+        Dim scindx As Integer = -1
+        If tbcControls1.SelectedTab Is tbpScriptChanges Then
+            If lstDramaPresets.SelectedIndex = -1 Then Exit Sub
+
+            scindx = GetSceneIndex(lstDramaPresets.SelectedItem)
+
+        ElseIf tbcControls1.SelectedTab Is tbpMusic Then
+            If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
+
+            scindx = GetSceneIndex(lstSongEditPresets.SelectedItem)
+
+        End If
+
+
+
+        'If scindx = -1 Then
+        '    'is new scene
+        '    Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", "")
+        '    If newname = "" Then Exit Sub
+
+
+        '    PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
+
+
+        '    lstDramaPresets.Items.Add(newname)
+        '    lstSongEditPresets.Items.Add(newname)
+        '    CreateNewScene(newname, obj.PresetFixture)
+        '    SaveScene(newname)
+        'Else
+        '    'Scene exists
+        '    Dim oldname As String = SceneData(obj.SceneIndex).SceneName
+        '    Dim newname As String = InputBox("Please Enter New Scene Name:", "Editing Scene #" & obj.SceneIndex, SceneData(obj.SceneIndex).SceneName)
+        '    If newname = "" Then Exit Sub
+
+        '    SceneData(obj.SceneIndex).SceneName = newname
+        '    PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
+
+        '    Dim cmbIndx As Integer = frmChannels.cmbChannelPresetSelection.Items.IndexOf(oldname)
+        '    frmChannels.cmbChannelPresetSelection.Items.Item(cmbIndx) = newname
+
+        '    cmbIndx = lstDramaPresets.Items.IndexOf(oldname)
+        '    lstDramaPresets.Items.Item(cmbIndx) = newname
+
+        '    File.Move(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & oldname & ".dmr", Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & newname & ".dmr")
+        '    SaveScene(newname)
+        'End If
+
+        'RenamePresetFaderControls()
+    End Sub
+
+    Private Sub ctxDramaDuplicateScene_Click(sender As Object, e As EventArgs) Handles ctxDramaDuplicateScene.Click
+        Dim scindx As Integer = 0
+        If tbcControls1.SelectedTab Is tbpScriptChanges Then
+            If lstDramaPresets.SelectedIndex = -1 Then Exit Sub
+
+            scindx = GetSceneIndex(lstDramaPresets.SelectedItem)
+
+        ElseIf tbcControls1.SelectedTab Is tbpMusic Then
+            If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
+
+            scindx = GetSceneIndex(lstSongEditPresets.SelectedItem)
+
+        End If
+
+
+        If scindx = -1 Then Exit Sub
+
+        Dim oldname As String = SceneData(scindx).SceneName
+        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
+        If newname = "" Then Exit Sub
         CreateNewScene(newname)
 
         Dim newI As Integer = 0
@@ -4559,12 +4322,13 @@ skipme:
             newI += 1
         Loop
 
-        SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
-        SceneData(newI).Automation = SceneData(obj.SceneIndex).Automation
+        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
+        Array.Copy(SceneData(newI).ChannelValues, SceneData(newI).ChannelValues, SceneData(newI).ChannelValues.Length)
+
+        SceneData(newI).Automation = SceneData(newI).Automation
 
         SaveScene(newname)
-        RenamePresetFaderControls()
-
+        'UpdatePresetControls(newI)
     End Sub
 
 
@@ -4585,6 +4349,7 @@ skipme:
     Private Sub cmdSerialClear_Click(sender As Object, e As EventArgs) Handles cmdSerialClear.Click
         txtSerialIn.Text = ""
     End Sub
+
     Private Sub lstCOMdevices_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCOMdevices.SelectedIndexChanged
         txtSerialIn.Text = ""
     End Sub
@@ -4604,5 +4369,11 @@ skipme:
         Return -1
 
     End Function
+
+    Private Sub lstDramaPresets_MouseDown(sender As Object, e As MouseEventArgs) Handles lstDramaPresets.MouseDown, lstSongEditPresets.MouseDown
+        If e.Button = MouseButtons.Right Then
+            sender.SelectedIndex = sender.IndexFromPoint(e.X, e.Y)
+        End If
+    End Sub
 
 End Class

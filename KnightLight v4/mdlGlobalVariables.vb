@@ -2,7 +2,7 @@
 
 Module mdlGlobalVariables
     Public frmMain As FormMain
-    Public frmTouchPad As FormTouchPad
+    'Public frmTouchPad As FormTouchPad
     Public frmDimmerAutomation(20) As FormDimmerAutomation
     Public controlcolour As Color
     Public frmGradientColour As FormColourGradient
@@ -30,7 +30,7 @@ Module mdlGlobalVariables
     Public SceneDataLocations As New Dictionary(Of Integer, SCLocs)
     Public tChannelsMultipleThreads As Boolean = False
     Public tChannels(2048) As System.Threading.Thread
-    Public tTouchPadLoad As System.Threading.Thread
+    'Public tTouchPadLoad As System.Threading.Thread
     Public SentChannelValues(2048) As Integer
     Public FadersRenaming As Boolean = False
     Public TouchButtons(600) As Button
@@ -49,7 +49,7 @@ Module mdlGlobalVariables
     'Public SongDict1 As New Dictionary(Of SongChangesStr, Double)
     'Public SongDict2 As New Dictionary(Of SongChangesStr, Double)
     Public MusicCues(200) As MusicCues1
-    Public AudioLatency As Integer
+    Public AudioLatency As Integer 'Settings File Default 50
     Public ASIOMode As Boolean
     Public AudioRun As AudioThread
     'Public asioOutputs(10) As AsioOut

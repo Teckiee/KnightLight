@@ -91,7 +91,13 @@ Partial Class FormMain
         Me.lblFadeIn = New System.Windows.Forms.Label()
         Me.numFadeOut = New System.Windows.Forms.NumericUpDown()
         Me.lblFadeOut = New System.Windows.Forms.Label()
+        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lstSongEditPresets = New System.Windows.Forms.ListBox()
+        Me.ctxDramaChangesActions = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ctxDramaEditChannels = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxDramaSaveScene = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxDramaDuplicateScene = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ctxDramaRenameScene = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmdEditSongCopyNew = New System.Windows.Forms.Button()
         Me.cmdEditSongSave = New System.Windows.Forms.Button()
         Me.cmdCreatelink = New System.Windows.Forms.Button()
@@ -225,7 +231,6 @@ Partial Class FormMain
         Me.tmrMaster = New System.Windows.Forms.Timer(Me.components)
         Me.cmdColourTest = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.cmdForceUID = New System.Windows.Forms.Button()
         Me.lblAudioActive = New System.Windows.Forms.Label()
         Me.ctxPresetLabelEditChannels = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxPresetRenameScene = New System.Windows.Forms.ToolStripMenuItem()
@@ -241,7 +246,6 @@ Partial Class FormMain
         Me.lblAudio2 = New System.Windows.Forms.Label()
         Me.barVUmeter = New System.Windows.Forms.VScrollBar()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.vSongEdit = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -250,6 +254,7 @@ Partial Class FormMain
         Me.tbpMusic.SuspendLayout()
         CType(Me.numFadeIn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numFadeOut, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ctxDramaChangesActions.SuspendLayout()
         CType(Me.trkMusicVolume2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.trkMusicVolume, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tbpScriptChanges.SuspendLayout()
@@ -378,7 +383,7 @@ Partial Class FormMain
         'cmdReloadSongLists
         '
         Me.cmdReloadSongLists.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdReloadSongLists.Location = New System.Drawing.Point(1704, 862)
+        Me.cmdReloadSongLists.Location = New System.Drawing.Point(1455, 862)
         Me.cmdReloadSongLists.Name = "cmdReloadSongLists"
         Me.cmdReloadSongLists.Size = New System.Drawing.Size(116, 23)
         Me.cmdReloadSongLists.TabIndex = 628
@@ -966,15 +971,59 @@ Partial Class FormMain
         Me.lblFadeOut.TabIndex = 327
         Me.lblFadeOut.Text = "Fade Out:"
         '
+        'vSongEdit
+        '
+        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.vSongEdit.BackColor = System.Drawing.Color.White
+        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
+        Me.vSongEdit.FillColor = System.Drawing.Color.Black
+        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
+        Me.vSongEdit.Maximum = 5000000
+        Me.vSongEdit.Name = "vSongEdit"
+        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
+        Me.vSongEdit.TabIndex = 335
+        '
         'lstSongEditPresets
         '
         Me.lstSongEditPresets.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lstSongEditPresets.ContextMenuStrip = Me.ctxDramaChangesActions
         Me.lstSongEditPresets.FormattingEnabled = True
         Me.lstSongEditPresets.Location = New System.Drawing.Point(76, 330)
         Me.lstSongEditPresets.Name = "lstSongEditPresets"
         Me.lstSongEditPresets.Size = New System.Drawing.Size(268, 550)
         Me.lstSongEditPresets.TabIndex = 325
+        '
+        'ctxDramaChangesActions
+        '
+        Me.ctxDramaChangesActions.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxDramaEditChannels, Me.ctxDramaSaveScene, Me.ctxDramaDuplicateScene, Me.ctxDramaRenameScene})
+        Me.ctxDramaChangesActions.Name = "ctxPresetLabelActions"
+        Me.ctxDramaChangesActions.Size = New System.Drawing.Size(227, 92)
+        '
+        'ctxDramaEditChannels
+        '
+        Me.ctxDramaEditChannels.Name = "ctxDramaEditChannels"
+        Me.ctxDramaEditChannels.Size = New System.Drawing.Size(226, 22)
+        Me.ctxDramaEditChannels.Text = "Edit Channels"
+        '
+        'ctxDramaSaveScene
+        '
+        Me.ctxDramaSaveScene.Name = "ctxDramaSaveScene"
+        Me.ctxDramaSaveScene.Size = New System.Drawing.Size(226, 22)
+        Me.ctxDramaSaveScene.Text = "Save Scene to File"
+        '
+        'ctxDramaDuplicateScene
+        '
+        Me.ctxDramaDuplicateScene.Name = "ctxDramaDuplicateScene"
+        Me.ctxDramaDuplicateScene.Size = New System.Drawing.Size(226, 22)
+        Me.ctxDramaDuplicateScene.Text = "Duplicate Scene"
+        '
+        'ctxDramaRenameScene
+        '
+        Me.ctxDramaRenameScene.Name = "ctxDramaRenameScene"
+        Me.ctxDramaRenameScene.Size = New System.Drawing.Size(226, 22)
+        Me.ctxDramaRenameScene.Text = "Rename Scene (not working)"
         '
         'cmdEditSongCopyNew
         '
@@ -982,7 +1031,7 @@ Partial Class FormMain
         Me.cmdEditSongCopyNew.Name = "cmdEditSongCopyNew"
         Me.cmdEditSongCopyNew.Size = New System.Drawing.Size(75, 52)
         Me.cmdEditSongCopyNew.TabIndex = 324
-        Me.cmdEditSongCopyNew.Text = "Copy Scene (broken)"
+        Me.cmdEditSongCopyNew.Text = "Copy Scene"
         Me.cmdEditSongCopyNew.UseVisualStyleBackColor = True
         '
         'cmdEditSongSave
@@ -1404,6 +1453,7 @@ Partial Class FormMain
         '
         Me.lstDramaPresets.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lstDramaPresets.ContextMenuStrip = Me.ctxDramaChangesActions
         Me.lstDramaPresets.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lstDramaPresets.FormattingEnabled = True
         Me.lstDramaPresets.ItemHeight = 16
@@ -2178,6 +2228,7 @@ Partial Class FormMain
         Me.chkAsioMode.TabIndex = 344
         Me.chkAsioMode.Text = "Turn on ASIO Output"
         Me.chkAsioMode.UseVisualStyleBackColor = False
+        Me.chkAsioMode.Visible = False
         '
         'lblMaster
         '
@@ -2238,6 +2289,7 @@ Partial Class FormMain
         Me.cmdOpenTouchpad.TabIndex = 281
         Me.cmdOpenTouchpad.Text = "Touchpad"
         Me.cmdOpenTouchpad.UseVisualStyleBackColor = True
+        Me.cmdOpenTouchpad.Visible = False
         '
         'tmrMP3
         '
@@ -2270,6 +2322,7 @@ Partial Class FormMain
         Me.cmdColourTest.TabIndex = 313
         Me.cmdColourTest.Text = "Colour Test"
         Me.cmdColourTest.UseVisualStyleBackColor = True
+        Me.cmdColourTest.Visible = False
         '
         'Button5
         '
@@ -2280,16 +2333,7 @@ Partial Class FormMain
         Me.Button5.TabIndex = 315
         Me.Button5.Text = "Colour Test"
         Me.Button5.UseVisualStyleBackColor = True
-        '
-        'cmdForceUID
-        '
-        Me.cmdForceUID.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdForceUID.Location = New System.Drawing.Point(1838, 920)
-        Me.cmdForceUID.Name = "cmdForceUID"
-        Me.cmdForceUID.Size = New System.Drawing.Size(60, 25)
-        Me.cmdForceUID.TabIndex = 316
-        Me.cmdForceUID.Text = "Serial"
-        Me.cmdForceUID.UseVisualStyleBackColor = True
+        Me.Button5.Visible = False
         '
         'lblAudioActive
         '
@@ -2395,19 +2439,6 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
-        'vSongEdit
-        '
-        Me.vSongEdit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.vSongEdit.BackColor = System.Drawing.Color.White
-        Me.vSongEdit.BulletColor = System.Drawing.Color.Red
-        Me.vSongEdit.FillColor = System.Drawing.Color.Black
-        Me.vSongEdit.Location = New System.Drawing.Point(8, 233)
-        Me.vSongEdit.Maximum = 5000000
-        Me.vSongEdit.Name = "vSongEdit"
-        Me.vSongEdit.Size = New System.Drawing.Size(1804, 42)
-        Me.vSongEdit.TabIndex = 335
-        '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2416,7 +2447,6 @@ Partial Class FormMain
         Me.Controls.Add(Me.barVUmeter)
         Me.Controls.Add(Me.lblAudio2)
         Me.Controls.Add(Me.lblAudioActive)
-        Me.Controls.Add(Me.cmdForceUID)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.cmdColourTest)
         Me.Controls.Add(Me.chkAsioMode)
@@ -2443,6 +2473,7 @@ Partial Class FormMain
         Me.tbpMusic.PerformLayout()
         CType(Me.numFadeIn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numFadeOut, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ctxDramaChangesActions.ResumeLayout(False)
         CType(Me.trkMusicVolume2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.trkMusicVolume, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tbpScriptChanges.ResumeLayout(False)
@@ -2596,7 +2627,6 @@ Partial Class FormMain
     Public WithEvents lblSceneLabelColour As Label
     Friend WithEvents cmdColourTest As Button
     Friend WithEvents Button5 As Button
-    Friend WithEvents cmdForceUID As Button
     Friend WithEvents txtSerialIn As TextBox
     Friend WithEvents cmdSerialClear As Button
     Friend WithEvents lblAudioActive As Label
@@ -2677,4 +2707,9 @@ Partial Class FormMain
     Friend WithEvents ColumnHeader34 As ColumnHeader
     Friend WithEvents barVUmeter As VScrollBar
     Friend WithEvents chkMusicNextFollows As CheckBox
+    Friend WithEvents ctxDramaChangesActions As ContextMenuStrip
+    Friend WithEvents ctxDramaEditChannels As ToolStripMenuItem
+    Friend WithEvents ctxDramaSaveScene As ToolStripMenuItem
+    Friend WithEvents ctxDramaDuplicateScene As ToolStripMenuItem
+    Friend WithEvents ctxDramaRenameScene As ToolStripMenuItem
 End Class
