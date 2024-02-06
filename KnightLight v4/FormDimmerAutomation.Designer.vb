@@ -128,7 +128,7 @@ Partial Class FormDimmerAutomation
         '
         Me.cmdChaseRemove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdChaseRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.cmdChaseRemove.Location = New System.Drawing.Point(196, 12)
+        Me.cmdChaseRemove.Location = New System.Drawing.Point(242, 12)
         Me.cmdChaseRemove.Name = "cmdChaseRemove"
         Me.cmdChaseRemove.Size = New System.Drawing.Size(100, 23)
         Me.cmdChaseRemove.TabIndex = 269
@@ -156,7 +156,7 @@ Partial Class FormDimmerAutomation
         Me.GroupBox1.Controls.Add(Me.numChaseMin)
         Me.GroupBox1.Controls.Add(Me.lblAutoMinlbl)
         Me.GroupBox1.Controls.Add(Me.cmdChaseFadeAdd)
-        Me.GroupBox1.Location = New System.Drawing.Point(193, 41)
+        Me.GroupBox1.Location = New System.Drawing.Point(239, 41)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(265, 124)
         Me.GroupBox1.TabIndex = 272
@@ -210,7 +210,7 @@ Partial Class FormDimmerAutomation
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.cmdChaseSingleAdd)
         Me.GroupBox2.Controls.Add(Me.numChaseSingleValue)
-        Me.GroupBox2.Location = New System.Drawing.Point(343, 175)
+        Me.GroupBox2.Location = New System.Drawing.Point(389, 175)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(107, 77)
         Me.GroupBox2.TabIndex = 273
@@ -237,7 +237,7 @@ Partial Class FormDimmerAutomation
         Me.GroupBox4.Controls.Add(Me.Label3)
         Me.GroupBox4.Controls.Add(Me.cmdChaseManySingleAdd)
         Me.GroupBox4.Controls.Add(Me.numChaseManyIterations)
-        Me.GroupBox4.Location = New System.Drawing.Point(193, 175)
+        Me.GroupBox4.Location = New System.Drawing.Point(239, 175)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Size = New System.Drawing.Size(144, 143)
         Me.GroupBox4.TabIndex = 275
@@ -309,7 +309,7 @@ Partial Class FormDimmerAutomation
         Me.lstChase.MultiColumn = True
         Me.lstChase.Name = "lstChase"
         Me.lstChase.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstChase.Size = New System.Drawing.Size(180, 446)
+        Me.lstChase.Size = New System.Drawing.Size(226, 446)
         Me.lstChase.TabIndex = 278
         '
         'lblEditingChannels
@@ -319,7 +319,7 @@ Partial Class FormDimmerAutomation
         Me.lblEditingChannels.ForeColor = System.Drawing.Color.Lime
         Me.lblEditingChannels.Location = New System.Drawing.Point(0, 459)
         Me.lblEditingChannels.Name = "lblEditingChannels"
-        Me.lblEditingChannels.Size = New System.Drawing.Size(458, 20)
+        Me.lblEditingChannels.Size = New System.Drawing.Size(504, 20)
         Me.lblEditingChannels.TabIndex = 279
         Me.lblEditingChannels.Text = "Channel numbers"
         '
@@ -327,7 +327,7 @@ Partial Class FormDimmerAutomation
         '
         Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox3.Controls.Add(Me.numSoundThreshold)
-        Me.GroupBox3.Location = New System.Drawing.Point(344, 258)
+        Me.GroupBox3.Location = New System.Drawing.Point(390, 258)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(107, 60)
         Me.GroupBox3.TabIndex = 275
@@ -355,7 +355,7 @@ Partial Class FormDimmerAutomation
         Me.CustomGroupBox1.Controls.Add(Me.numChaseTimebetween)
         Me.CustomGroupBox1.Controls.Add(Me.chkAutoRunning)
         Me.CustomGroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CustomGroupBox1.Location = New System.Drawing.Point(193, 324)
+        Me.CustomGroupBox1.Location = New System.Drawing.Point(239, 324)
         Me.CustomGroupBox1.Name = "CustomGroupBox1"
         Me.CustomGroupBox1.Size = New System.Drawing.Size(255, 127)
         Me.CustomGroupBox1.TabIndex = 277
@@ -430,7 +430,7 @@ Partial Class FormDimmerAutomation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(467, 481)
+        Me.ClientSize = New System.Drawing.Size(513, 481)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.lblEditingChannels)
         Me.Controls.Add(Me.lstChase)

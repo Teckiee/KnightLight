@@ -7,6 +7,8 @@ Imports System.Runtime.InteropServices
 Imports System.ComponentModel
 Imports NAudio.Wave
 Imports System.Management
+Imports System.Runtime.Remoting.Channels
+
 Public Class FormChannels
 
     Public LastSelectedChannel As Integer = 1
@@ -16,14 +18,6 @@ Public Class FormChannels
     Public totalselected As Integer = 0
 
     Public SelectedChannels As New List(Of Integer)
-
-    '<System.Runtime.InteropService.DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> 
-
-    'Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
-
-    'Private Declare Function SendMessage Lib "user32.dll" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Long) As Long
-
-    'Public Const WM_SETREDRAW As Integer = &HB
 
     Private Sub FormChannels_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 #Disable Warning BC42025 ' Access of shared member, constant member, enum member or nested type through an instance
@@ -50,14 +44,94 @@ Public Class FormChannels
             Me.WindowState = WindowState.Normal
             Me.StartPosition = StartPosition.CenterScreen
         End If
+        SetColours()
 
-
-
-        'ColPicker.Size = New Point(355, 154)
-        'ColPicker.Visible = False
-        'frmChannels.Controls.Add(ColPicker)
 
 #Enable Warning BC42025 ' Access of shared member, constant member, enum member or nested type through an instance
+    End Sub
+    Public Sub SetColours()
+
+        Dim I As Integer = 1
+        Do Until I >= ChannelFaders.Length
+            If Not ChannelFaders(I) Is Nothing Then
+                ChannelFaders(I).dmrvs.BulletColor = frmMain.lblChannelBulletColour.BackColor
+                ChannelFaders(I).dmrvs.BackColor = frmMain.lblChannelBackColour.BackColor
+                ChannelFaders(I).dmrvs.FillColor = frmMain.lblChannelFillColour.BackColor
+                ChannelFaders(I).dmrlblTop.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+            Else
+                Exit Do
+            End If
+            I += 1
+        Loop
+
+        For Each c As Control In GroupBox1.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+        Next
+        For Each c As Control In GroupBox2.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+        Next
+        For Each c As Control In GroupBox3.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+        Next
+        For Each c As Control In GroupBox4.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+        Next
+        For Each c As Control In CustomGroupBox1.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+        Next
+        For Each c As Object In GroupBox5.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+            If c.GetType.FullName = "KnobControl.KnobControl" Then
+                c.ScaleColor = frmMain.lblChannelNumberColour.BackColor
+            End If
+        Next
+        For Each c As Object In GroupBox6.Controls
+            c.ForeColor = frmMain.lblChannelNumberColour.BackColor
+            c.BackColor = Color.Black
+            If c.GetType.FullName = "KnobControl.KnobControl" Then
+                c.ScaleColor = frmMain.lblChannelNumberColour.BackColor
+            End If
+        Next
+
+
+        'lblAutoMaxlbl.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'lblAutoMinlbl.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'chkChaseStartRandom.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'chkAutoRunning.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'cmdChaseRemove.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'lblEditingChannels.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+        GroupBox1.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox2.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox3.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox4.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox5.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox6.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        CustomGroupBox1.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+        lblSelectedHeader.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        lblEditingChannels.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        cmdChaseRemove.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+        'Label1.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'Label2.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'Label3.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+        'optInOrder.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'optRandomTimed.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'optRandomSound.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'chkFadeLtoH.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        'chkFadeHtoL.ForeColor = frmMain.lblChannelNumberColour.BackColor
+
+        lstChase.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        lstChase.BackColor = Color.Black
     End Sub
 
     Private Sub Form_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -75,7 +149,9 @@ Public Class FormChannels
 
         'MessageBox.Show(cms.SourceControl.Name)
         LoadFixtureFavourites(parentChan)
+        LoadFixtureOptions(parentChan)
     End Sub
+
     Public Function GetIndexOfNumber(ByVal str As String) As Integer
 
         For n As Integer = 0 To str.Length - 1
@@ -91,6 +167,78 @@ Public Class FormChannels
         Return -1
 
     End Function
+
+    Public Sub GenerateAutomation()
+        numChaseMax.Value = 255
+        numChaseMin.Value = 0
+        numChaseManyMax.Value = 255
+        numChaseManyMin.Value = 0
+        numChaseSingleValue.Value = 255
+        numChaseManyIterations.Value = 10
+        lblEditingChannels.Text = ""
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+            lblEditingChannels.Text &= ", " & SelectedChannels(I)
+            optRandomTimed.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressRandomTimed
+            optRandomSound.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressSoundActivated
+            optInOrder.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressInOrder
+            numChaseTimebetween.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Interval
+            'chkAutoRunning.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.RunTimer
+            lstWave.SelectedItem = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode
+            chkLoop.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressLoop
+            lstChase.Items.Clear()
+            Dim ite() As Integer = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.ToArray
+            For Each i1 As Integer In ite
+                lstChase.Items.Add(i1)
+            Next
+
+            I += 1
+        Loop
+        lblEditingChannels.Text = lblEditingChannels.Text.TrimStart(", ")
+    End Sub
+    Sub LoadFixtureOptions(ByVal channel As Integer)
+
+        Dim firstchan As Integer = channel - FixtureControls(channel).ChannelOfFixture + 1
+
+        ctxFixtureOptions.DropDownItems.Clear()
+        Dim I As Integer = 0
+
+        If FixtureControls(firstchan).FixtureName = "Intimidator" Then
+            Dim aopt() As String = Directory.GetFiles(Application.StartupPath & "\Fixtures\Intimidator", "*.png")
+            Do Until I >= aopt.Count
+                Dim newTT As New ToolStripMenuItem
+                newTT.Text = Path.GetFileNameWithoutExtension(aopt(I))
+                newTT.Name = firstchan
+                newTT.Tag = firstchan
+                newTT.Image = Image.FromFile(aopt(I))
+                newTT.ImageScaling = ToolStripItemImageScaling.None
+                ctxFixtureOptions.DropDownItems.Add(newTT)
+                AddHandler newTT.Click, AddressOf ctxFixtureOptionsItem_Click
+
+                I += 1
+            Loop
+
+        End If
+
+        'If Not FixtureControls(firstchan).Favourites Is Nothing Then
+
+        '    Do Until I >= FixtureControls(firstchan).Favourites.Count
+        '        If FixtureControls(firstchan).Favourites(I) Is Nothing Then Exit Do
+        '        Dim newTT As New ToolStripMenuItem
+        '        newTT.Text = FixtureControls(firstchan).Favourites(I)
+        '        newTT.Name = firstchan
+        '        newTT.Tag = firstchan
+        '        ctxFixtureOptions.DropDownItems.Add(newTT)
+        '        AddHandler newTT.Click, AddressOf ctxFixtureOptionsItem_Click
+        '        I += 1
+
+        '    Loop
+        'End If
+
+    End Sub
+    Private Sub ctxFixtureOptionsItem_Click(sender As Object, e As EventArgs)
+
+    End Sub
     Sub LoadFixtureFavourites(ByVal channel As Integer)
 
         Dim firstchan As Integer = channel - FixtureControls(channel).ChannelOfFixture + 1
@@ -147,12 +295,12 @@ Public Class FormChannels
                                     ChannelFaders(iSelectedParent - numChannelFadersStart.Value + a(0)).dmrvs.Value = b(1)
 
                                 Case "TimerEnabled", "timerenabled"
-                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Enabled = Convert.ToBoolean(b(1))
+                                    SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.IsEnabled = Convert.ToBoolean(b(1))
                                 Case "AutoTimeBetween"
                                     If b(1) = 0 Then
-                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = 10
+                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.Interval = 10
                                     Else
-                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.tTimer.Interval = b(1)
+                                        SceneData(iCurrentScene).ChannelValues(iSelectedParent - 1 + a(0)).Automation.Interval = b(1)
                                     End If
 
                                 Case "RandomStart"
@@ -318,28 +466,28 @@ Public Class FormChannels
     End Sub
 
     Private Sub ctxDimmerAutomation_Click(sender As Object, e As EventArgs) Handles ctxDimmerAutomation.Click
-        Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
-        'frmDimmerAutomation = New FormDimmerAutomation
-        Dim NextAvail As Integer = 0
-        Do Until frmDimmerAutomation(NextAvail).Visible = False
-            NextAvail += 1
-        Loop
-        frmDimmerAutomation(NextAvail).InstanceNo = NextAvail
-        frmDimmerAutomation(NextAvail).Location = Windows.Forms.Cursor.Position
-        frmDimmerAutomation(NextAvail).isLoaded = False
+        'Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        'Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
+        ''frmDimmerAutomation = New FormDimmerAutomation
+        'Dim NextAvail As Integer = 0
+        'Do Until frmDimmerAutomation(NextAvail).Visible = False
+        '    NextAvail += 1
+        'Loop
+        'frmDimmerAutomation(NextAvail).InstanceNo = NextAvail
+        'frmDimmerAutomation(NextAvail).Location = Windows.Forms.Cursor.Position
+        'frmDimmerAutomation(NextAvail).isLoaded = False
 
-        Dim I As Integer = 1
-        Do Until I >= SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues.Count
-            If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True Then
-                frmDimmerAutomation(NextAvail).iChanSel.Add(I)
-            End If
-            I += 1
-        Loop
+        'Dim I As Integer = 1
+        'Do Until I >= SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues.Count
+        '    If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True Then
+        '        frmDimmerAutomation(NextAvail).iChanSel.Add(I)
+        '    End If
+        '    I += 1
+        'Loop
 
-        frmDimmerAutomation(NextAvail).Generate()
-        frmDimmerAutomation(NextAvail).Show()
-        frmDimmerAutomation(NextAvail).isLoaded = True
+        'frmDimmerAutomation(NextAvail).Generate()
+        'frmDimmerAutomation(NextAvail).Show()
+        'frmDimmerAutomation(NextAvail).isLoaded = True
 
 
 
@@ -451,6 +599,10 @@ Public Class FormChannels
                 Dim ActionIndex As Integer = 1
                 Do Until ActionIndex >= a.Length
                     Dim b() As String = Split(a(ActionIndex), "-")
+                    If ChannelFaders(channelno) Is Nothing Then
+
+                        Exit Sub
+                    End If
                     If Val(ChannelFaders(channelno).dmrtxtv.Text) >= b(0) And Val(ChannelFaders(channelno).dmrtxtv.Text) <= b(1) Then
                         'found value
                         Exit Do
@@ -600,7 +752,7 @@ Public Class FormChannels
 
             XUpTo += ChannelFaders(I).Size.Width
 
-            If StartX + XUpTo + ChannelFaders(I).Size.Width + ChannelFaders(I).Size.Width > frmChannels.cmdSelectedFull.Location.X Then
+            If StartX + XUpTo + ChannelFaders(I).Size.Width + ChannelFaders(I).Size.Width > frmChannels.pnlAutomation.Location.X + 36 Then
                 XUpTo = StartX
                 YUpTo += ChannelFaders(I).Size.Height
                 RunningRowNum += 1
@@ -642,10 +794,21 @@ DoneGeneration:
         For Each c As System.Windows.Forms.Control In frmChannels.Controls
             AddHandler c.KeyDown, AddressOf Form1_KeyDown
             AddHandler c.KeyUp, AddressOf Form1_KeyUp
-
+        Next c
+        For Each c As System.Windows.Forms.Control In frmChannels.pnlAutomation.Controls
+            AddHandler c.KeyDown, AddressOf Form1_KeyDown
+            AddHandler c.KeyUp, AddressOf Form1_KeyUp
+            If c.GetType.ToString = "System.Windows.Forms.GroupBox" Then
+                For Each c1 As System.Windows.Forms.Control In c.Controls
+                    AddHandler c1.KeyDown, AddressOf Form1_KeyDown
+                    AddHandler c1.KeyUp, AddressOf Form1_KeyUp
+                Next c1
+            End If
 
         Next c
-        frmChannels.ResumeLayout()
+
+        frmChannels.ResumeLayout(False)
+        frmChannels.PerformLayout()
         'SendMesssage(Me.hwnd, WM_SETREDRAW, True, 0)  ' re-enable drawing
         'SendMessage(Me.Handle, WM_SETREDRAW, True, 0)
 
@@ -728,10 +891,23 @@ DoneGeneration:
         RebuildTextOnChannelLabels()
     End Sub
 
+    Public Sub UpdateSelectedChannelsList()
+        SelectedChannels.Clear()
+
+        Dim I As Integer = 1
+        Do Until I >= SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues.Count
+            If SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(I).Selected = True Then
+                SelectedChannels.Add(I)
+            End If
+            I += 1
+        Loop
+    End Sub
+
     Public Sub RebuildTextOnChannelLabels()
         'If formopened = False Then Exit Sub
         FadersRenaming = True
         Dim I As Integer = 1
+
 
         'Do Until I >= FixtureControls.Length
         '    If FixtureControls(I).IsFirst = True Then
@@ -833,6 +1009,7 @@ DoneGeneration:
             uptoChannel += 1
             I += 1
         Loop
+        UpdateSelectedChannelsList()
         FadersRenaming = False
     End Sub
 
@@ -958,4 +1135,446 @@ DoneGeneration:
         txtSelected.Text = 0
         txtSelected_TextChanged(Nothing, Nothing)
     End Sub
+
+    Private Sub cmdChaseRemove_Click(sender As Object, e As EventArgs) Handles cmdChaseRemove.Click
+        If lstChase.SelectedItems.Count = 0 Then Exit Sub
+
+        For i As Integer = lstChase.SelectedItems.Count - 1 To 0 Step -1
+            lstChase.Items.Remove(lstChase.SelectedItems(i))
+        Next
+
+        Dim I2 As Integer = 0
+        Do Until I2 >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I2)).Automation.ProgressList.Clear()
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I2)).Automation.ProgressList.Add(Val(i1))
+            Next
+
+            I2 += 1
+        Loop
+        'SaveAutomation()
+    End Sub
+    Private Sub cmdChaseFadeAdd_Click(sender As Object, e As EventArgs) Handles cmdChaseFadeAdd.Click
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        Dim I As Integer = 0
+        Dim iVal As Integer = numChaseMin.Value
+        Dim ChannelCountEachTime As Integer = 4
+        Dim iTotal As Integer = ((numChaseMax.Value - numChaseMin.Value) * 2) / ChannelCountEachTime
+        Dim sDir As String = "Up"
+        If chkFadeHtoL.Checked = True Then
+            iTotal = (numChaseMax.Value - numChaseMin.Value) / ChannelCountEachTime
+            sDir = "Down"
+            iVal = numChaseMax.Value
+        ElseIf chkFadeLtoH.Checked = True Then
+            iTotal = (numChaseMax.Value - numChaseMin.Value) / ChannelCountEachTime
+            sDir = "Up"
+        ElseIf chkChaseStartRandom.Checked = True Then
+            iVal = GetRandom(numChaseMin.Value / 4, numChaseMax.Value / 4) * 4
+            Dim rDir As Integer = GetRandom(1, 2)
+            If rDir = 1 Then sDir = "Up"
+            If rDir = 1 Then sDir = "Down"
+        ElseIf chkFadeBothWays.Checked = True Then
+
+        End If
+
+
+        Do Until I > iTotal
+            If iVal > 255 Then
+                lstChase.Items.Add(255)
+            ElseIf iVal < 0 Then
+                lstChase.Items.Add(0)
+            Else
+                lstChase.Items.Add(iVal)
+            End If
+
+            If sDir = "Up" Then
+                iVal += ChannelCountEachTime
+                If iVal >= numChaseMax.Value Then
+                    sDir = "Down"
+                End If
+            Else
+                iVal -= ChannelCountEachTime
+                If iVal <= numChaseMin.Value Then
+                    sDir = "Up"
+                End If
+            End If
+            I += 1
+
+        Loop
+
+        I = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Clear()
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Add(Val(i1))
+            Next
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub cmdChaseManySingleAdd_Click(sender As Object, e As EventArgs) Handles cmdChaseManySingleAdd.Click
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        Dim I As Integer = 0
+        Do Until I >= numChaseManyIterations.Value
+            lstChase.Items.Add(GetRandom(numChaseManyMin.Value, numChaseManyMax.Value))
+            I += 1
+        Loop
+        I = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Clear()
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Add(Val(i1))
+            Next
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub cmdChaseSingleAdd_Click(sender As Object, e As EventArgs) Handles cmdChaseSingleAdd.Click
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        lstChase.Items.Add(numChaseSingleValue.Value)
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Clear()
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Add(Val(i1))
+            Next
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub chkFadeLtoH_CheckedChanged(sender As Object, e As EventArgs)
+        If chkFadeLtoH.Checked = True Then
+            chkFadeHtoL.Checked = False
+        End If
+
+    End Sub
+    Private Sub chkFadeHtoL_CheckedChanged(sender As Object, e As EventArgs)
+        If chkFadeHtoL.Checked = True Then
+            chkFadeLtoH.Checked = False
+        End If
+
+    End Sub
+    Private Sub SaveAutomation()
+        If formopened = False Then Exit Sub
+        'numChaseMax.Value = 255
+        'numChaseMin.Value = 0
+        'numChaseManyMax.Value = 255
+        'numChaseManyMin.Value = 0
+        'numChaseSingleValue.Value = 255
+        'numChaseManyIterations.Value = 10
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressRandomTimed = optRandomTimed.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressSoundActivated = optRandomSound.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressInOrder = optInOrder.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Interval = numChaseTimebetween.Value
+            'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.tTimer.Enabled = chkAutoRunning.Checked
+            'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.RunTimer = chkAutoRunning.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = lstWave.SelectedItem
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressLoop = chkLoop.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.SoundActivationThreshold = numSoundThreshold.Value
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Clear()
+
+
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressList.Add(Val(i1))
+            Next
+
+
+            I += 1
+        Loop
+    End Sub
+    Public Sub UpdateAutomationControls(ByVal SelectedChannel As Integer)
+        'AutomationTriggered
+        OtherAutomationTriggered = True
+        ' make form controls reflect saved values of last selected channel
+
+        optRandomTimed.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.ProgressRandomTimed
+        optRandomSound.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.ProgressSoundActivated
+        optInOrder.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.ProgressInOrder
+        numChaseTimebetween.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.Interval
+        lstWave.SelectedItem = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.Mode
+        chkLoop.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.ProgressLoop
+        numSoundThreshold.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.SoundActivationThreshold
+
+        lstChase.Items.Clear()
+
+        For Each i1 In SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.ProgressList
+            lstChase.Items.Add(Val(i1))
+        Next
+
+        lstWave.SelectedIndex = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.Mode
+        knbAmplitude.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.oscAmplitude
+        knbCenter.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.oscCenter
+        knbFrequency.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.oscFrequency / 0.01
+        knbPhase.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.oscPhase * 10
+
+        knbSoundLevel.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.SoundLevel
+        knbSoundAttack.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.SoundAttack
+        knbSoundRelease.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannel).Automation.SoundRelease
+
+        OtherAutomationTriggered = False
+    End Sub
+
+
+    Private Sub knbAmplitude_ValueChanged(Sender As Object) Handles knbAmplitude.ValueChanged
+        'amplitude = knbAmplitude.Value
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        txtAmplitude.Text = knbAmplitude.Value
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscAmplitude = knbAmplitude.Value
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    Private Sub knbCenter_Load(sender As Object) Handles knbCenter.ValueChanged
+        'middleValue = knbCenter.Value
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        txtCenter.Text = knbCenter.Value
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscCenter = knbCenter.Value
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    Private Sub knbFrequency_Load(sender As Object) Handles knbFrequency.ValueChanged
+        'frequency = knbFrequency.Value * 0.01
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        txtFrequency.Text = knbFrequency.Value * 0.01
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscFrequency = knbFrequency.Value * 0.01
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    Private Sub knbPhase_Load(sender As Object) Handles knbPhase.ValueChanged
+        'phase = knbPhase.Value / 10
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        txtPhase.Text = knbPhase.Value / 10
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscPhase = knbPhase.Value / 10
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    'Private Sub chkAutoRunning_CheckedChanged(sender As Object, e As EventArgs)
+    '    If formopened = False Then Exit Sub
+    '    If OtherAutomationTriggered = True Then Exit Sub
+    '    OtherAutomationTriggered = True
+
+    '    Dim I As Integer = 0
+    '    Do Until I >= SelectedChannels.Count
+
+    '        SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.tTimer.Enabled = chkAutoRunning.Checked
+    '        'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.RunTimer = chkAutoRunning.Checked
+    '        SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.AutomationMode = lstWave.SelectedItem
+    '        I += 1
+    '    Loop
+    '    OtherAutomationTriggered = False
+    '    'SaveAutomation()
+    'End Sub
+
+    Private Sub optInOrder_CheckedChanged(sender As Object, e As EventArgs) Handles optInOrder.CheckedChanged, optRandomTimed.CheckedChanged, optRandomSound.CheckedChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressRandomTimed = optRandomTimed.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressSoundActivated = optRandomSound.Checked
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressInOrder = optInOrder.Checked
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub numChaseTimebetween_ValueChanged(sender As Object, e As EventArgs) Handles numChaseTimebetween.ValueChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Interval = numChaseTimebetween.Value
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub chkLoop_CheckedChanged(sender As Object, e As EventArgs) Handles chkLoop.CheckedChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.ProgressLoop = chkLoop.Checked
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub numSoundThreshold_ValueChanged(sender As Object, e As EventArgs) Handles numSoundThreshold.ValueChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.SoundActivationThreshold = numSoundThreshold.Value
+
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+        'SaveAutomation()
+    End Sub
+
+    Private Sub knbSoundLevel_ValueChanged(Sender As Object) Handles knbSoundLevel.ValueChanged
+
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.SoundLevel = knbSoundLevel.Value
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+
+    Private Sub knbSoundAttack_ValueChanged(Sender As Object) Handles knbSoundAttack.ValueChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.SoundAttack = knbSoundAttack.Value
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    Private Sub knbSoundRelease_ValueChanged(Sender As Object) Handles knbSoundRelease.ValueChanged
+
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+        OtherAutomationTriggered = True
+
+        Dim I As Integer = 0
+        Do Until I >= SelectedChannels.Count
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.SoundRelease = knbSoundRelease.Value
+            I += 1
+        Loop
+        OtherAutomationTriggered = False
+    End Sub
+
+    Private Sub lstWave_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstWave.SelectedIndexChanged
+        If formopened = False Then Exit Sub
+        If OtherAutomationTriggered = True Then Exit Sub
+
+        OtherAutomationTriggered = True
+
+        If lstWave.SelectedItem = "Off" Then
+            Dim I As Integer = 0
+            Do Until I >= SelectedChannels.Count
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.StopTimer()
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = AutomationMode.Off
+                I += 1
+            Loop
+        ElseIf lstWave.SelectedItem = "Chase" Then
+            Dim I As Integer = 0
+            Do Until I >= SelectedChannels.Count
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = AutomationMode.Chase
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.StartTimer()
+                I += 1
+            Loop
+        ElseIf lstWave.SelectedItem = "Sine" Then
+            Dim I As Integer = 0
+            Do Until I >= SelectedChannels.Count
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = AutomationMode.Sine
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscIndex = I
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.StartTimer()
+                I += 1
+            Loop
+        ElseIf lstWave.SelectedItem = "Square" Then
+            Dim I As Integer = 0
+            Do Until I >= SelectedChannels.Count
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = AutomationMode.Square
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscIndex = I
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.StartTimer()
+                I += 1
+            Loop
+        ElseIf lstWave.SelectedItem = "Triangle" Then
+            Dim I As Integer = 0
+            Do Until I >= SelectedChannels.Count
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.Mode = AutomationMode.Triangle
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.oscIndex = I
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(SelectedChannels(I)).Automation.StartTimer()
+                I += 1
+            Loop
+        End If
+
+
+        OtherAutomationTriggered = False
+    End Sub
+
 End Class

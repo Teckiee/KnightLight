@@ -18,7 +18,7 @@ Public Class FormDimmerAutomation
 
         GroupBox1.ForeColor = frmMain.lblChannelNumberColour.BackColor
         GroupBox2.ForeColor = frmMain.lblChannelNumberColour.BackColor
-        'GroupBox3.ForeColor = frmMain.lblChannelNumberColour.BackColor
+        GroupBox3.ForeColor = frmMain.lblChannelNumberColour.BackColor
         GroupBox4.ForeColor = frmMain.lblChannelNumberColour.BackColor
         CustomGroupBox1.ForeColor = frmMain.lblChannelNumberColour.BackColor
 
@@ -52,7 +52,8 @@ Public Class FormDimmerAutomation
             optRandomSound.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressSoundActivated
             optInOrder.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressInOrder
             numChaseTimebetween.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval
-            chkAutoRunning.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer
+            'chkAutoRunning.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer
+
             chkLoop.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop
             lstChase.Items.Clear()
             Dim ite() As Integer = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressList.ToArray
@@ -79,7 +80,7 @@ Public Class FormDimmerAutomation
         e.Cancel = True
 
         iChanSel.Clear()
-        frmDimmerAutomation(InstanceNo).Hide()
+        Me.Hide()
         InstanceNo = -1
     End Sub
 
@@ -89,7 +90,7 @@ Public Class FormDimmerAutomation
         For i As Integer = lstChase.SelectedItems.Count - 1 To 0 Step -1
             lstChase.Items.Remove(lstChase.SelectedItems(i))
         Next
-
+        SaveToMain()
     End Sub
 
     Private Sub cmdChaseFadeAdd_Click(sender As Object, e As EventArgs) Handles cmdChaseFadeAdd.Click
@@ -154,19 +155,6 @@ Public Class FormDimmerAutomation
         lstChase.Items.Add(numChaseSingleValue.Value)
         SaveToMain()
     End Sub
-
-    Private Sub chkFadeLtoH_CheckedChanged(sender As Object, e As EventArgs)
-        If chkFadeLtoH.Checked = True Then
-            chkFadeHtoL.Checked = False
-        End If
-
-    End Sub
-    Private Sub chkFadeHtoL_CheckedChanged(sender As Object, e As EventArgs)
-        If chkFadeHtoL.Checked = True Then
-            chkFadeLtoH.Checked = False
-        End If
-
-    End Sub
     Private Sub optInOrder_CheckedChanged(sender As Object, e As EventArgs) Handles optInOrder.CheckedChanged, optRandomTimed.CheckedChanged, optRandomSound.CheckedChanged
         SaveToMain()
     End Sub
@@ -195,7 +183,7 @@ Public Class FormDimmerAutomation
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressInOrder = optInOrder.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval = numChaseTimebetween.Value
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Enabled = chkAutoRunning.Checked
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer = chkAutoRunning.Checked
+            'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer = chkAutoRunning.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop = chkLoop.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundActivationThreshold = numSoundThreshold.Value
 
@@ -210,4 +198,5 @@ Public Class FormDimmerAutomation
             I += 1
         Loop
     End Sub
+
 End Class

@@ -279,7 +279,7 @@ Partial Class FormMain
         Me.tbcControls1.Location = New System.Drawing.Point(0, 22)
         Me.tbcControls1.Name = "tbcControls1"
         Me.tbcControls1.SelectedIndex = 0
-        Me.tbcControls1.Size = New System.Drawing.Size(1834, 918)
+        Me.tbcControls1.Size = New System.Drawing.Size(1834, 1087)
         Me.tbcControls1.TabIndex = 0
         '
         'tbpBanks
@@ -290,7 +290,7 @@ Partial Class FormMain
         Me.tbpBanks.Controls.Add(Me.cmdBankNew)
         Me.tbpBanks.Location = New System.Drawing.Point(4, 22)
         Me.tbpBanks.Name = "tbpBanks"
-        Me.tbpBanks.Size = New System.Drawing.Size(1826, 892)
+        Me.tbpBanks.Size = New System.Drawing.Size(1826, 1061)
         Me.tbpBanks.TabIndex = 5
         Me.tbpBanks.Text = "Banks"
         Me.tbpBanks.UseVisualStyleBackColor = True
@@ -302,7 +302,7 @@ Partial Class FormMain
         Me.lstBanks.FormattingEnabled = True
         Me.lstBanks.Location = New System.Drawing.Point(8, 13)
         Me.lstBanks.Name = "lstBanks"
-        Me.lstBanks.Size = New System.Drawing.Size(196, 537)
+        Me.lstBanks.Size = New System.Drawing.Size(196, 706)
         Me.lstBanks.TabIndex = 253
         '
         'cmdBankDelete
@@ -2443,7 +2443,7 @@ Partial Class FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1904, 952)
+        Me.ClientSize = New System.Drawing.Size(1904, 1121)
         Me.Controls.Add(Me.barVUmeter)
         Me.Controls.Add(Me.lblAudio2)
         Me.Controls.Add(Me.lblAudioActive)

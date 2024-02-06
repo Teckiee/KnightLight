@@ -1,16 +1,18 @@
-﻿Imports NAudio.Wave
+﻿Imports System.Net
+Imports System.Net.Sockets
+Imports NAudio.Wave
 
 Module mdlGlobalVariables
     Public frmMain As FormMain
     'Public frmTouchPad As FormTouchPad
-    Public frmDimmerAutomation(20) As FormDimmerAutomation
+    'Public frmDimmerAutomation(20) As FormDimmerAutomation
     Public controlcolour As Color
     Public frmGradientColour As FormColourGradient
     Public frmCustomColourPicker1 As FormColourPicker
     Public frmChannels As FormChannels
 
     'Public DMX As New Arduino_DMX_USB.Main
-    Public ArdDMX As ArduinoDMX
+    Public ArduDMX As ArduinoDMX
     Public sACNController As SACN_Sender
 
     'Public WithEvents Player(200) As New WMPLib.WindowsMediaPlayer
@@ -36,6 +38,7 @@ Module mdlGlobalVariables
     Public TouchButtons(600) As Button
     Public otherChanged As Boolean = False
     Public bWithFader As Boolean = False
+    Public OtherAutomationTriggered As Boolean = False
 
     Public SceneControlHeightWithFader1 As Integer = 68
     Public SceneControlHeightWithoutFader1 As Integer = 42
@@ -53,6 +56,12 @@ Module mdlGlobalVariables
     Public ASIOMode As Boolean
     Public AudioRun As AudioThread
     'Public asioOutputs(10) As AsioOut
+
+
+    Public packet(4) As artnet.ArtnetDmx
+    Public socket As Socket
+    Public toAddrLocalhost As IPEndPoint
+    Public toAddrBroadcast As IPEndPoint
 
 
     Public ResaveOnSceneLoad As Boolean = False
@@ -128,11 +137,12 @@ Module mdlGlobalVariables
     Structure SceneChannelValues
         Dim Value As Integer
         Dim Selected As Boolean
-        Dim Automation As ChannelAutomation1
+        Dim Automation As cChannelAutomation
     End Structure
     Structure SceneAutomation1
         Dim Nickname As String
-        Dim tTimer As System.Windows.Forms.Timer
+        Dim tTimer As NamedTimer
+        'Dim tTimer As System.Windows.Forms.Timer
         Dim Max As Integer
         Dim Min As Integer
         Dim IntervalSteps As Double
@@ -140,18 +150,32 @@ Module mdlGlobalVariables
         Dim tmrDirection As String
         Dim TimeBetweenMinAndMax As Integer
     End Structure
-    Structure ChannelAutomation1
-        Dim tTimer As System.Windows.Forms.Timer
-        Dim RunTimer As Boolean
-        Dim ProgressInOrder As Boolean
-        Dim ProgressRandomTimed As Boolean
-        Dim ProgressSoundActivated As Boolean
-        Dim SoundActivationThreshold As Integer
-        Dim ProgressLoop As Boolean
-        Dim ProgressList As List(Of Integer)
-        Dim CurrentIofList As Integer
+    'Structure ChannelAutomation1
+    '    'Dim tTimer As System.Windows.Forms.Timer
+    '    Dim tTimer As NamedTimer
+    '    'Dim RunTimer As Boolean
+    '    Dim ProgressInOrder As Boolean
+    '    Dim ProgressRandomTimed As Boolean
+    '    Dim ProgressSoundActivated As Boolean
+    '    Dim SoundActivationThreshold As Integer
+    '    Dim ProgressLoop As Boolean
+    '    Dim ProgressList As List(Of Integer)
+    '    Dim CurrentIofList As Integer
 
-    End Structure
+    '    Dim oscAmplitude As Integer
+    '    Dim oscCenter As Integer
+    '    Dim oscFrequency As Integer
+    '    Dim oscPhase As Integer
+    '    Dim oscIndex As Integer
+    '    Dim oscDirection As String
+
+    '    Dim SoundLevel As Integer
+    '    Dim SoundAttack As Integer
+    '    Dim SoundRelease As Integer
+
+    '    Dim AutomationMode As AutomationMode
+
+    'End Structure
 
     '---------START CHANNEL and PRESET TABPAGE RELATED VARIABLES---------
     Public ChannelFaders(2048) As ctrlDimmerChannel
@@ -159,6 +183,7 @@ Module mdlGlobalVariables
     Public FixtureControls(2048) As FixtureControls1
     Public tbpPresetsControls As New List(Of Control)
     Public frmChannelsControls As New List(Of Control)
+    Public frmChannelAutomationControls As New List(Of Control)
 
     Structure ChannelControls1
 
@@ -172,6 +197,20 @@ Module mdlGlobalVariables
         'Dim cLongDescr As ToolTip
 
     End Structure
+
+    Enum AutomationMode
+        Off = 0
+        Chase = 1
+        Sine = 2
+        Square = 3
+        Triangle = 4
+    End Enum
+    Public Function GetRandom(ByVal Min As Integer, ByVal Max As Integer) As Integer
+        Static Generator As System.Random = New System.Random()
+        Return Generator.Next(Min, Max)
+        'Return CInt(Math.Ceiling(Rnd() * Max))
+    End Function
+
     Structure PresetControls1
         'Dim cPresetName As Label
         'Dim cTxtVal As TextBox

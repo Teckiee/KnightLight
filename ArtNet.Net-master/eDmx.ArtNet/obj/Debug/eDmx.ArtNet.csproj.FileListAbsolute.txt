@@ -1,0 +1,6 @@
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\bin\Debug\eDmx.ArtNet.dll
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\bin\Debug\eDmx.ArtNet.pdb
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\obj\Debug\eDmx.ArtNet.csproj.AssemblyReference.cache
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\obj\Debug\eDmx.ArtNet.csproj.CoreCompileInputs.cache
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\obj\Debug\eDmx.ArtNet.dll
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\eDmx.ArtNet\obj\Debug\eDmx.ArtNet.pdb

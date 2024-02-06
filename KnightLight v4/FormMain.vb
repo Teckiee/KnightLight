@@ -8,6 +8,9 @@ Imports System.ComponentModel
 Imports System.Management
 Imports Super_Awesome_Lighting_DMX_board_v4.mdlGlobalVariables
 Imports NAudio.SoundFont
+Imports System.Net
+Imports System.Net.Sockets
+Imports NAudio
 'Imports Arduino_DMX_USB.Main
 
 Public Class FormMain
@@ -167,7 +170,7 @@ found:
                         Arduinos(I).HasDevice = True
                     Case ArduinoModes.ctlDMX3Universe
                         Arduinos(I).Job = ArduinoModes.ctlDMX3Universe
-                        ArdDMX.SetComPort = I
+                        ArduDMX.SetComPort = I
                         Arduinos(I).HasDevice = True
                     Case ArduinoModes.ctlSoundActivation1
                         Arduinos(I).Job = ArduinoModes.ctlSoundActivation1
@@ -418,6 +421,8 @@ found:
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         StartupTimer = New Stopwatch
         StartupTimer.Start()
+        Me.SuspendLayout()
+        tbpPresets.SuspendLayout()
 
         If Environment.GetCommandLineArgs.Length > 1 Then
             If Environment.GetCommandLineArgs(1) = "-Testmode" Then Testmode = True
@@ -428,7 +433,7 @@ found:
         AudioRun = New AudioThread
         StartupProcess("AudioThread")
 
-        ArdDMX = New ArduinoDMX
+        ArduDMX = New ArduinoDMX
         StartupProcess("ArduinoDMX")
 
         'sACNController = New SACN_Sender
@@ -436,15 +441,15 @@ found:
 
         frmMain = Me
         'frmTouchPad = New FormTouchPad
-        Dim iDim As Integer = 0
-        Do Until iDim >= frmDimmerAutomation.Length
-            frmDimmerAutomation(iDim) = New FormDimmerAutomation With {
-                .Icon = frmMain.Icon,
-                .BackColor = Color.Black
-            }
-            iDim += 1
-        Loop
-        StartupProcess("frmDimmerAutomation")
+        'Dim iDim As Integer = 0
+        'Do Until iDim >= frmDimmerAutomation.Length
+        '    frmDimmerAutomation(iDim) = New FormDimmerAutomation With {
+        '        .Icon = frmMain.Icon,
+        '        .BackColor = Color.Black
+        '    }
+        '    iDim += 1
+        'Loop
+        'StartupProcess("frmDimmerAutomation")
         frmGradientColour = New FormColourGradient
         frmCustomColourPicker1 = New FormColourPicker
         frmChannels = New FormChannels
@@ -476,6 +481,10 @@ found:
             frmChannelsControls.Add(c)
         Next
         StartupProcess("re-Add Channels.Controls")
+
+        For Each c As Windows.Forms.Control In frmChannels.pnlAutomation.Controls
+            frmChannelAutomationControls.Add(c)
+        Next
 
         If Testmode = False Then
             Try
@@ -591,18 +600,86 @@ found:
 
             End If
         Next
+        frmChannels.SetColours()
         StartupProcess("Colouring")
         ' -------------------------------------------- End Colouring
 
 
         ChannelFaderPageCurrentSceneDataIndex = 1
-        formopened = True
+
         Dim iStart As Integer = 1
         Do Until iStart >= lstStartup.Items.Count
             lstStartup.Items.Item(iStart).SubItems.Add(lstStartup.Items.Item(iStart).SubItems(1).Text - lstStartup.Items.Item(iStart - 1).SubItems(1).Text)
             iStart += 1
         Loop
+        Me.ResumeLayout(False)
+        tbpPresets.ResumeLayout(False)
+        Me.PerformLayout()
+        tbpPresets.PerformLayout()
+
+
+
+        ' -------------------------------------- ARTNET STUFF
+        Dim Iuniverse As Integer = 1
+        Do Until Iuniverse >= 4
+            packet(Iuniverse) = New artnet.ArtnetDmx(Iuniverse)
+            Iuniverse += 1
+        Loop
+
+
+        Dim strHostName As String
+        Dim strIPAddress As String
+        strHostName = System.Net.Dns.GetHostName()
+        strIPAddress = System.Net.Dns.GetHostByName(strHostName).AddressList(0).ToString()
+        Dim subnetmask As IPAddress = IPAddress.Parse("255.255.255.0")
+
+        For Each ip In System.Net.Dns.GetHostEntry(strHostName).AddressList
+            If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+                'IPv4 Adress
+                Label2.Text = ip.ToString()
+
+                For Each adapter As Net.NetworkInformation.NetworkInterface In Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+                    For Each unicastIPAddressInformation As Net.NetworkInformation.UnicastIPAddressInformation In adapter.GetIPProperties().UnicastAddresses
+                        If unicastIPAddressInformation.Address.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
+                            If ip.Equals(unicastIPAddressInformation.Address) Then
+                                'Subnet Mask
+                                subnetmask = unicastIPAddressInformation.IPv4Mask
+
+                            End If
+                        End If
+                    Next
+                Next
+            End If
+        Next
+
+        Dim ipAddress1 As IPAddress = IPAddress.Parse(strIPAddress)
+        'Dim subnetMask As IPAddress = IPAddress.Parse(subnetmask1)
+
+        Dim broadcastAddress As IPAddress = GetBroadcastAddress(ipAddress1, subnetmask)
+
+        socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
+        'toAddrBroadcast = New IPEndPoint(IPAddress.Parse("192.168.5.201"), 6454)
+        toAddrBroadcast = New IPEndPoint(broadcastAddress, 6454)
+        toAddrLocalhost = New IPEndPoint(IPAddress.Parse("127.0.0.1"), 6454)
+
+        formopened = True
     End Sub
+    Function GetBroadcastAddress(ipAddress As IPAddress, subnetMask As IPAddress) As IPAddress
+        Dim ipBytes As Byte() = ipAddress.GetAddressBytes()
+        Dim maskBytes As Byte() = subnetMask.GetAddressBytes()
+
+        If ipBytes.Length <> maskBytes.Length Then
+            Throw New ArgumentException("IP address and subnet mask lengths do not match.")
+        End If
+
+        Dim broadcastBytes(ipBytes.Length - 1) As Byte
+
+        For i As Integer = 0 To ipBytes.Length - 1
+            broadcastBytes(i) = CByte(ipBytes(i) Or (Not maskBytes(i)))
+        Next
+
+        Return New IPAddress(broadcastBytes)
+    End Function
     Private Sub LoadFixtureInformation()
         FileOpen(1, Application.StartupPath & "\Fixtures.ini", OpenMode.Input)
 
@@ -809,105 +886,121 @@ found:
         Dim I As Integer = 1
         Dim PresetsInBank() As String = Directory.GetFiles(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\", "*.dmr")
         Do Until I >= SceneData.Length
-            ReDim SceneData(I).ChannelValues(2048)
-            ' SET DEFAULTS
-            SceneData(I).Automation.tTimer = New Windows.Forms.Timer With {
-                .Interval = 100,
-                .Tag = I
-            }
-            SceneData(I).Automation.tmrDirection = ""
-            AddHandler SceneData(I).Automation.tTimer.Tick, AddressOf tmrPreset_Tick
 
+            ReDim SceneData(I).ChannelValues(2048)
+
+            ' SET DEFAULTS   
+            SceneData(I).Automation.tTimer = New NamedTimer(I, 100)
+            'SceneData(I).Automation.tTimer = New Windows.Forms.Timer With {
+            '    .Interval = 100,
+            '    .Tag = I
+            '}
+            'AddHandler SceneData(I).Automation.tTimer.Tick, AddressOf tmrPreset_Tick
+            SceneData(I).Automation.tmrDirection = ""
 
 
             If I <= PresetsInBank.Length Then    '---------- IS A SAVE FILE ----------------
                 Dim a1() As String = Split(PresetsInBank(I - 1), "\")
                 Dim NewSceneName As String = Mid(a1(a1.Length - 1), 1, a1(a1.Length - 1).Length - 4)
 
-                Dim NewIndex As Integer = CreateNewScene(NewSceneName) '---------- New important bit ----------------
+                Dim NewIndex As Integer = CreateNewScene(NewSceneName, False) '---------- New important bit ----------------
 
 
-                FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & NewSceneName & ".dmr", OpenMode.Input)
-                Do Until EOF(1)
-                    Dim a() As String = Split(LineInput(1), "|")
-                    Select Case a(0)
-                        Case "P"
+                'FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & NewSceneName & ".dmr", OpenMode.Input)
+                'Do Until EOF(1)
+                Dim fn As String = Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & NewSceneName & ".dmr"
+                Using r As StreamReader = New StreamReader(fn)
+                    Dim line As String = r.ReadLine()
 
-                        Case "M"
+                    Do While Not line = Nothing
+                        Dim a() As String = Split(line, "|")
+                        Select Case a(0)
+                            Case "P"
 
-                        Case "LocIndex"
-                            SceneData(NewIndex).LocIndex = Val(a(1))
-                        Case "PageNo"
-                            SceneData(NewIndex).PageNo = Val(a(1))
-                            Dim newLoc As SCLocs
-                            newLoc.PageNo = SceneData(NewIndex).PageNo
-                            newLoc.PresetIndex = SceneData(NewIndex).LocIndex
-                            SceneDataLocations.Add(NewIndex, newLoc)
-                        Case "ChangeMS"
-                            SceneData(I).Automation.TimeBetweenMinAndMax = a(1)
-                        Case Is > 0
-                            With SceneData(NewIndex).ChannelValues(a(0))
+                            Case "M"
 
-
-                                For Each s As String In a
-                                    Dim b() As String = Split(s, ",")
-                                    Select Case b(0) 'SceneData(I).ChannelValues(a(0))
-                                        Case "v"
-                                            .Value = b(1)
-                                        Case "TimerEnabled", "timerenabled"
-                                            .Automation.RunTimer = Convert.ToBoolean(b(1))
-                                        Case "AutoTimeBetween"
-                                            If b(1) = 0 Then
-                                                .Automation.tTimer.Interval = 100
-                                            Else
-                                                .Automation.tTimer.Interval = b(1)
-                                            End If
-
-                                        Case "RandomStart"
-                                            .Automation.ProgressRandomTimed = Convert.ToBoolean(b(1))
-                                        Case "InOrder"
-                                            .Automation.ProgressInOrder = Convert.ToBoolean(b(1))
-                                        Case "RandomSound"
-                                            .Automation.ProgressSoundActivated = Convert.ToBoolean(b(1))
-                                        Case "SoundThreshold"
-                                            .Automation.SoundActivationThreshold = Val(b(1))
-                                        Case "IsLooped"
-                                            .Automation.ProgressLoop = Convert.ToBoolean(b(1))
-                                        Case "ProgressList"
-                                            If b.Length = 1 Then
-                                                'nothing in progress list
-                                            Else
-
-                                                For Each iList As String In b
-                                                    If Not iList = "ProgressList" Then
-                                                        .Automation.ProgressList.Add(Val(iList))
-                                                    End If
-                                                Next
-                                            End If
+                            Case "LocIndex"
+                                SceneData(NewIndex).LocIndex = Val(a(1))
+                            Case "PageNo"
+                                SceneData(NewIndex).PageNo = Val(a(1))
+                                Dim newLoc As SCLocs
+                                newLoc.PageNo = SceneData(NewIndex).PageNo
+                                newLoc.PresetIndex = SceneData(NewIndex).LocIndex
+                                SceneDataLocations.Add(NewIndex, newLoc)
+                            Case "ChangeMS"
+                                SceneData(I).Automation.TimeBetweenMinAndMax = a(1)
+                            Case Is > 0
+                                With SceneData(NewIndex).ChannelValues(a(0))
 
 
-                                    End Select
-                                Next s
+                                    For Each s As String In a
+                                        Dim b() As String = Split(s, ",")
+                                        Select Case b(0) 'SceneData(I).ChannelValues(a(0))
+                                            Case "v"
+                                                .Value = b(1)
+                                            Case "TimerEnabled", "timerenabled"
+                                                If Convert.ToBoolean(b(1)) = False Then
+                                                    .Automation.Mode = AutomationMode.Off
+                                                ElseIf Convert.ToBoolean(b(1)) = True Then
+                                                    .Automation.Mode = AutomationMode.Chase
+                                                End If
+                                            Case "AutoTimeBetween"
+                                                If b(1) = 0 Then
+                                                    .Automation.Interval = 100
+                                                Else
+                                                    .Automation.Interval = b(1)
+                                                End If
 
-                            End With
+                                            Case "RandomStart"
+                                                .Automation.ProgressRandomTimed = Convert.ToBoolean(b(1))
+                                            Case "InOrder"
+                                                .Automation.ProgressInOrder = Convert.ToBoolean(b(1))
+                                            Case "RandomSound"
+                                                .Automation.ProgressSoundActivated = Convert.ToBoolean(b(1))
+                                            Case "SoundThreshold"
+                                                .Automation.SoundActivationThreshold = Val(b(1))
+                                            Case "IsLooped"
+                                                .Automation.ProgressLoop = Convert.ToBoolean(b(1))
+                                            Case "ProgressList"
+                                                If b.Length = 1 Then
+                                                    'nothing in progress list
+                                                Else
 
-                    End Select
+                                                    For Each iList As String In b
+                                                        If Not iList = "ProgressList" Then
+                                                            .Automation.ProgressList.Add(Val(iList))
+                                                        End If
+                                                    Next
+                                                End If
 
 
-                Loop
-                'Dim I2 As Integer = 1
-                'Do Until I2 >= SceneData(I).ChannelValues.Length
-                '    If SceneData(I).ChannelValues(I2).Automation.tTimer Is Nothing Then
-                '        SceneData(I).ChannelValues(I2).Automation.tTimer = New Windows.Forms.Timer
-                '        SceneData(I).ChannelValues(I2).Automation.tTimer.Tag = I & "|" & I2
-                '        AddHandler SceneData(I).ChannelValues(I2).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
-                '    End If
-                '    I2 += 1
-                'Loop
-                FileClose(1)
+                                        End Select
+                                    Next s
+
+                                End With
+
+                        End Select
+                        line = r.ReadLine
+
+                    Loop
+
+                    'Loop
+                    'Dim I2 As Integer = 1
+                    'Do Until I2 >= SceneData(I).ChannelValues.Length
+                    '    If SceneData(I).ChannelValues(I2).Automation.tTimer Is Nothing Then
+                    '        SceneData(I).ChannelValues(I2).Automation.tTimer = New Windows.Forms.Timer
+                    '        SceneData(I).ChannelValues(I2).Automation.tTimer.Tag = I & "|" & I2
+                    '        AddHandler SceneData(I).ChannelValues(I2).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+                    '    End If
+                    '    I2 += 1
+                    'Loop
+                    'FileClose(1)
+                End Using
+
                 UpdatePresetControls(NewIndex)
             End If
 
+            StartupProcess("SC" & I)
             I += 1
         Loop
 
@@ -1107,99 +1200,101 @@ DoneGeneration:
 
     End Sub
 
-    Private Sub tmrTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If formopened = False Then Exit Sub
-        Dim SceneIndex As Integer = Split(sender.tag, "|")(0)
-        Dim ChannelIndex As Integer = Split(sender.tag, "|")(1)
+    'Private Sub tmrTimer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '    If formopened = False Then Exit Sub
+    '    Dim SceneIndex As Integer = Split(sender.tag, "|")(0)
+    '    Dim ChannelIndex As Integer = Split(sender.tag, "|")(1)
 
 
-        With SceneData(SceneIndex).ChannelValues(ChannelIndex)
+    '    With SceneData(SceneIndex).ChannelValues(ChannelIndex)
+    '        Dim newchanval As Integer = .Value
 
-            ' List In Order
-            If .Automation.ProgressInOrder = True Then
-                If .Automation.CurrentIofList >= .Automation.ProgressList.Count - 1 Then
-                    .Automation.CurrentIofList = 0
-                    If .Automation.ProgressLoop = False Then
-                        .Automation.tTimer.Stop()
-                    End If
-                Else
-                    .Automation.CurrentIofList += 1
-                    .Value = .Automation.ProgressList(.Automation.CurrentIofList)
-                End If
-            End If
+    '        If .Automation.Mode = AutomationMode.Chase Then
 
-            ' List Timed Random
-            If .Automation.ProgressRandomTimed = True Then
-                .Automation.CurrentIofList = GetRandom(0, .Automation.ProgressList.Count)
-                .Value = .Automation.ProgressList(.Automation.CurrentIofList)
-            End If
+    '            ' List In Order
+    '            If .Automation.ProgressInOrder = True Then
+    '                If .Automation.CurrentIofList >= .Automation.ProgressList.Count - 1 Then
+    '                    .Automation.CurrentIofList = 0
+    '                    If .Automation.ProgressLoop = False Then
+    '                        .Automation.StopTimer()
+    '                    End If
+    '                Else
+    '                    .Automation.CurrentIofList += 1
+    '                    newchanval = .Automation.ProgressList(.Automation.CurrentIofList)
+    '                End If
+    '            End If
 
-            ' List Sound Random
-            If .Automation.ProgressSoundActivated = True And SoundActivationCurrentLevel >= .Automation.SoundActivationThreshold Then
-                .Automation.CurrentIofList = GetRandom(0, .Automation.ProgressList.Count)
-                .Value = .Automation.ProgressList(.Automation.CurrentIofList)
-            End If
+    '            ' List Timed Random
+    '            If .Automation.ProgressRandomTimed = True Then
+    '                .Automation.CurrentIofList = GetRandom(0, .Automation.ProgressList.Count)
+    '                newchanval = .Automation.ProgressList(.Automation.CurrentIofList)
+    '            End If
 
-
-            ' After .Value is changed update controls
-            If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then ' And tbcControls1.SelectedTab Is frmChannels Then
-                frmChannels.UpdateFixtureLabel(ChannelIndex)
-
-                Dim I As Integer = 1
-                Do Until I >= ChannelFaders.Count
-                    If Not ChannelFaders(I) Is Nothing Then
-                        If ChannelFaders(I).iChannel = ChannelIndex Then
-                            ChannelFaders(I).dmrvs.Value = .Value
-                            Exit Do
-                        End If
-                        If ChannelIndex < Val(ChannelFaders(I).iChannel) Then Exit Do
-                    End If
-
-                    I += 1
-                Loop
-
-            End If
+    '            ' List Sound Random
+    '            If .Automation.ProgressSoundActivated = True And SoundActivationCurrentLevel >= .Automation.SoundActivationThreshold Then
+    '                .Automation.CurrentIofList = GetRandom(0, .Automation.ProgressList.Count)
+    '                newchanval = .Automation.ProgressList(.Automation.CurrentIofList)
+    '            End If
 
 
 
-            'If .Automation.tmrDirection = "Down" Then
-            '    If (.Value - .Automation.IntervalSteps) <= .Automation.Min Then
-            '        .Value = .Automation.Min
-            '        .Automation.tmrDirection = "Up"
-            '        'ElseIf (.Value - .Automation.IntervalSteps) = .Automation.Min Then
-            '        '    .Automation.tmrDirection = "Up"
-            '        '    .Value += .Automation.IntervalSteps
-            '    Else
-            '        .Value -= .Automation.IntervalSteps
-            '    End If
-            'ElseIf .Automation.tmrDirection = "Up" Then
-            '    If (.Value + .Automation.IntervalSteps) >= .Automation.Max Then
-            '        .Value = .Automation.Max
-            '        .Automation.tmrDirection = "Down"
-            '        'ElseIf (.Value + .Automation.IntervalSteps) = .Automation.Max Then
-            '        '    .Automation.tmrDirection = "Down"
-            '        '    .Value -= .Automation.IntervalSteps
-            '    Else
-            '        .Value += .Automation.IntervalSteps
-            '    End If
-            'Else ' Doesn't have a direction
-            '    Dim I As Integer = GetRandom(1, 2)
-            '    If I = 1 Then
-            '        .Automation.tmrDirection = "Down"
-            '    Else
-            '        .Automation.tmrDirection = "Up"
-            '    End If
-            'End If
+    '        ElseIf .Automation.Mode = AutomationMode.Sine Then
+
+    '            Dim time As Double = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) / 1000.0 ' Convert ticks to seconds
+
+    '            newchanval = CInt((.Automation.oscAmplitude / 2) * Math.Sin(2 * Math.PI * .Automation.oscFrequency * time + (.Automation.oscPhase * .Automation.oscIndex)) + .Automation.oscCenter)
+
+    '            If newchanval < 0 Then newchanval = 0
+    '            If newchanval > 255 Then newchanval = 255
 
 
-            'If I > PresetFaderControlModifier And I <= (PresetFaderControlModifier + PresetFadersTotal) Then
-            '    PresetFaders(I - PresetFaderControlModifier).cTxtVal.Text = SceneData(I).MasterValue
-            'End If
 
-        End With
+    '        ElseIf .Automation.Mode = AutomationMode.Square Then
+
+    '        ElseIf .Automation.Mode = AutomationMode.Triangle Then
+
+    '            Dim variance As Integer = (.Automation.oscAmplitude / 2) + .Automation.oscCenter
+    '            If newchanval >= variance Then
+    '                .Automation.oscDirection = "Decreasing"
+    '            ElseIf newchanval <= 255 - variance Then
+    '                .Automation.oscDirection = "Increasing"
+    '            End If
+
+    '            ' Increment or decrement the channelValue accordingly
+    '            If .Automation.oscDirection = "Increasing" Then
+    '                newchanval += CInt(.Automation.oscAmplitude * .Automation.oscFrequency * .Automation.Interval / 1000)
+    '            Else
+    '                newchanval -= CInt(.Automation.oscAmplitude * .Automation.oscFrequency * .Automation.Interval / 1000)
+    '            End If
+
+    '        End If
 
 
-    End Sub
+    '        .Value = newchanval
+
+    '        ' After .Value is changed update controls
+    '        If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then ' And tbcControls1.SelectedTab Is frmChannels Then
+    '            frmChannels.UpdateFixtureLabel(ChannelIndex)
+
+    '            Dim I As Integer = 1
+    '            Do Until I >= ChannelFaders.Count
+    '                If Not ChannelFaders(I) Is Nothing Then
+    '                    If ChannelFaders(I).iChannel = ChannelIndex Then
+    '                        ChannelFaders(I).dmrvs.Value = .Value
+    '                        Exit Do
+    '                    End If
+    '                    If ChannelIndex < Val(ChannelFaders(I).iChannel) Then Exit Do
+    '                End If
+
+    '                I += 1
+    '            Loop
+
+    '        End If
+
+    '    End With
+
+
+    'End Sub
 #End Region
 
 #Region "Scene Fader Controls"
@@ -1430,19 +1525,20 @@ DoneGeneration:
         Do Until I >= SceneData(Sceneindex).ChannelValues.Length
 
             With SceneData(Sceneindex).ChannelValues(I).Automation
-                If .tTimer Is Nothing Then Exit Sub
-                If .RunTimer = True And IsEnabled = True Then
-                    If .tTimer.Enabled = False Then
+
+                'If .RunTimer = True And IsEnabled = True Then
+                If Not .Mode = AutomationMode.Off And IsEnabled = True Then
+                    If .IsEnabled = False Then
                         If .ProgressRandomTimed = True Or .ProgressRandomTimed = True Then
                             .CurrentIofList = GetRandom(0, .ProgressList.Count - 1)
                         Else
                             .CurrentIofList = 0
                         End If
 
-                        .tTimer.Enabled = True
+                        .StartTimer()
                     End If
                 ElseIf IsEnabled = False Then
-                    .tTimer.Enabled = False
+                    .IsEnabled = False
                     .CurrentIofList = 0
                 End If
             End With
@@ -1470,7 +1566,7 @@ DoneGeneration:
                 .Automation.tmrDirection = "Up"
                 .Automation.IntervalSteps = SceneData(I).Automation.Max / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
 
-                .Automation.tTimer.Start()
+                .Automation.tTimer.StartTimer()
             End With
 
         End If
@@ -1490,46 +1586,47 @@ DoneGeneration:
             With SceneData(I)
                 .Automation.tmrDirection = "Down"
                 .Automation.IntervalSteps = SceneData(I).Automation.Max / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
-                .Automation.tTimer.Start()
+                .Automation.tTimer.StartTimer()
             End With
         End If
     End Sub
-    Private Sub tmrPreset_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If formopened = False Then Exit Sub
-        Dim I As Integer = sender.Tag
-        If SceneData(I).Automation.tmrDirection = "Down" Then
-            If (SceneData(I).MasterValue - SceneData(I).Automation.IntervalSteps) <= 0 Then
-                SceneData(I).Automation.tTimer.Stop()
-                SceneData(I).Automation.tmrDirection = "lol"
-                SceneData(I).MasterValue = 0
-                StartChannelTimers(I, False)
-                'PresetFaders(getpres
-            Else
-                SceneData(I).MasterValue -= SceneData(I).Automation.IntervalSteps
-            End If
-        ElseIf SceneData(I).Automation.tmrDirection = "Up" Then
-            If (SceneData(I).MasterValue + SceneData(I).Automation.IntervalSteps) >= 100 Then
-                SceneData(I).Automation.tTimer.Stop()
-                SceneData(I).Automation.tmrDirection = "lol"
-                SceneData(I).MasterValue = 100
-            Else
-                SceneData(I).MasterValue += SceneData(I).Automation.IntervalSteps
-            End If
-        ElseIf SceneData(I).Automation.tmrDirection = "lol" Then
-            SceneData(I).Automation.tTimer.Stop()
-        ElseIf SceneData(I).Automation.tmrDirection = "" Then
-            SceneData(I).Automation.tTimer.Stop()
-        End If
-        If SceneData(I).MasterValue > 0 Then StartChannelTimers(I, True)
+    'Private Sub tmrPreset_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-        'PresetVisualUpdate = True
-        'If I > PresetFaderControlModifier And I <= (PresetFaderControlModifier + PresetFadersTotal) Then
-        '    PresetFaders(I - PresetFaderControlModifier).cTxtVal.Text = SceneData(I).MasterValue
-        'End If
-        'PresetVisualUpdate = False
-        UpdatePresetControls(I)
-    End Sub
-    Private Function CreateNewScene(ByVal SceneName As String, Optional ByVal PresetFixtureIndex As Integer = -1) As Integer
+    '    If formopened = False Then Exit Sub
+    '    Dim I As Integer = sender.Tag
+    '    If SceneData(I).Automation.tmrDirection = "Down" Then
+    '        If (SceneData(I).MasterValue - SceneData(I).Automation.IntervalSteps) <= 0 Then
+    '            SceneData(I).Automation.tTimer.StopTimer()
+    '            SceneData(I).Automation.tmrDirection = "lol"
+    '            SceneData(I).MasterValue = 0
+    '            StartChannelTimers(I, False)
+    '            'PresetFaders(getpres
+    '        Else
+    '            SceneData(I).MasterValue -= SceneData(I).Automation.IntervalSteps
+    '        End If
+    '    ElseIf SceneData(I).Automation.tmrDirection = "Up" Then
+    '        If (SceneData(I).MasterValue + SceneData(I).Automation.IntervalSteps) >= 100 Then
+    '            SceneData(I).Automation.tTimer.StopTimer()
+    '            SceneData(I).Automation.tmrDirection = "lol"
+    '            SceneData(I).MasterValue = 100
+    '        Else
+    '            SceneData(I).MasterValue += SceneData(I).Automation.IntervalSteps
+    '        End If
+    '    ElseIf SceneData(I).Automation.tmrDirection = "lol" Then
+    '        SceneData(I).Automation.tTimer.StopTimer()
+    '    ElseIf SceneData(I).Automation.tmrDirection = "" Then
+    '        SceneData(I).Automation.tTimer.StopTimer()
+    '    End If
+    '    If SceneData(I).MasterValue > 0 Then StartChannelTimers(I, True)
+
+    '    'PresetVisualUpdate = True
+    '    'If I > PresetFaderControlModifier And I <= (PresetFaderControlModifier + PresetFadersTotal) Then
+    '    '    PresetFaders(I - PresetFaderControlModifier).cTxtVal.Text = SceneData(I).MasterValue
+    '    'End If
+    '    'PresetVisualUpdate = False
+    '    UpdatePresetControls(I)
+    'End Sub
+    Private Function CreateNewScene(ByVal SceneName As String, ByVal AutoUpdate As Boolean, Optional ByVal PresetFixtureIndex As Integer = -1) As Integer
         Dim CurrentPageNo As Integer = 0
         If cmdPresetP1.BackColor = Color.Red Then
             CurrentPageNo = 1
@@ -1594,30 +1691,42 @@ DoneGeneration:
         Do Until I1 >= ChannelFaders.Count
 
             With SceneData(IemptyScene).ChannelValues(I1)
-                .Automation.tTimer = New Windows.Forms.Timer
+
                 If I1 = 36 Then
                     .Value = 42
                 Else
                     .Value = 0
                 End If
+                .Automation = New cChannelAutomation(IemptyScene, I1, 10)
+                '.Automation.Interval = 10
+                '.Automation.IsEnabled = False
+                '.Automation.ChannelIndex = I1
+                '.Automation.SceneIndex = IemptyScene
+                '.Automation.ProgressInOrder = True
+                '.Automation.ProgressLoop = False
+                '.Automation.ProgressRandomTimed = False
+                '.Automation.ProgressSoundActivated = False
+                '.Automation.SoundActivationThreshold = 500
+                '.Automation.Mode = AutomationMode.Off
+                '.Automation.ProgressList = New List(Of Integer)
+                '.Automation.CurrentIofList = 0
 
-                .Automation.tTimer.Interval = 100
-                .Automation.tTimer.Enabled = False
-                .Automation.tTimer.Tag = IemptyScene & "|" & I1
-                .Automation.ProgressInOrder = True
-                .Automation.ProgressLoop = False
-                .Automation.ProgressRandomTimed = False
-                .Automation.ProgressSoundActivated = False
-                .Automation.SoundActivationThreshold = 500
-                .Automation.RunTimer = False
-                .Automation.ProgressList = New List(Of Integer)
-                .Automation.CurrentIofList = 0
+                '.Automation.oscPhase = 0.1
+                '.Automation.oscFrequency = 100
+                '.Automation.oscCenter = 127
+                '.Automation.oscAmplitude = 255
+
+                '.Automation.SoundAttack = 0
+                '.Automation.SoundLevel = 0
+                '.Automation.SoundRelease = 0
+
+
 
             End With
             Try
                 'Thread.Sleep(5)
 
-                AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
+                'AddHandler SceneData(IemptyScene).ChannelValues(I1).Automation.tTimer.Tick, AddressOf tmrTimer_Tick
 
             Catch ex As Exception
 
@@ -1629,8 +1738,10 @@ DoneGeneration:
             ' exists
             PresetFaders(PresetFixtureIndex).cSceneControl.SceneIndex = IemptyScene
         End If
+        If AutoUpdate Then
+            UpdatePresetControls(IemptyScene)
+        End If
 
-        UpdatePresetControls(IemptyScene)
         Return IemptyScene
     End Function
     Private Sub cmdPresetP1_Click(sender As Object, e As EventArgs) Handles cmdPresetP1.Click, cmdPresetP2.Click, cmdPresetP3.Click, cmdPresetP4.Click, cmdPresetP5.Click, cmdPresetP6.Click
@@ -1725,7 +1836,7 @@ DoneGeneration:
                         .Automation.tmrDirection = "Down"
                         '.Automation.tmrUpto = .vtxtBox.Text
                         .Automation.IntervalSteps = 100 / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
-                        .Automation.tTimer.Start()
+                        .Automation.tTimer.StartTimer()
                     End With
                 End If
             End If
@@ -1781,6 +1892,14 @@ DoneGeneration:
 
                 End If
             Next Dmxno
+            If formopened = True Then
+                For univ As Integer = 0 To packet.Count - 1
+                    socket.SendTo(packet(univ).toBytes(), toAddrBroadcast)
+                    'socket.SendTo(packet(univ).toBytes(), toAddrLocalhost)
+                Next
+            End If
+
+
             GoTo LoopsDone
 SkipLoops:
 
@@ -1826,27 +1945,36 @@ LoopsDone:
 
         If Testmode = True Then Exit Sub
 
+        'Dim Univ As Integer = (Channel - 1) \ 512
+        'Dim Dmxno As Integer = (Channel - 1) Mod 512 + 1
+
+        'Dim Univ As Integer = (Channel - 1) \ 512 + 1
+        'Dim Dmxno As Integer = (Channel - 1) Mod 512 + 1
+
         Dim Univ As Integer = 1
         Dim Dmxno As Integer = 1
-        If Channel > 0 And Channel <= 512 Then
+        If Channel > 0 And Channel < 512 Then
             Univ = 1
             Dmxno = Channel
-        ElseIf Channel > 512 And Channel <= 1024 Then
+        ElseIf Channel >= 512 And Channel < 1024 Then
             Univ = 2
             Dmxno = Channel - 512
-        ElseIf Channel > 1024 And Channel <= 1536 Then
+        ElseIf Channel >= 1024 And Channel < 1536 Then
             Univ = 3
             Dmxno = Channel - 1024
-        ElseIf Channel > 1536 And Channel <= 2048 Then
+        ElseIf Channel >= 1536 And Channel < 2048 Then
             Univ = 4
             Dmxno = Channel - 1536
         End If
 
-        If Not Dmxno > 512 And Univ = 1 Then
+        If Dmxno < 511 And Univ = 1 Then
             EnttecOpenDMX.OpenDMX.setDmxValue(Dmxno, Value)
         End If
-        ArdDMX.SendData(Univ, Dmxno) = Value
+        ArduDMX.SendData(Univ, Dmxno) = Value
         'sACNController.SendData(Univ, Dmxno) = Value
+        packet(Univ).setChannel(Dmxno - 1, Value)
+
+
 
     End Sub
 #End Region
@@ -2078,7 +2206,7 @@ LoopsDone:
                                 Else
                                     SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tmrDirection = "Down"
                                     SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Interval)
-                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Start()
+                                    SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.StartTimer()
                                 End If
                             End If
                         End If
@@ -2095,7 +2223,7 @@ LoopsDone:
                             Else
                                 SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
                                 SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
-                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
+                                SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.StartTimer()
                             End If
                             lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                             lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
@@ -2200,7 +2328,7 @@ LoopsDone:
                             Else
                                 SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tmrDirection = "Down"
                                 SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex2).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tTimer.Interval)
-                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tTimer.Start()
+                                SceneData(SongDictSorted1(CurrentSongChangeIndex2).Key.SceneIndex).Automation.tTimer.StartTimer()
                             End If
                         End If
                         CurrentSongChangeIndex2 = IsongChange
@@ -2211,7 +2339,7 @@ LoopsDone:
                         Else
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tmrDirection = "Up"
                             SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.Max / (SongDictSorted1(IsongChange).Key.TimeToGoUp / SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Interval)
-                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.Start()
+                            SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).Automation.tTimer.StartTimer()
                         End If
                         lstPresetsSongChanges2.Items(CurrentSongChangeIndex2).BackColor = lblSongChangeColour.BackColor
                         lstMusicSongChanges2.Items(CurrentSongChangeIndex2).BackColor = lblSongChangeColour.BackColor
@@ -2380,10 +2508,10 @@ LoopsDone:
                 .cFull.BackColor = lblSceneUpColour.BackColor
             Else
 
-                If SceneData(SceneI).Automation.tTimer.Enabled = True And SceneData(SceneI).Automation.tmrDirection = "Up" Then
+                If SceneData(SceneI).Automation.tTimer.IsTimerRunning = True And SceneData(SceneI).Automation.tmrDirection = "Up" Then
                     .cBlackout.BackColor = Color.Black
                     .cFull.BackColor = ControlPaint.Light(lblSceneUpColour.BackColor)
-                ElseIf SceneData(SceneI).Automation.tTimer.Enabled = True And SceneData(SceneI).Automation.tmrDirection = "Down" Then
+                ElseIf SceneData(SceneI).Automation.tTimer.IsTimerRunning = True And SceneData(SceneI).Automation.tmrDirection = "Down" Then
                     .cBlackout.BackColor = ControlPaint.LightLight(lblSceneBlackoutColour.BackColor)
                     .cFull.BackColor = lblSceneUpColour.BackColor
 
@@ -3149,11 +3277,7 @@ skipme:
         lstSongs2_Changed(lstPresetsSongs2.SelectedItem)
         OtherIndexChanged2 = False
     End Sub
-    Public Function GetRandom(ByVal Min As Integer, ByVal Max As Integer) As Integer
-        Static Generator As System.Random = New System.Random()
-        Return Generator.Next(Min, Max)
-        'Return CInt(Math.Ceiling(Rnd() * Max))
-    End Function
+
 
 #End Region
 
@@ -3211,6 +3335,7 @@ skipme:
 
         BankChanged = False
         SaveSettingsToFile()
+        tbcControls1.SelectedTab = tbpPresets
     End Sub
 
 
@@ -3293,8 +3418,9 @@ skipme:
             With SceneData(I1).ChannelValues(I)
                 chanline &= "v," & .Value & "|"
                 'chanline &= "tmr," & .Automation.tTimer.Interval & "|"
-                chanline &= "TimerEnabled," & .Automation.RunTimer & "|"
-                chanline &= "AutoTimeBetween," & .Automation.tTimer.Interval & "|"
+                chanline &= "AutomationMode," & .Automation.Mode & "|"
+                'chanline &= "TimerEnabled," & .Automation.RunTimer & "|"
+                chanline &= "AutoTimeBetween," & .Automation.Interval & "|"
                 chanline &= "RandomStart," & .Automation.ProgressRandomTimed & "|"
 
                 chanline &= "InOrder," & .Automation.ProgressInOrder & "|"
@@ -3330,7 +3456,7 @@ skipme:
                     With SceneData(I)
                         .Automation.tmrDirection = "Down"
                         .Automation.IntervalSteps = 255 / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
-                        .Automation.tTimer.Start()
+                        .Automation.tTimer.StartTimer()
                     End With
                 End If
             ElseIf SceneData(I).MasterValue = 0 Then 'preset is at blackout
@@ -3338,7 +3464,7 @@ skipme:
                     With SceneData(I)
                         .Automation.tmrDirection = "Up"
                         .Automation.IntervalSteps = 255 / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
-                        .Automation.tTimer.Start()
+                        .Automation.tTimer.StartTimer()
                     End With
                 End If
             End If
@@ -3429,15 +3555,9 @@ skipme:
         coldialog.ShowDialog()
         lblChannelBulletColour.BackColor = coldialog.Color
 
-        Dim I As Integer = 1
-        Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I) Is Nothing Then
-                ChannelFaders(I).dmrvs.BulletColor = coldialog.Color
-            Else
-                Exit Do
-            End If
-            I += 1
-        Loop
+        frmChannels.SetColours()
+
+
     End Sub
 
     Private Sub cmdChannelBackColour_Click(sender As Object, e As EventArgs) Handles cmdChannelBackColour.Click
@@ -3446,15 +3566,8 @@ skipme:
         coldialog.ShowDialog()
         lblChannelBackColour.BackColor = coldialog.Color
 
-        Dim I As Integer = 1
-        Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I) Is Nothing Then
-                ChannelFaders(I).dmrvs.BackColor = coldialog.Color
-            Else
-                Exit Do
-            End If
-            I += 1
-        Loop
+        frmChannels.SetColours()
+
     End Sub
 
     Private Sub cmdChannelFillColour_Click(sender As Object, e As EventArgs) Handles cmdChannelFillColour.Click
@@ -3463,16 +3576,8 @@ skipme:
         coldialog.ShowDialog()
         lblChannelFillColour.BackColor = coldialog.Color
 
-        Dim I As Integer = 1
-        Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I) Is Nothing Then
-                ChannelFaders(I).dmrvs.FillColor = coldialog.Color
-            Else
-                Exit Do
-            End If
+        frmChannels.SetColours()
 
-            I += 1
-        Loop
     End Sub
     Private Sub cmdChannelNumberColour_Click(sender As Object, e As EventArgs) Handles cmdChannelNumberColour.Click
         Dim coldialog As New ColorDialog
@@ -3480,16 +3585,8 @@ skipme:
         coldialog.ShowDialog()
         lblChannelNumberColour.BackColor = coldialog.Color
 
-        Dim I As Integer = 1
-        Do Until I >= ChannelFaders.Length
-            If Not ChannelFaders(I) Is Nothing Then
-                ChannelFaders(I).dmrlblTop.ForeColor = coldialog.Color
-            Else
-                Exit Do
-            End If
+        frmChannels.SetColours()
 
-            I += 1
-        Loop
     End Sub
 
     Private Sub cmdSceneBlackoutColour_Click(sender As Object, e As EventArgs) Handles cmdSceneBlackoutColour.Click
@@ -3590,7 +3687,7 @@ skipme:
                     With SceneData(I)
                         .Automation.tmrDirection = "Up"
                         .Automation.IntervalSteps = 255 / (.Automation.TimeBetweenMinAndMax / .Automation.tTimer.Interval)
-                        .Automation.tTimer.Start()
+                        .Automation.tTimer.StartTimer()
                     End With
 
                 End If
@@ -3623,7 +3720,7 @@ skipme:
 
 
 
-            updatePlayer()
+        updatePlayer()
 
     End Sub
 
@@ -3693,53 +3790,41 @@ skipme:
             Exit Sub
         End If
 
-        Dim defaultnewname As String = lstSongEditPresets.SelectedItem
-        Dim newname As String = InputBox("Enter name of new Scene preset", , defaultnewname & " copy")
+        'Dim defaultnewname As String = lstSongEditPresets.SelectedItem
+        'Dim newname As String = InputBox("Enter name of new Scene preset", , defaultnewname & " copy")
 
-        If newname = "" Then Exit Sub
-        Dim newI As Integer = CreateNewScene(newname)
+        'If newname = "" Then Exit Sub
+        'Dim newI As Integer = CreateNewScene(newname)
         Dim oldindex As Integer = GetSceneIndex(lstSongEditPresets.SelectedItem)
         'SceneData(newI).ChannelValues = SceneData(oldindex).ChannelValues
-        Array.Copy(SceneData(oldindex).ChannelValues, SceneData(newI).ChannelValues, SceneData(oldindex).ChannelValues.Length)
+        'Array.Copy(SceneData(oldindex).ChannelValues, SceneData(newI).ChannelValues, SceneData(oldindex).ChannelValues.Length)
 
-        SceneData(newI).LocIndex = -1
-        SceneData(newI).Automation = SceneData(oldindex).Automation
-        SaveScene(newname)
+        'SceneData(newI).LocIndex = -1
+        'SceneData(newI).Automation = SceneData(oldindex).Automation
+        Dim newI As Integer = DuplicateExistingScene(oldindex)
 
-        'Dim I2 As Integer = 1
-        'Do Until I2 >= PresetFaders.Length
-        '    If PresetFaders(I2).cSceneControl.SceneIndex = -1 Then
-        '        SceneData(I).PageNo = CurrentPageNo
-        '        SceneData(I).LocIndex = I2
-        '        UpdatePresetControls(I)
-        '    End If
-        '    I2 += 1
-        'Loop
-        'UpdatePresetControls(newI)
-        ResetAllPresetControls()
+
 
 
         ' Update the listboxes directly
 
-        Dim newrow As New ListViewItem
-        newrow.Text = lbleditPositionMilli.Text 'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
-        newrow.SubItems.Add(newname)
-        newrow.SubItems.Add(numFadeIn.Value)
-        newrow.SubItems.Add(numFadeOut.Value)
+        'Dim newrow As New ListViewItem
+        'newrow.Text = lbleditPositionMilli.Text 'AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
+        'newrow.SubItems.Add(SceneData(newI).SceneName)
+        'newrow.SubItems.Add(numFadeIn.Value)
+        'newrow.SubItems.Add(numFadeOut.Value)
 
         Dim NewSongChange As New SongChangesStr
 
         NewSongChange.TimeCode = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)
-        NewSongChange.SceneName = newname
+        NewSongChange.SceneName = SceneData(newI).SceneName
         NewSongChange.SceneIndex = newI
         NewSongChange.TimeToGoUp = numFadeIn.Value
         NewSongChange.TimeToGoDown = numFadeOut.Value
 
-
         MusicCues(Qindex).SongChangesDict.Add(NewSongChange, NewSongChange.TimeCode)
 
         ResortSongChange1FromDictionary(Qindex)
-
 
     End Sub
 
@@ -4034,7 +4119,7 @@ skipme:
             If Arduinos(I).PortNo = lstCOMdevices.SelectedItems(0).Text Then
                 Arduinos(I).Job = ArduinoModes.ctlDMX3Universe
                 lstCOMdevices.SelectedItems(0).SubItems(3).Text = ArduinoModes.ctlDMX3Universe
-                ArdDMX.SetComPort = I
+                ArduDMX.SetComPort = I
                 'Arduinos(I).Serial.Close() ' Will get opened in DMX Class
                 'mdlGlobalVariables.DMX.SetComPort(Arduinos(I).PortNo)
             End If
@@ -4183,6 +4268,29 @@ skipme:
         End If
 
     End Sub
+    Private Function DuplicateExistingScene(ByVal iOld As Integer) As Integer
+
+        Dim oldname As String = SceneData(iOld).SceneName
+
+        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
+        If newname = "" Then
+            Return -1
+        End If
+        Dim newI As Integer = CreateNewScene(newname, True)
+
+        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
+        Array.Copy(SceneData(iOld).ChannelValues, SceneData(newI).ChannelValues, SceneData(iOld).ChannelValues.Length)
+
+        SceneData(newI).Automation = SceneData(iOld).Automation
+        SceneData(newI).Automation.tTimer = New NamedTimer(newI, 100)
+        SceneData(newI).Automation.tTimer.SceneIndex = newI
+        'AddHandler SceneData(newI).Automation.tTimer.Tick, AddressOf tmrPreset_Tick
+
+
+        SaveScene(newname)
+        'UpdatePresetControls(newI)
+        ResetAllPresetControls()
+    End Function
 
     Private Sub DuplicateSceneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateSceneToolStripMenuItem.Click
         Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
@@ -4191,22 +4299,9 @@ skipme:
 
         If obj.SceneIndex = -1 Then Exit Sub
 
-
-        Dim oldname As String = SceneData(obj.SceneIndex).SceneName
-        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
-        If newname = "" Then Exit Sub
-        Dim newI As Integer = CreateNewScene(newname)
-
-        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
-        Array.Copy(SceneData(obj.SceneIndex).ChannelValues, SceneData(newI).ChannelValues, SceneData(obj.SceneIndex).ChannelValues.Length)
-
-        SceneData(newI).Automation = SceneData(obj.SceneIndex).Automation
+        DuplicateExistingScene(obj.SceneIndex)
 
 
-
-        SaveScene(newname)
-        'UpdatePresetControls(newI)
-        ResetAllPresetControls()
     End Sub
 
     Private Sub ctxDramaEditChannels_Click(sender As Object, e As EventArgs) Handles ctxDramaEditChannels.Click
@@ -4308,27 +4403,10 @@ skipme:
 
         End If
 
-
         If scindx = -1 Then Exit Sub
 
-        Dim oldname As String = SceneData(scindx).SceneName
-        Dim newname As String = InputBox("Please Enter New Scene Name:", "New Scene", oldname & " 2")
-        If newname = "" Then Exit Sub
-        CreateNewScene(newname)
+        DuplicateExistingScene(scindx)
 
-        Dim newI As Integer = 0
-        Do Until SceneData(newI).SceneName = newname
-            If newI >= SceneData.Length Then Exit Sub 'shit broke
-            newI += 1
-        Loop
-
-        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
-        Array.Copy(SceneData(newI).ChannelValues, SceneData(newI).ChannelValues, SceneData(newI).ChannelValues.Length)
-
-        SceneData(newI).Automation = SceneData(newI).Automation
-
-        SaveScene(newname)
-        'UpdatePresetControls(newI)
     End Sub
 
 
@@ -4349,6 +4427,7 @@ skipme:
     Private Sub cmdSerialClear_Click(sender As Object, e As EventArgs) Handles cmdSerialClear.Click
         txtSerialIn.Text = ""
     End Sub
+
 
     Private Sub lstCOMdevices_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCOMdevices.SelectedIndexChanged
         txtSerialIn.Text = ""

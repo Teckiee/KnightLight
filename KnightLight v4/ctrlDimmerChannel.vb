@@ -14,8 +14,8 @@
         Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
         If Not ChannelFaders(FaderNo).dmrtxtv.Text = sender.value Then
-            ChannelFaders(FaderNo).dmrtxtv.Text = sender.value
             SceneData(SceneIndex).ChannelValues(SceneChannelNo).Value = sender.value
+            ChannelFaders(FaderNo).dmrtxtv.Text = sender.value
             frmChannels.UpdateFixtureLabel(SceneChannelNo)
         End If
     End Sub
@@ -84,8 +84,8 @@
             End If
         End If
 
-
         frmChannels.LastSelectedChannel = internalChannelFaderNumber
+        frmChannels.UpdateAutomationControls(internalChannelFaderNumber)
     End Sub
 
     Private Sub dmrtxtv_TextChanged(sender As Object, e As EventArgs) Handles dmrtxtv.TextChanged

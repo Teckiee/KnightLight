@@ -1,0 +1,2 @@
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample.VbNet\obj\Debug\Sample.VbNet.vbproj.AssemblyReference.cache
+D:\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample.VbNet\obj\Debug\Sample.VbNet.vbproj.CoreCompileInputs.cache
