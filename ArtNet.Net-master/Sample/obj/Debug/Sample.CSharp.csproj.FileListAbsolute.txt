@@ -1,0 +1,9 @@
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\bin\Debug\Sample.exe
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\bin\Debug\Sample.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\bin\Debug\eDmx.ArtNet.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\bin\Debug\eDmx.ArtNet.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\obj\Debug\Sample.CSharp.csproj.AssemblyReference.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\obj\Debug\Sample.CSharp.csproj.CoreCompileInputs.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\obj\Debug\Sample.CSharp.csproj.CopyComplete
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\obj\Debug\Sample.exe
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\ArtNet.Net-master\Sample\obj\Debug\Sample.pdb

@@ -13,7 +13,7 @@ Module mdlGlobalVariables
 
     'Public DMX As New Arduino_DMX_USB.Main
     Public ArduDMX As ArduinoDMX
-    Public sACNController As SACN_Sender
+    'Public sACNController As SACN_Sender
 
     'Public WithEvents Player(200) As New WMPLib.WindowsMediaPlayer
     'Public WithEvents Player2 As New WMPLib.WindowsMediaPlayer
@@ -28,12 +28,14 @@ Module mdlGlobalVariables
     Public closethreads As Boolean = False
     Public enableUID As Boolean = False
 
+    Public MarsConnected As Boolean = False
+
     Public SceneData(600) As Scenes1
     Public SceneDataLocations As New Dictionary(Of Integer, SCLocs)
     Public tChannelsMultipleThreads As Boolean = False
     Public tChannels(2048) As System.Threading.Thread
     'Public tTouchPadLoad As System.Threading.Thread
-    Public SentChannelValues(2048) As Integer
+    'Public SentChannelValues(2048) As Integer
     Public FadersRenaming As Boolean = False
     Public TouchButtons(600) As Button
     Public otherChanged As Boolean = False
@@ -58,11 +60,10 @@ Module mdlGlobalVariables
     'Public asioOutputs(10) As AsioOut
 
 
-    Public packet(4) As artnet.ArtnetDmx
-    Public socket As Socket
-    Public toAddrLocalhost As IPEndPoint
-    Public toAddrBroadcast As IPEndPoint
 
+
+    Public MarsConsole As cMarsConsole
+    Public DMXdata As cDMXdata
 
     Public ResaveOnSceneLoad As Boolean = False
 
@@ -70,11 +71,13 @@ Module mdlGlobalVariables
     Public SCSIPaddress As String
     Public SCSPort As Integer
 
+
     Structure ArduinoModes
         Public Const ctlMusic1 As String = "ctlMusic1"
         Public Const ctlMusic2 As String = "ctlMusic2"
         Public Const ctlDMX3Universe As String = "ctlDMX3Universe"
         Public Const ctlSoundActivation1 As String = "ctlSoundActivation1"
+        Public Const ctlMarsConsole As String = "ctlMarsConsole"
     End Structure
 
     Structure SCLocs

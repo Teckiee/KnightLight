@@ -193,3 +193,6 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnobControl.pdb
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnobControl.dll
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnobControl.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.ctrlMusicPlayer.resources
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.xml

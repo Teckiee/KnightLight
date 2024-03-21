@@ -91,6 +91,9 @@
     <Reference Include="NAudio.Lame, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\NAudio.Lame.1.1.6\lib\netstandard2.0\NAudio.Lame.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SharpOSC, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\SharpOSC.dll</HintPath>
@@ -133,10 +136,17 @@
     <Compile Include="artnet.vb" />
     <Compile Include="AudioThread.vb" />
     <Compile Include="cChannelAutomation.vb" />
+    <Compile Include="cDMXdata.vb" />
     <Compile Include="ctrlDimmerChannel.Designer.vb">
       <DependentUpon>ctrlDimmerChannel.vb</DependentUpon>
     </Compile>
     <Compile Include="ctrlDimmerChannel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrlMusicPlayer.Designer.vb">
+      <DependentUpon>ctrlMusicPlayer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ctrlMusicPlayer.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CustomGroupBox.vb">
@@ -186,6 +196,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ArduinoDMX.vb" />
+    <Compile Include="cMarsConsole.vb" />
     <Compile Include="mdlGlobalVariables.vb" />
     <Compile Include="mdlThreadCommands.vb" />
     <Compile Include="modGUI.vb" />
@@ -217,6 +228,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ctrlDimmerChannel.resx">
       <DependentUpon>ctrlDimmerChannel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctrlMusicPlayer.resx">
+      <DependentUpon>ctrlMusicPlayer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>

@@ -594,7 +594,7 @@ Public Class FormChannels
     Public Sub UpdateFixtureLabel(Optional ByVal channelno As Integer = 0)
         If Not channelno = 0 Then
             'Actionsandvalues= "Str1,0-79,Str2,80-160,Str3,161-255"
-            Dim a() As String = Split(FixtureControls(channelno - 1 + numChannelFadersStart.Value).ActionAndValues, ",")
+            Dim a() As String = Split(FixtureControls(channelno - 1).ActionAndValues, ",")
             If a.Length > 2 Then
                 Dim ActionIndex As Integer = 1
                 Do Until ActionIndex >= a.Length

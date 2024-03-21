@@ -31,6 +31,8 @@ Partial Class FormMain
         Me.cmdBankRename = New System.Windows.Forms.Button()
         Me.cmdBankNew = New System.Windows.Forms.Button()
         Me.tbpPresets = New System.Windows.Forms.TabPage()
+        Me.pnlMusicplayers = New System.Windows.Forms.Panel()
+        Me.CtrlMusicPlayer1 = New Super_Awesome_Lighting_DMX_board_v4.ctrlMusicPlayer()
         Me.cmdReloadSongLists = New System.Windows.Forms.Button()
         Me.lstPresetsSongChanges2 = New System.Windows.Forms.ListView()
         Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -163,6 +165,8 @@ Partial Class FormMain
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
+        Me.cmdCOMDisconnect = New System.Windows.Forms.Button()
+        Me.cmdSetMarsConsole = New System.Windows.Forms.Button()
         Me.chkMusicNextFollows = New System.Windows.Forms.CheckBox()
         Me.lstStartup = New System.Windows.Forms.ListView()
         Me.ColumnHeader32 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -218,6 +222,12 @@ Partial Class FormMain
         Me.chkLoadonChange = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.numEndChannel = New System.Windows.Forms.NumericUpDown()
+        Me.tbpMarsSettings = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.cmdSendAll = New System.Windows.Forms.Button()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.numMarsLargeFaders = New System.Windows.Forms.NumericUpDown()
+        Me.txtMarsDebug = New System.Windows.Forms.TextBox()
         Me.chkAsioMode = New System.Windows.Forms.CheckBox()
         Me.lblMaster = New System.Windows.Forms.Label()
         Me.numChangeMS = New System.Windows.Forms.NumericUpDown()
@@ -246,9 +256,14 @@ Partial Class FormMain
         Me.lblAudio2 = New System.Windows.Forms.Label()
         Me.barVUmeter = New System.Windows.Forms.VScrollBar()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
+        Me.lblMarsConnected = New System.Windows.Forms.Label()
+        Me.txtGithubIssue = New System.Windows.Forms.TextBox()
+        Me.cmdSubmitIssue = New System.Windows.Forms.Button()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
+        Me.pnlMusicplayers.SuspendLayout()
         CType(Me.trkPresetsVolume2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.trkPresetsVolume, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tbpMusic.SuspendLayout()
@@ -262,6 +277,8 @@ Partial Class FormMain
         CType(Me.trkDramaViewVolume, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tbpSettings.SuspendLayout()
         CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tbpMarsSettings.SuspendLayout()
+        CType(Me.numMarsLargeFaders, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChangeMS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPresetLabelActions.SuspendLayout()
         Me.SuspendLayout()
@@ -276,6 +293,7 @@ Partial Class FormMain
         Me.tbcControls1.Controls.Add(Me.tbpMusic)
         Me.tbcControls1.Controls.Add(Me.tbpScriptChanges)
         Me.tbcControls1.Controls.Add(Me.tbpSettings)
+        Me.tbcControls1.Controls.Add(Me.tbpMarsSettings)
         Me.tbcControls1.Location = New System.Drawing.Point(0, 22)
         Me.tbcControls1.Name = "tbcControls1"
         Me.tbcControls1.SelectedIndex = 0
@@ -338,6 +356,7 @@ Partial Class FormMain
         '
         'tbpPresets
         '
+        Me.tbpPresets.Controls.Add(Me.pnlMusicplayers)
         Me.tbpPresets.Controls.Add(Me.cmdReloadSongLists)
         Me.tbpPresets.Controls.Add(Me.lstPresetsSongChanges2)
         Me.tbpPresets.Controls.Add(Me.lstPresetsSongChanges1)
@@ -375,10 +394,26 @@ Partial Class FormMain
         Me.tbpPresets.Location = New System.Drawing.Point(4, 22)
         Me.tbpPresets.Name = "tbpPresets"
         Me.tbpPresets.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpPresets.Size = New System.Drawing.Size(1826, 892)
+        Me.tbpPresets.Size = New System.Drawing.Size(1826, 1061)
         Me.tbpPresets.TabIndex = 1
         Me.tbpPresets.Text = "Scenes"
         Me.tbpPresets.UseVisualStyleBackColor = True
+        '
+        'pnlMusicplayers
+        '
+        Me.pnlMusicplayers.Controls.Add(Me.CtrlMusicPlayer1)
+        Me.pnlMusicplayers.Location = New System.Drawing.Point(8, 891)
+        Me.pnlMusicplayers.Name = "pnlMusicplayers"
+        Me.pnlMusicplayers.Size = New System.Drawing.Size(601, 163)
+        Me.pnlMusicplayers.TabIndex = 629
+        '
+        'CtrlMusicPlayer1
+        '
+        Me.CtrlMusicPlayer1.BackColor = System.Drawing.Color.Black
+        Me.CtrlMusicPlayer1.Location = New System.Drawing.Point(3, 3)
+        Me.CtrlMusicPlayer1.Name = "CtrlMusicPlayer1"
+        Me.CtrlMusicPlayer1.Size = New System.Drawing.Size(595, 23)
+        Me.CtrlMusicPlayer1.TabIndex = 0
         '
         'cmdReloadSongLists
         '
@@ -576,6 +611,7 @@ Partial Class FormMain
         Me.lstPresetsSongs2.Location = New System.Drawing.Point(733, 687)
         Me.lstPresetsSongs2.Name = "lstPresetsSongs2"
         Me.lstPresetsSongs2.Size = New System.Drawing.Size(283, 199)
+        Me.lstPresetsSongs2.Sorted = True
         Me.lstPresetsSongs2.TabIndex = 614
         '
         'lblPresetsMP3PositionMilli
@@ -662,6 +698,7 @@ Partial Class FormMain
         Me.lstPresetsSongs.Location = New System.Drawing.Point(8, 687)
         Me.lstPresetsSongs.Name = "lstPresetsSongs"
         Me.lstPresetsSongs.Size = New System.Drawing.Size(283, 199)
+        Me.lstPresetsSongs.Sorted = True
         Me.lstPresetsSongs.TabIndex = 604
         '
         'trkPresetsVolume
@@ -835,7 +872,7 @@ Partial Class FormMain
         Me.tbpMusic.Controls.Add(Me.trkMusicVolume)
         Me.tbpMusic.Location = New System.Drawing.Point(4, 22)
         Me.tbpMusic.Name = "tbpMusic"
-        Me.tbpMusic.Size = New System.Drawing.Size(1826, 892)
+        Me.tbpMusic.Size = New System.Drawing.Size(1826, 1061)
         Me.tbpMusic.TabIndex = 2
         Me.tbpMusic.Text = "Music Editor"
         Me.tbpMusic.UseVisualStyleBackColor = True
@@ -1236,6 +1273,7 @@ Partial Class FormMain
         Me.lstMusicSongs2.Location = New System.Drawing.Point(1042, 10)
         Me.lstMusicSongs2.Name = "lstMusicSongs2"
         Me.lstMusicSongs2.Size = New System.Drawing.Size(283, 199)
+        Me.lstMusicSongs2.Sorted = True
         Me.lstMusicSongs2.TabIndex = 299
         '
         'lblMusicMP3PositionMilli
@@ -1314,6 +1352,7 @@ Partial Class FormMain
         Me.lstMusicSongs.Location = New System.Drawing.Point(8, 8)
         Me.lstMusicSongs.Name = "lstMusicSongs"
         Me.lstMusicSongs.Size = New System.Drawing.Size(283, 199)
+        Me.lstMusicSongs.Sorted = True
         Me.lstMusicSongs.TabIndex = 289
         '
         'trkMusicVolume
@@ -1356,7 +1395,7 @@ Partial Class FormMain
         Me.tbpScriptChanges.Controls.Add(Me.trkDramaViewVolume)
         Me.tbpScriptChanges.Location = New System.Drawing.Point(4, 22)
         Me.tbpScriptChanges.Name = "tbpScriptChanges"
-        Me.tbpScriptChanges.Size = New System.Drawing.Size(1826, 892)
+        Me.tbpScriptChanges.Size = New System.Drawing.Size(1826, 1061)
         Me.tbpScriptChanges.TabIndex = 3
         Me.tbpScriptChanges.Text = "Script Changes"
         Me.tbpScriptChanges.UseVisualStyleBackColor = True
@@ -1579,6 +1618,7 @@ Partial Class FormMain
         Me.lstDramaViewSongs2.Location = New System.Drawing.Point(1174, 401)
         Me.lstDramaViewSongs2.Name = "lstDramaViewSongs2"
         Me.lstDramaViewSongs2.Size = New System.Drawing.Size(283, 381)
+        Me.lstDramaViewSongs2.Sorted = True
         Me.lstDramaViewSongs2.TabIndex = 321
         '
         'lblDramaViewMP3PositionMilli
@@ -1665,6 +1705,7 @@ Partial Class FormMain
         Me.lstDramaViewSongs.Location = New System.Drawing.Point(1174, 7)
         Me.lstDramaViewSongs.Name = "lstDramaViewSongs"
         Me.lstDramaViewSongs.Size = New System.Drawing.Size(283, 381)
+        Me.lstDramaViewSongs.Sorted = True
         Me.lstDramaViewSongs.TabIndex = 311
         '
         'trkDramaViewVolume
@@ -1681,6 +1722,11 @@ Partial Class FormMain
         '
         'tbpSettings
         '
+        Me.tbpSettings.Controls.Add(Me.Label10)
+        Me.tbpSettings.Controls.Add(Me.cmdSubmitIssue)
+        Me.tbpSettings.Controls.Add(Me.txtGithubIssue)
+        Me.tbpSettings.Controls.Add(Me.cmdCOMDisconnect)
+        Me.tbpSettings.Controls.Add(Me.cmdSetMarsConsole)
         Me.tbpSettings.Controls.Add(Me.chkMusicNextFollows)
         Me.tbpSettings.Controls.Add(Me.lstStartup)
         Me.tbpSettings.Controls.Add(Me.lblSceneBorderColour)
@@ -1728,10 +1774,28 @@ Partial Class FormMain
         Me.tbpSettings.Controls.Add(Me.numEndChannel)
         Me.tbpSettings.Location = New System.Drawing.Point(4, 22)
         Me.tbpSettings.Name = "tbpSettings"
-        Me.tbpSettings.Size = New System.Drawing.Size(1826, 892)
+        Me.tbpSettings.Size = New System.Drawing.Size(1826, 1061)
         Me.tbpSettings.TabIndex = 4
         Me.tbpSettings.Text = "Settings"
         Me.tbpSettings.UseVisualStyleBackColor = True
+        '
+        'cmdCOMDisconnect
+        '
+        Me.cmdCOMDisconnect.Location = New System.Drawing.Point(1632, 309)
+        Me.cmdCOMDisconnect.Name = "cmdCOMDisconnect"
+        Me.cmdCOMDisconnect.Size = New System.Drawing.Size(162, 23)
+        Me.cmdCOMDisconnect.TabIndex = 353
+        Me.cmdCOMDisconnect.Text = "Disconnect this COM device"
+        Me.cmdCOMDisconnect.UseVisualStyleBackColor = True
+        '
+        'cmdSetMarsConsole
+        '
+        Me.cmdSetMarsConsole.Location = New System.Drawing.Point(1632, 202)
+        Me.cmdSetMarsConsole.Name = "cmdSetMarsConsole"
+        Me.cmdSetMarsConsole.Size = New System.Drawing.Size(126, 23)
+        Me.cmdSetMarsConsole.TabIndex = 352
+        Me.cmdSetMarsConsole.Text = "Set Mars Console"
+        Me.cmdSetMarsConsole.UseVisualStyleBackColor = True
         '
         'chkMusicNextFollows
         '
@@ -1750,7 +1814,7 @@ Partial Class FormMain
         Me.lstStartup.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader33, Me.ColumnHeader34})
         Me.lstStartup.FullRowSelect = True
         Me.lstStartup.HideSelection = False
-        Me.lstStartup.Location = New System.Drawing.Point(770, 120)
+        Me.lstStartup.Location = New System.Drawing.Point(780, 69)
         Me.lstStartup.MultiSelect = False
         Me.lstStartup.Name = "lstStartup"
         Me.lstStartup.Size = New System.Drawing.Size(350, 404)
@@ -2043,7 +2107,7 @@ Partial Class FormMain
         '
         'txtSerialIn
         '
-        Me.txtSerialIn.Location = New System.Drawing.Point(1632, 202)
+        Me.txtSerialIn.Location = New System.Drawing.Point(1632, 342)
         Me.txtSerialIn.Multiline = True
         Me.txtSerialIn.Name = "txtSerialIn"
         Me.txtSerialIn.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
@@ -2215,6 +2279,64 @@ Partial Class FormMain
         Me.numEndChannel.Size = New System.Drawing.Size(90, 20)
         Me.numEndChannel.TabIndex = 245
         Me.numEndChannel.Value = New Decimal(New Integer() {512, 0, 0, 0})
+        '
+        'tbpMarsSettings
+        '
+        Me.tbpMarsSettings.Controls.Add(Me.Button1)
+        Me.tbpMarsSettings.Controls.Add(Me.cmdSendAll)
+        Me.tbpMarsSettings.Controls.Add(Me.Label8)
+        Me.tbpMarsSettings.Controls.Add(Me.numMarsLargeFaders)
+        Me.tbpMarsSettings.Controls.Add(Me.txtMarsDebug)
+        Me.tbpMarsSettings.Location = New System.Drawing.Point(4, 22)
+        Me.tbpMarsSettings.Name = "tbpMarsSettings"
+        Me.tbpMarsSettings.Size = New System.Drawing.Size(1826, 1061)
+        Me.tbpMarsSettings.TabIndex = 6
+        Me.tbpMarsSettings.Text = "Mars"
+        Me.tbpMarsSettings.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(1294, 336)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(90, 45)
+        Me.Button1.TabIndex = 574
+        Me.Button1.Text = "Hello"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'cmdSendAll
+        '
+        Me.cmdSendAll.Location = New System.Drawing.Point(1198, 336)
+        Me.cmdSendAll.Name = "cmdSendAll"
+        Me.cmdSendAll.Size = New System.Drawing.Size(90, 45)
+        Me.cmdSendAll.TabIndex = 573
+        Me.cmdSendAll.Text = "Send All"
+        Me.cmdSendAll.UseVisualStyleBackColor = True
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(8, 23)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(72, 13)
+        Me.Label8.TabIndex = 320
+        Me.Label8.Text = "Large Faders:"
+        '
+        'numMarsLargeFaders
+        '
+        Me.numMarsLargeFaders.Location = New System.Drawing.Point(86, 21)
+        Me.numMarsLargeFaders.Name = "numMarsLargeFaders"
+        Me.numMarsLargeFaders.Size = New System.Drawing.Size(50, 20)
+        Me.numMarsLargeFaders.TabIndex = 319
+        Me.numMarsLargeFaders.Value = New Decimal(New Integer() {12, 0, 0, 0})
+        '
+        'txtMarsDebug
+        '
+        Me.txtMarsDebug.Location = New System.Drawing.Point(1198, 8)
+        Me.txtMarsDebug.Multiline = True
+        Me.txtMarsDebug.Name = "txtMarsDebug"
+        Me.txtMarsDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtMarsDebug.Size = New System.Drawing.Size(607, 322)
+        Me.txtMarsDebug.TabIndex = 318
         '
         'chkAsioMode
         '
@@ -2439,11 +2561,51 @@ Partial Class FormMain
         Me.vsMaster.TabIndex = 202
         Me.vsMaster.Value = 100
         '
+        'lblMarsConnected
+        '
+        Me.lblMarsConnected.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblMarsConnected.AutoSize = True
+        Me.lblMarsConnected.BackColor = System.Drawing.Color.Lime
+        Me.lblMarsConnected.Location = New System.Drawing.Point(1258, 11)
+        Me.lblMarsConnected.Name = "lblMarsConnected"
+        Me.lblMarsConnected.Size = New System.Drawing.Size(85, 13)
+        Me.lblMarsConnected.TabIndex = 347
+        Me.lblMarsConnected.Text = "Mars Connected"
+        Me.lblMarsConnected.Visible = False
+        '
+        'txtGithubIssue
+        '
+        Me.txtGithubIssue.Location = New System.Drawing.Point(780, 565)
+        Me.txtGithubIssue.Multiline = True
+        Me.txtGithubIssue.Name = "txtGithubIssue"
+        Me.txtGithubIssue.Size = New System.Drawing.Size(486, 206)
+        Me.txtGithubIssue.TabIndex = 354
+        '
+        'cmdSubmitIssue
+        '
+        Me.cmdSubmitIssue.Location = New System.Drawing.Point(1136, 777)
+        Me.cmdSubmitIssue.Name = "cmdSubmitIssue"
+        Me.cmdSubmitIssue.Size = New System.Drawing.Size(130, 23)
+        Me.cmdSubmitIssue.TabIndex = 355
+        Me.cmdSubmitIssue.Text = "Submit Issue"
+        Me.cmdSubmitIssue.UseVisualStyleBackColor = True
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.ForeColor = System.Drawing.Color.Lime
+        Me.Label10.Location = New System.Drawing.Point(777, 549)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(113, 13)
+        Me.Label10.TabIndex = 356
+        Me.Label10.Text = "Submit Issue to Github"
+        '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1904, 1121)
+        Me.Controls.Add(Me.lblMarsConnected)
         Me.Controls.Add(Me.barVUmeter)
         Me.Controls.Add(Me.lblAudio2)
         Me.Controls.Add(Me.lblAudioActive)
@@ -2467,6 +2629,7 @@ Partial Class FormMain
         Me.tbpBanks.ResumeLayout(False)
         Me.tbpPresets.ResumeLayout(False)
         Me.tbpPresets.PerformLayout()
+        Me.pnlMusicplayers.ResumeLayout(False)
         CType(Me.trkPresetsVolume2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.trkPresetsVolume, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tbpMusic.ResumeLayout(False)
@@ -2483,6 +2646,9 @@ Partial Class FormMain
         Me.tbpSettings.ResumeLayout(False)
         Me.tbpSettings.PerformLayout()
         CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tbpMarsSettings.ResumeLayout(False)
+        Me.tbpMarsSettings.PerformLayout()
+        CType(Me.numMarsLargeFaders, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numChangeMS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxPresetLabelActions.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -2712,4 +2878,18 @@ Partial Class FormMain
     Friend WithEvents ctxDramaSaveScene As ToolStripMenuItem
     Friend WithEvents ctxDramaDuplicateScene As ToolStripMenuItem
     Friend WithEvents ctxDramaRenameScene As ToolStripMenuItem
+    Friend WithEvents cmdSetMarsConsole As Button
+    Friend WithEvents cmdCOMDisconnect As Button
+    Friend WithEvents lblMarsConnected As Label
+    Friend WithEvents tbpMarsSettings As TabPage
+    Friend WithEvents txtMarsDebug As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents numMarsLargeFaders As NumericUpDown
+    Friend WithEvents pnlMusicplayers As Panel
+    Friend WithEvents CtrlMusicPlayer1 As ctrlMusicPlayer
+    Friend WithEvents cmdSendAll As Button
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Label10 As Label
+    Friend WithEvents cmdSubmitIssue As Button
+    Friend WithEvents txtGithubIssue As TextBox
 End Class

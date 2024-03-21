@@ -11,6 +11,9 @@ Imports NAudio.SoundFont
 Imports System.Net
 Imports System.Net.Sockets
 Imports NAudio
+Imports System.Net.Http
+Imports System.Text
+Imports Newtonsoft.Json
 'Imports Arduino_DMX_USB.Main
 
 Public Class FormMain
@@ -161,21 +164,34 @@ found:
                 Else
                     Arduinos(I).PortNo = a(1)
                 End If
-                Select Case a(0)
-                    Case ArduinoModes.ctlMusic1
-                        Arduinos(I).Job = ArduinoModes.ctlMusic1
-                        Arduinos(I).HasDevice = True
-                    Case ArduinoModes.ctlMusic2
-                        Arduinos(I).Job = ArduinoModes.ctlMusic2
-                        Arduinos(I).HasDevice = True
-                    Case ArduinoModes.ctlDMX3Universe
-                        Arduinos(I).Job = ArduinoModes.ctlDMX3Universe
-                        ArduDMX.SetComPort = I
-                        Arduinos(I).HasDevice = True
-                    Case ArduinoModes.ctlSoundActivation1
-                        Arduinos(I).Job = ArduinoModes.ctlSoundActivation1
-                        Arduinos(I).HasDevice = True
-                End Select
+                Try
+                    Arduinos(I).Job = a(0)
+                    Arduinos(I).HasDevice = True
+                Catch ex As Exception
+
+                End Try
+                If Arduinos(I).Job = ArduinoModes.ctlMarsConsole And Arduinos(I).InUse = True Then
+                    MarsConsole = New cMarsConsole(Arduinos(I).Serial)
+                    RemoveHandler Arduinos(I).Serial.DataReceived, AddressOf SerialPort_DataReceived
+                End If
+                'Select Case a(0)
+                '    Case ArduinoModes.ctlMusic1
+                '        Arduinos(I).Job = ArduinoModes.ctlMusic1
+                '        Arduinos(I).HasDevice = True
+                '    Case ArduinoModes.ctlMusic2
+                '        Arduinos(I).Job = ArduinoModes.ctlMusic2
+                '        Arduinos(I).HasDevice = True
+                '    Case ArduinoModes.ctlDMX3Universe
+                '        Arduinos(I).Job = ArduinoModes.ctlDMX3Universe
+                '        ArduDMX.SetComPort = I
+                '        Arduinos(I).HasDevice = True
+                '    Case ArduinoModes.ctlSoundActivation1
+                '        Arduinos(I).Job = ArduinoModes.ctlSoundActivation1
+                '        Arduinos(I).HasDevice = True
+                '    Case ArduinoModes.ctlMarsConsole
+                '        Arduinos(I).Job = ArduinoModes.ctlMarsConsole
+                '        Arduinos(I).HasDevice = True
+                'End Select
             End If
 
         Loop
@@ -228,20 +244,18 @@ found:
             I += 1
         Loop
     End Function
-
-    Structure msg1
+    Structure IncomingMessages
         Dim msg As String
         Dim portname As String
         Dim arduinoindex As Integer
     End Structure
-
-    Delegate Sub myMethodDelegate(ByVal [text] As msg1)
+    Delegate Sub myMethodDelegate(ByVal [text] As IncomingMessages)
     Dim myD1 As New myMethodDelegate(AddressOf myShowStringMethod)
 
     Private Sub SerialPort_DataReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialDataReceivedEventArgs) ' Handles SerialPort.DataReceived
         If ClosingNow = True Then Exit Sub
 
-        Dim incmsg As msg1
+        Dim incmsg As IncomingMessages
         incmsg.msg = sender.ReadExisting
         incmsg.portname = sender.portname
         If Mid(incmsg.msg, 1, 3) = "UID" Then
@@ -264,7 +278,7 @@ found:
         Invoke(myD1, incmsg)
 
     End Sub
-    Sub myShowStringMethod(ByVal mymsg As msg1)
+    Sub myShowStringMethod(ByVal mymsg As IncomingMessages)
 
 
         If Mid(mymsg.msg, 1, 3) = "UID" Then
@@ -436,8 +450,10 @@ found:
         ArduDMX = New ArduinoDMX
         StartupProcess("ArduinoDMX")
 
-        'sACNController = New SACN_Sender
-        'StartupProcess("SACNstartup")
+        DMXdata = New cDMXdata
+        StartupProcess("DMXdata")
+
+
 
         frmMain = Me
         'frmTouchPad = New FormTouchPad
@@ -511,6 +527,10 @@ found:
 
         SetupSerialConnections() 'Arduino setup
         StartupProcess("LoadArduino")
+        'Contains Mars Setup
+        'If Arduinos(I).Job = ArduinoModes.ctlMarsConsole Then
+        '    MarsConsole = New cMarsConsole(Arduinos(I).Serial)
+        'End If
 
         LoadAsioDriverList()
         StartupProcess("LoadAsio")
@@ -572,6 +592,7 @@ found:
         tbpMusic.BackColor = Color.Black
         tbpScriptChanges.BackColor = Color.Black
         tbpSettings.BackColor = Color.Black
+        tbpMarsSettings.BackColor = Color.Black
         tbcControls1.SelectedIndex = 1
 
         lblMaster.ForeColor = lblChannelNumberColour.BackColor
@@ -599,6 +620,24 @@ found:
                 End If
 
             End If
+            If c.GetType Is GetType(TextBox) Or c.GetType Is GetType(ListView) Then
+                c.BackColor = lblChannelBackColour.BackColor
+                c.ForeColor = lblChannelNumberColour.BackColor
+            End If
+        Next
+        For Each c As Control In tbpMarsSettings.Controls
+            If c.GetType Is GetType(Label) Or c.GetType Is GetType(CheckBox) Then
+                If Not c.Text = "..." Then
+                    c.BackColor = Color.Black
+                    c.ForeColor = lblChannelNumberColour.BackColor
+                End If
+
+            End If
+            If c.GetType Is GetType(TextBox) Then
+                c.BackColor = lblChannelBackColour.BackColor
+                c.ForeColor = lblChannelNumberColour.BackColor
+            End If
+
         Next
         frmChannels.SetColours()
         StartupProcess("Colouring")
@@ -617,69 +656,40 @@ found:
         Me.PerformLayout()
         tbpPresets.PerformLayout()
 
+        If MarsConnected = True Then
+            lblMarsConnected.Visible = True
+            MarsConsole.SendAll()
+        End If
 
 
-        ' -------------------------------------- ARTNET STUFF
-        Dim Iuniverse As Integer = 1
-        Do Until Iuniverse >= 4
-            packet(Iuniverse) = New artnet.ArtnetDmx(Iuniverse)
-            Iuniverse += 1
-        Loop
-
-
-        Dim strHostName As String
-        Dim strIPAddress As String
-        strHostName = System.Net.Dns.GetHostName()
-        strIPAddress = System.Net.Dns.GetHostByName(strHostName).AddressList(0).ToString()
-        Dim subnetmask As IPAddress = IPAddress.Parse("255.255.255.0")
-
-        For Each ip In System.Net.Dns.GetHostEntry(strHostName).AddressList
-            If ip.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
-                'IPv4 Adress
-                Label2.Text = ip.ToString()
-
-                For Each adapter As Net.NetworkInformation.NetworkInterface In Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
-                    For Each unicastIPAddressInformation As Net.NetworkInformation.UnicastIPAddressInformation In adapter.GetIPProperties().UnicastAddresses
-                        If unicastIPAddressInformation.Address.AddressFamily = Net.Sockets.AddressFamily.InterNetwork Then
-                            If ip.Equals(unicastIPAddressInformation.Address) Then
-                                'Subnet Mask
-                                subnetmask = unicastIPAddressInformation.IPv4Mask
-
-                            End If
-                        End If
-                    Next
-                Next
-            End If
-        Next
-
-        Dim ipAddress1 As IPAddress = IPAddress.Parse(strIPAddress)
-        'Dim subnetMask As IPAddress = IPAddress.Parse(subnetmask1)
-
-        Dim broadcastAddress As IPAddress = GetBroadcastAddress(ipAddress1, subnetmask)
-
-        socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
-        'toAddrBroadcast = New IPEndPoint(IPAddress.Parse("192.168.5.201"), 6454)
-        toAddrBroadcast = New IPEndPoint(broadcastAddress, 6454)
-        toAddrLocalhost = New IPEndPoint(IPAddress.Parse("127.0.0.1"), 6454)
 
         formopened = True
     End Sub
-    Function GetBroadcastAddress(ipAddress As IPAddress, subnetMask As IPAddress) As IPAddress
-        Dim ipBytes As Byte() = ipAddress.GetAddressBytes()
-        Dim maskBytes As Byte() = subnetMask.GetAddressBytes()
 
-        If ipBytes.Length <> maskBytes.Length Then
-            Throw New ArgumentException("IP address and subnet mask lengths do not match.")
+    Public Sub UpdateFromMars(text As String)
+        ' Invoke the UI thread to update the label text
+        If frmMain.lblMarsConnected.InvokeRequired Then
+            frmMain.lblMarsConnected.Invoke(Sub() UpdateFromMars(text))
+        Else
+            txtMarsDebug.Text &= vbCrLf & text
+
+            Dim inccmd() As String = Split(text, ",")
+            Select Case inccmd(0)
+                Case "UID"
+
+                'UpdateMain(incmsg.msg)
+                Case "ONLINE"
+                    MarsConnected = True
+                    'UpdateMain(incmsg.msg)
+
+            End Select
+
+            If InStr(text, "ONLINE") > -1 Then
+                frmMain.lblMarsConnected.Visible = True
+            End If
+
         End If
-
-        Dim broadcastBytes(ipBytes.Length - 1) As Byte
-
-        For i As Integer = 0 To ipBytes.Length - 1
-            broadcastBytes(i) = CByte(ipBytes(i) Or (Not maskBytes(i)))
-        Next
-
-        Return New IPAddress(broadcastBytes)
-    End Function
+    End Sub
     Private Sub LoadFixtureInformation()
         FileOpen(1, Application.StartupPath & "\Fixtures.ini", OpenMode.Input)
 
@@ -1523,7 +1533,9 @@ DoneGeneration:
             Exit Sub
         End If
         Do Until I >= SceneData(Sceneindex).ChannelValues.Length
-
+            If SceneData(Sceneindex).ChannelValues(I).Automation Is Nothing Then
+                Exit Sub
+            End If
             With SceneData(Sceneindex).ChannelValues(I).Automation
 
                 'If .RunTimer = True And IsEnabled = True Then
@@ -1884,20 +1896,17 @@ DoneGeneration:
                     End If
                     I += 1
                 Loop
-                If Not SentChannelValues(Dmxno) = LargestNo Then
-
-                    SetChannelData(Dmxno, LargestNo)
-                    SentChannelValues(Dmxno) = LargestNo
-
-
+                If formopened = True Then
+                    DMXdata.SendChannelData(Dmxno) = LargestNo
                 End If
             Next Dmxno
-            If formopened = True Then
-                For univ As Integer = 0 To packet.Count - 1
-                    socket.SendTo(packet(univ).toBytes(), toAddrBroadcast)
-                    'socket.SendTo(packet(univ).toBytes(), toAddrLocalhost)
-                Next
-            End If
+            'Dim Iuniverse As Integer = 0
+            'Do Until Iuniverse >= DMXdata.packet.Length
+            '    Socket.SendTo(DMXdata.packet(Iuniverse).toBytes(), DMXdata.toAddrA)
+            '    Socket.SendTo(DMXdata.packet(Iuniverse).toBytes(), DMXdata.toAddrB)
+            '    'socket.SendTo(packet(univ).toBytes(), toAddrLocalhost)
+            '    Iuniverse += 1
+            'Loop
 
 
             GoTo LoopsDone
@@ -1924,13 +1933,9 @@ LoopsDone:
                 End If
                 I += 1
             Loop
-            If Not SentChannelValues(DMXno) = LargestNo Then
 
-                SetChannelData(DMXno, LargestNo)
-                SentChannelValues(DMXno) = LargestNo
+            DMXdata.SendChannelData(DMXno) = LargestNo
 
-
-            End If
             ' Next DMXChannelNumber
             GoTo LoopsDone
 SkipLoops:
@@ -1941,42 +1946,7 @@ LoopsDone:
         Loop
     End Sub
 
-    Private Sub SetChannelData(ByVal Channel As Integer, ByVal Value As Integer)
 
-        If Testmode = True Then Exit Sub
-
-        'Dim Univ As Integer = (Channel - 1) \ 512
-        'Dim Dmxno As Integer = (Channel - 1) Mod 512 + 1
-
-        'Dim Univ As Integer = (Channel - 1) \ 512 + 1
-        'Dim Dmxno As Integer = (Channel - 1) Mod 512 + 1
-
-        Dim Univ As Integer = 1
-        Dim Dmxno As Integer = 1
-        If Channel > 0 And Channel < 512 Then
-            Univ = 1
-            Dmxno = Channel
-        ElseIf Channel >= 512 And Channel < 1024 Then
-            Univ = 2
-            Dmxno = Channel - 512
-        ElseIf Channel >= 1024 And Channel < 1536 Then
-            Univ = 3
-            Dmxno = Channel - 1024
-        ElseIf Channel >= 1536 And Channel < 2048 Then
-            Univ = 4
-            Dmxno = Channel - 1536
-        End If
-
-        If Dmxno < 511 And Univ = 1 Then
-            EnttecOpenDMX.OpenDMX.setDmxValue(Dmxno, Value)
-        End If
-        ArduDMX.SendData(Univ, Dmxno) = Value
-        'sACNController.SendData(Univ, Dmxno) = Value
-        packet(Univ).setChannel(Dmxno - 1, Value)
-
-
-
-    End Sub
 #End Region
 
 #Region "Music Players"
@@ -2151,9 +2121,9 @@ LoopsDone:
 
             End With
         End If
+        PositionMilli = Math.Round(PositionMilli, 2)
 
-
-        lblPresetsMP3PositionMilli.Text = PositionMilli
+        lblPresetsMP3PositionMilli.Text = Math.Round(PositionMilli, 2)
         lblMusicMP3PositionMilli.Text = PositionMilli
         lblDramaViewMP3PositionMilli.Text = PositionMilli
         lbleditPositionMilli.Text = PositionMilli
@@ -3495,6 +3465,7 @@ skipme:
     End Sub
 
     Private Sub txtMaster_TextChanged(sender As Object, e As EventArgs) Handles txtMaster.TextChanged
+        If formopened = False Then Exit Sub
         If PagingChanged = True Then Exit Sub
         If Not vsMaster.Value = Val(sender.text) Then
             vsMaster.Value = Val(sender.text)
@@ -3676,7 +3647,7 @@ skipme:
         ' PresetControls(PresetIndex(lstPrsets.SelectedItem)).vtxtBox.Text = 100
         numFadeIn.Value = 0
         numFadeOut.Value = 0
-        txtEditTime.Text = ""
+        'txtEditTime.Text = ""
         Dim I As Integer = 1
         Do Until I >= SceneData.Length
             ' If SceneData(I).MasterValue = 0 Then 'preset is above blackout
@@ -3874,7 +3845,10 @@ skipme:
 
     Private Sub lstMusicSongChanges_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstMusicSongChanges1.SelectedIndexChanged
         'If lstMusicSongChanges1.SelectedIndex = -1 Then Exit Sub
-        If lstMusicSongChanges1.SelectedItems.Count = 0 Then Exit Sub
+        If lstMusicSongChanges1.SelectedItems.Count = 0 Then
+            txtEditTime.Text = ""
+            Exit Sub
+        End If
         If chkEnableSongEdit.Visible = True And chkEnableSongEdit.Checked = False Then Exit Sub
         If EditUpdate = True Then Exit Sub
         Song1EditingOrig = New SongChangesStr
@@ -3907,16 +3881,10 @@ skipme:
     Private Sub cmdEditUpdate_Click(sender As Object, e As EventArgs) Handles cmdEditUpdate.Click
         If chkEnableSongEdit.Visible = True And chkEnableSongEdit.Checked = False Then Exit Sub
         'If lstMusicSongChanges1.SelectedIndex = -1 Then Exit Sub
-        If lstMusicSongChanges1.SelectedItems.Count = 0 Then Exit Sub
-        Dim oldSceneName As String = lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text
+        If txtEditTime.Text = "" Then Exit Sub
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
 
         EditUpdate = True
-        'Dim a() As String = Split(lstMusicSongChanges1.SelectedItem, "|")
-        'lstMusicSongChanges1.SelectedItems(0).Text = txtEditTime.Text
-        'lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text = lstSongEditPresets.SelectedItem
-        'lstMusicSongChanges1.SelectedItems(0).SubItems(2).Text = numFadeIn.Value
-        'lstMusicSongChanges1.SelectedItems(0).SubItems(3).Text = numFadeOut.Value
 
         Dim newchange As New SongChangesStr
 
@@ -3927,14 +3895,28 @@ skipme:
         newchange.TimeToGoUp = numFadeIn.Value
         newchange.TimeToGoDown = numFadeOut.Value
 
-        Dim SongDictSorted1 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
 
 
-        For Each sitem In SongDictSorted1
-            If sitem.Value = Song1EditingOrig.TimeCode And sitem.Key.SceneIndex = Song1EditingOrig.SceneIndex Then
-                MusicCues(Qindex).SongChangesDict.Remove(sitem.Key)
-            End If
-        Next
+        If lstMusicSongChanges1.SelectedItems.Count = 0 Then
+            'nothing Is new
+
+
+
+
+            'Exit Sub
+        Else
+
+            'Dim oldSceneName As String = lstMusicSongChanges1.SelectedItems(0).SubItems(1).Text
+            'Dim SongDictSorted1 = From entry In MusicCues(Qindex).SongChangesDict Order By entry.Value Select entry
+
+            For Each sitem In MusicCues(Qindex).SongChangesDict
+                If Math.Round(sitem.Value, 2) = Song1EditingOrig.TimeCode And sitem.Key.SceneIndex = Song1EditingOrig.SceneIndex Then
+                    MusicCues(Qindex).SongChangesDict.Remove(sitem.Key)
+                    Exit For
+                End If
+            Next
+
+        End If
 
         MusicCues(Qindex).SongChangesDict.Add(newchange, newchange.TimeCode)
         'SongChanges1.Item(lstMusicSongChanges1.SelectedItems(0).Index) = newchange
@@ -3943,7 +3925,7 @@ skipme:
         ResortSongChange1FromDictionary(Qindex)
         Dim Idx As Integer = 0
         Do Until Idx >= lstMusicSongChanges1.Items.Count
-            If lstMusicSongChanges1.Items(Idx).SubItems(1).Text = oldSceneName Then
+            If lstMusicSongChanges1.Items(Idx).SubItems(0).Text = newchange.TimeCode Then
                 lstMusicSongChanges1.Items(Idx).Selected = True
             End If
             Idx += 1
@@ -4428,6 +4410,80 @@ skipme:
         txtSerialIn.Text = ""
     End Sub
 
+    Private Sub cmdSetMarsConsole_Click(sender As Object, e As EventArgs) Handles cmdSetMarsConsole.Click
+        If lstCOMdevices.SelectedItems.Count = 0 Then Exit Sub
+        Dim I As Integer = 0
+        Do Until I >= Arduinos.Length
+            If Arduinos(I).PortNo = lstCOMdevices.SelectedItems(0).Text Then
+                Arduinos(I).Job = ArduinoModes.ctlMarsConsole
+                lstCOMdevices.SelectedItems(0).SubItems(3).Text = ArduinoModes.ctlMarsConsole
+            End If
+            I += 1
+        Loop
+        SaveArduinoAssignments()
+    End Sub
+
+    Private Sub cmdCOMDisconnect_Click(sender As Object, e As EventArgs) Handles cmdCOMDisconnect.Click
+        Dim I As Integer = 0
+        Do Until I >= Arduinos.Count
+            Try
+                If Arduinos(I).Serial.PortName = lstCOMdevices.SelectedItems(0).SubItems(0).Text Then
+                    Arduinos(I).Serial.Close()
+                    lstCOMdevices.SelectedItems(0).SubItems(2).Text = "Closed"
+                    Exit Sub
+                End If
+            Catch ex As Exception
+
+            End Try
+
+
+            I += 1
+        Loop
+
+    End Sub
+
+    Private Sub cmdSendAll_Click(sender As Object, e As EventArgs) Handles cmdSendAll.Click
+        MarsConsole.SendAll()
+    End Sub
+
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        MarsConsole.SendHello()
+    End Sub
+
+    Private Sub cmdSubmitIssue_Click(sender As Object, e As EventArgs) Handles cmdSubmitIssue.Click
+        If txtGithubIssue.Text = "" Then Exit Sub
+        Dim accessToken = "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"
+        Dim owner = "Teckiee"
+        Dim repo = "KnightLight"
+        Dim title = "Issue from App"
+        Dim body = txtGithubIssue.Text
+
+        SubmitGitHubIssue(accessToken, owner, repo, title, body)
+        txtGithubIssue.Text = ""
+    End Sub
+    Sub SubmitGitHubIssue(accessToken As String, owner As String, repo As String, title As String, body As String)
+        Dim GitHubApiUrl As String = $"https://api.github.com/repos/{owner}/{repo}/issues"
+
+        Using client As New HttpClient()
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}")
+            client.DefaultRequestHeaders.Add("User-Agent", "VB.NET GitHub Issue Creator")
+
+            Dim issueData = New With {
+                .title = title,
+                .body = body
+            }
+            Dim jsonPayload = JsonConvert.SerializeObject(issueData)
+            Dim content = New StringContent(jsonPayload, Encoding.UTF8, "application/json")
+
+            Dim response = client.PostAsync(GitHubApiUrl, content).Result
+
+            If response.IsSuccessStatusCode Then
+                Console.WriteLine("Issue created successfully.")
+            Else
+                Console.WriteLine($"Failed to create issue: {response.StatusCode} - {response.ReasonPhrase}")
+            End If
+        End Using
+    End Sub
 
     Private Sub lstCOMdevices_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCOMdevices.SelectedIndexChanged
         txtSerialIn.Text = ""
