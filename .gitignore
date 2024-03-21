@@ -37,3 +37,5 @@ Haukcode.sACN/src/Haukcode.sACN/SACNCommon.cs
 Haukcode.sACN/test/BigEndianBinaryReaderTests.cs
 Haukcode.sACN/test/Haukcode.sACN.UnitTest.csproj
 Haukcode.sACN/test/SACNPacketTests.cs
+**/.vs/
+**/obj/
