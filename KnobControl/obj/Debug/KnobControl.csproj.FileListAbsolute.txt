@@ -1,0 +1,15 @@
+C:\Users\a453868\Documents\GitHub\KnobControl\bin\Debug\KnobControl.dll
+C:\Users\a453868\Documents\GitHub\KnobControl\bin\Debug\KnobControl.pdb
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Debug\KnobControl.csprojAssemblyReference.cache
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Debug\KnobControl.KnobControl.resources
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Debug\KnobControl.csproj.GenerateResource.cache
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Debug\KnobControl.dll
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Debug\KnobControl.pdb
+E:\My Drive\GitHub\KnightLight\KnobControl\bin\Debug\KnobControl.dll
+E:\My Drive\GitHub\KnightLight\KnobControl\bin\Debug\KnobControl.pdb
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.AssemblyReference.cache
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.KnobControl.resources
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.GenerateResource.cache
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.CoreCompileInputs.cache
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.dll
+E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.pdb

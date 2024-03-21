@@ -1,0 +1,5 @@
+C:\Users\a453868\Documents\GitHub\KnobControl\bin\Release\KnobControl.dll
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Release\KnobControl.KnobControl.resources
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Release\KnobControl.csproj.GenerateResource.cache
+C:\Users\a453868\Documents\GitHub\KnobControl\obj\Release\KnobControl.dll
+C:\Users\A453868\Documents\GitHub\KnobControl\obj\Release\KnobControl.csprojAssemblyReference.cache
