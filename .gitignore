@@ -39,3 +39,4 @@ Haukcode.sACN/test/Haukcode.sACN.UnitTest.csproj
 Haukcode.sACN/test/SACNPacketTests.cs
 **/.vs/
 **/obj/
+KnightLight v5/**/bin/
