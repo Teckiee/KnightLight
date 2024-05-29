@@ -4453,7 +4453,9 @@ skipme:
 
     Private Sub cmdSubmitIssue_Click(sender As Object, e As EventArgs) Handles cmdSubmitIssue.Click
         If txtGithubIssue.Text = "" Then Exit Sub
-        Dim accessToken = "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"
+        FileOpen(2, Application.StartupPath & "\accesstoken.txt", OpenMode.Input)
+        Dim accessToken As String = LineInput(2)
+        FileClose(2)
         Dim owner = "Teckiee"
         Dim repo = "KnightLight"
         Dim title = "Issue from App"

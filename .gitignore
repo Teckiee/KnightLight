@@ -40,3 +40,4 @@ Haukcode.sACN/test/SACNPacketTests.cs
 **/.vs/
 **/obj/
 KnightLight v5/**/bin/
+KnightLight v4/bin/Debug/accesstoken.txt
