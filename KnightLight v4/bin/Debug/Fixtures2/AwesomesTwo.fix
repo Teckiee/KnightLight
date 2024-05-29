@@ -1,0 +1,11 @@
+Channels=8
+D|Dmr,0-255
+X|Red,0-255
+X|Grn,0-255
+X|Blue,0-255
+X|White,0-255
+X|Amber,0-255
+X|UV,0-255
+X|Prog,0-255
+X|PrSp,0-255
+X|Strb,0-255

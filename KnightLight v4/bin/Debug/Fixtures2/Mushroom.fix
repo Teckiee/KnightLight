@@ -1,0 +1,8 @@
+Channels=7
+X|Motor,0-255
+X|Red,0-255
+X|Grn,0-255
+X|Blu,0-255
+D|On+colchng,0-255
+X|ChngSpd,0-255
+X|Strobe,0-255

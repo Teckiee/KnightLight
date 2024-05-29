@@ -1,8 +1,5 @@
-Channels=7
-D|Dmr,0-255
-X|Red,0-255
+Channels=4
+D|Red,0-255
 X|Green,0-255
 X|Blue,0-255
 X|White,0-255
-X|StrbOff,0-15,StrbOn,16-255|Strobe`eOff,0-15,On,16-255
-X|AutoOff,0-15,ColRnd,16-255

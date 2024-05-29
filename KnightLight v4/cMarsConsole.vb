@@ -91,4 +91,12 @@ Public Class cMarsConsole
         )
         thread.Start()
     End Sub
+    Public Sub Send(ByVal msg As String)
+        Dim thread As New Thread(
+            Sub()
+                SerialConn.WriteLine("HELLO")
+            End Sub
+        )
+        thread.Start()
+    End Sub
 End Class

@@ -117,7 +117,6 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Lame.pdb
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.ValueTuple.xml
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.32.dll
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.64.dll
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnightLight.exe.config
@@ -151,7 +150,6 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting D
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.dll
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.pdb
-C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.SuggestedBindingRedirects.cache
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.dll
 D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.pdb
 E:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\libmp3lame.32.dll
@@ -196,3 +194,4 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\KnobControl.pdb
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.ctrlMusicPlayer.resources
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.dll
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Aw.E537C3C7.Up2Date

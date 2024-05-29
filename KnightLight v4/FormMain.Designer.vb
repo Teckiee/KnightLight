@@ -165,6 +165,9 @@ Partial Class FormMain
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.cmdSubmitIssue = New System.Windows.Forms.Button()
+        Me.txtGithubIssue = New System.Windows.Forms.TextBox()
         Me.cmdCOMDisconnect = New System.Windows.Forms.Button()
         Me.cmdSetMarsConsole = New System.Windows.Forms.Button()
         Me.chkMusicNextFollows = New System.Windows.Forms.CheckBox()
@@ -257,9 +260,6 @@ Partial Class FormMain
         Me.barVUmeter = New System.Windows.Forms.VScrollBar()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lblMarsConnected = New System.Windows.Forms.Label()
-        Me.txtGithubIssue = New System.Windows.Forms.TextBox()
-        Me.cmdSubmitIssue = New System.Windows.Forms.Button()
-        Me.Label10 = New System.Windows.Forms.Label()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -406,6 +406,7 @@ Partial Class FormMain
         Me.pnlMusicplayers.Name = "pnlMusicplayers"
         Me.pnlMusicplayers.Size = New System.Drawing.Size(601, 163)
         Me.pnlMusicplayers.TabIndex = 629
+        Me.pnlMusicplayers.Visible = False
         '
         'CtrlMusicPlayer1
         '
@@ -1779,6 +1780,33 @@ Partial Class FormMain
         Me.tbpSettings.Text = "Settings"
         Me.tbpSettings.UseVisualStyleBackColor = True
         '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.ForeColor = System.Drawing.Color.Lime
+        Me.Label10.Location = New System.Drawing.Point(777, 549)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(113, 13)
+        Me.Label10.TabIndex = 356
+        Me.Label10.Text = "Submit Issue to Github"
+        '
+        'cmdSubmitIssue
+        '
+        Me.cmdSubmitIssue.Location = New System.Drawing.Point(1136, 777)
+        Me.cmdSubmitIssue.Name = "cmdSubmitIssue"
+        Me.cmdSubmitIssue.Size = New System.Drawing.Size(130, 23)
+        Me.cmdSubmitIssue.TabIndex = 355
+        Me.cmdSubmitIssue.Text = "Submit Issue"
+        Me.cmdSubmitIssue.UseVisualStyleBackColor = True
+        '
+        'txtGithubIssue
+        '
+        Me.txtGithubIssue.Location = New System.Drawing.Point(780, 565)
+        Me.txtGithubIssue.Multiline = True
+        Me.txtGithubIssue.Name = "txtGithubIssue"
+        Me.txtGithubIssue.Size = New System.Drawing.Size(486, 206)
+        Me.txtGithubIssue.TabIndex = 354
+        '
         'cmdCOMDisconnect
         '
         Me.cmdCOMDisconnect.Location = New System.Drawing.Point(1632, 309)
@@ -2572,33 +2600,6 @@ Partial Class FormMain
         Me.lblMarsConnected.TabIndex = 347
         Me.lblMarsConnected.Text = "Mars Connected"
         Me.lblMarsConnected.Visible = False
-        '
-        'txtGithubIssue
-        '
-        Me.txtGithubIssue.Location = New System.Drawing.Point(780, 565)
-        Me.txtGithubIssue.Multiline = True
-        Me.txtGithubIssue.Name = "txtGithubIssue"
-        Me.txtGithubIssue.Size = New System.Drawing.Size(486, 206)
-        Me.txtGithubIssue.TabIndex = 354
-        '
-        'cmdSubmitIssue
-        '
-        Me.cmdSubmitIssue.Location = New System.Drawing.Point(1136, 777)
-        Me.cmdSubmitIssue.Name = "cmdSubmitIssue"
-        Me.cmdSubmitIssue.Size = New System.Drawing.Size(130, 23)
-        Me.cmdSubmitIssue.TabIndex = 355
-        Me.cmdSubmitIssue.Text = "Submit Issue"
-        Me.cmdSubmitIssue.UseVisualStyleBackColor = True
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.ForeColor = System.Drawing.Color.Lime
-        Me.Label10.Location = New System.Drawing.Point(777, 549)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(113, 13)
-        Me.Label10.TabIndex = 356
-        Me.Label10.Text = "Submit Issue to Github"
         '
         'FormMain
         '

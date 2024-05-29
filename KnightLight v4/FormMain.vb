@@ -3756,7 +3756,7 @@ skipme:
     Private Sub cmdEditSongCopyNew_Click(sender As Object, e As EventArgs) Handles cmdEditSongCopyNew.Click
 
         If lstSongEditPresets.SelectedIndex = -1 Then Exit Sub
-        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstSongEditPresets.SelectedItem)
+        Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstMusicSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = False Then
             Exit Sub
         End If
@@ -4270,6 +4270,7 @@ skipme:
 
 
         SaveScene(newname)
+        Return newI
         'UpdatePresetControls(newI)
         ResetAllPresetControls()
     End Function

@@ -565,7 +565,11 @@ Public Class FormChannels
 
             If SelectedChannels(I) >= numChannelFadersStart.Value And SelectedChannels(I) < numChannelFadersStart.Value + ChannelControlSetsPerPage Then
                 'ChannelFaders(I - (frmChannels.numChannelFadersStart.Value) + 1).dmrbtn.BackColor = Color.Red
-                Dim chanI As Integer = SelectedChannels(I) Mod ChannelControlSetsPerPage
+
+                ' isnt accounting for non page click values
+
+                '+1 cause 1 indexed, not 0
+                Dim chanI As Integer = SelectedChannels(I) - numChannelFadersStart.Value + 1
                 If Not ChannelFaders(chanI) Is Nothing Then
                     If ChannelFaders(chanI).dmrbtn.BackColor = Color.Red Then
                         ' otherChanged = True
@@ -594,6 +598,10 @@ Public Class FormChannels
     Public Sub UpdateFixtureLabel(Optional ByVal channelno As Integer = 0)
         If Not channelno = 0 Then
             'Actionsandvalues= "Str1,0-79,Str2,80-160,Str3,161-255"
+
+            ' is using original numbers, not numbox adjusted
+            'FixtureControls(uptoChannel)
+
             Dim a() As String = Split(FixtureControls(channelno - 1).ActionAndValues, ",")
             If a.Length > 2 Then
                 Dim ActionIndex As Integer = 1
@@ -995,7 +1003,7 @@ DoneGeneration:
 
             End With
 
-            UpdateFixtureLabel(I)
+            UpdateFixtureLabel(uptoChannel)
             ChannelFaders(I).internalChannelFaderNumber = uptoChannel
 
             If uptoChannel > frmMain.numEndChannel.Value Or uptoChannel >= ChannelFaders.Count Then

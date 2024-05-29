@@ -1,0 +1,5 @@
+Channels=4
+D|Red,0-255
+D|Grn,0-255
+D|Blu,0-128,B2,129-255
+D|Dimmer,0-255

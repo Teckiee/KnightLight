@@ -13,3 +13,11 @@ E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.Generate
 E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.CoreCompileInputs.cache
 E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.dll
 E:\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\bin\Debug\KnobControl.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\bin\Debug\KnobControl.pdb
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.AssemblyReference.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.KnobControl.resources
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.GenerateResource.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.csproj.CoreCompileInputs.cache
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnobControl\obj\Debug\KnobControl.pdb

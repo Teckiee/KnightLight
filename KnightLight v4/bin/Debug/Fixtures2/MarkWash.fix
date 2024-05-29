@@ -1,0 +1,18 @@
+Channels=17
+X|Pan,0-255
+X|PnSpd,0-255|Pan Speed
+X|Tilt,0-255
+X|TltSpd,0-255|Tilt Speed
+D|Dmr,0-255|Dimmer
+X|Red,0-255
+X|Grn,0-255|Green
+X|Blue,0-255
+X|White,0-255
+X|Amber,0-255
+X|UV,0-255
+X|Zoom,0-255
+X|Strb,0-255|Strobe Speed
+X|SndOff,0-0,SndThr,1-255|Sound Mode`e0 = Off`e1-255 = Threshold
+X|ColChg,0-0,ColFst,1-100,ColGrad,101-255|0 = Off`e1-100 = Sudden Colour Changes`e101-255 = Gradient Colour Changes
+X|Unused
+X|Placeholder

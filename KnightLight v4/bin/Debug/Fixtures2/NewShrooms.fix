@@ -1,0 +1,6 @@
+Channels=5
+X|ColMac,0-255
+X|Strobe,0-255
+X|APrSped,0-255
+X|Rotation,0-255
+D|Dimmer,0-255

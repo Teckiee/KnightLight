@@ -1,0 +1,9 @@
+Channels=8
+D|Dmr,0-255|Dimmer
+X|Str1,0-79,Str2,80-160,Str3,161-255|Strobe:`e0-79`e80-160`e161-255
+X|Red,0-255|Red
+X|Grn,0-255|Green
+X|Blue,0-255|Blue
+X|MultiC,0-255|Multicolour
+X|Prog,0-255|Program
+X|PrSp,0-255|Program Speed

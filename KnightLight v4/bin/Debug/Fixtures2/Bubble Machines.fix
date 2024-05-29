@@ -1,0 +1,9 @@
+Channels=8
+X|Smoke 000-255
+X|Fan,0-255
+D|Dimmer,0-255
+X|Red,0-255
+X|Green,0-255
+X|Blue,0-255
+X|Strobe,0-255
+X|Auto,000-255

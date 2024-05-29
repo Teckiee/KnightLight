@@ -1,0 +1,13 @@
+Channels=10
+X|Pan,0-255
+X|Tilt,0-255
+X|Colour,0-255
+X|Gobo1,0-255
+D|Gobo2,0-255
+X|Spin,0-255
+X|Triplespin,0-255
+X|Focus,0-255
+D|Dimmer,0-255
+X|Dim/Flash,0-255
+X|Unsure,0-255
+X|Unsure,0-255
