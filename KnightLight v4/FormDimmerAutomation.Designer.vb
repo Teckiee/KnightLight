@@ -49,12 +49,13 @@ Partial Class FormDimmerAutomation
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.numSoundThreshold = New System.Windows.Forms.NumericUpDown()
         Me.CustomGroupBox1 = New Super_Awesome_Lighting_DMX_board_v4.CustomGroupBox()
+        Me.lstWave = New System.Windows.Forms.ListBox()
         Me.chkLoop = New System.Windows.Forms.CheckBox()
         Me.optInOrder = New System.Windows.Forms.RadioButton()
         Me.optRandomSound = New System.Windows.Forms.RadioButton()
         Me.optRandomTimed = New System.Windows.Forms.RadioButton()
         Me.numChaseTimebetween = New System.Windows.Forms.NumericUpDown()
-        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.grpOscillator = New System.Windows.Forms.GroupBox()
         Me.txtPhase = New System.Windows.Forms.TextBox()
         Me.txtFrequency = New System.Windows.Forms.TextBox()
         Me.txtCenter = New System.Windows.Forms.TextBox()
@@ -67,7 +68,7 @@ Partial Class FormDimmerAutomation
         Me.Label4 = New System.Windows.Forms.Label()
         Me.knbCenter = New KnobControl.KnobControl()
         Me.knbAmplitude = New KnobControl.KnobControl()
-        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.grpSoundActivation = New System.Windows.Forms.GroupBox()
         Me.knbSoundLevel = New KnobControl.KnobControl()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.knbSoundAttack = New KnobControl.KnobControl()
@@ -78,7 +79,6 @@ Partial Class FormDimmerAutomation
         Me.RadioButton4 = New System.Windows.Forms.RadioButton()
         Me.knbSoundRelease = New KnobControl.KnobControl()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.lstWave = New System.Windows.Forms.ListBox()
         CType(Me.numChaseMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChaseMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChaseManyIterations, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,8 +92,8 @@ Partial Class FormDimmerAutomation
         CType(Me.numSoundThreshold, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CustomGroupBox1.SuspendLayout()
         CType(Me.numChaseTimebetween, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox6.SuspendLayout()
-        Me.GroupBox5.SuspendLayout()
+        Me.grpOscillator.SuspendLayout()
+        Me.grpSoundActivation.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblAutoMinlbl
@@ -388,6 +388,15 @@ Partial Class FormDimmerAutomation
         Me.CustomGroupBox1.TabStop = False
         Me.CustomGroupBox1.Text = "List Progression:"
         '
+        'lstWave
+        '
+        Me.lstWave.FormattingEnabled = True
+        Me.lstWave.Items.AddRange(New Object() {"Off", "Chase", "Sine", "Square", "Triangle"})
+        Me.lstWave.Location = New System.Drawing.Point(9, 19)
+        Me.lstWave.Name = "lstWave"
+        Me.lstWave.Size = New System.Drawing.Size(71, 82)
+        Me.lstWave.TabIndex = 319
+        '
         'chkLoop
         '
         Me.chkLoop.AutoSize = True
@@ -435,35 +444,35 @@ Partial Class FormDimmerAutomation
         '
         'numChaseTimebetween
         '
-        Me.numChaseTimebetween.Location = New System.Drawing.Point(99, 88)
+        Me.numChaseTimebetween.Location = New System.Drawing.Point(173, 88)
         Me.numChaseTimebetween.Maximum = New Decimal(New Integer() {30000, 0, 0, 0})
         Me.numChaseTimebetween.Name = "numChaseTimebetween"
-        Me.numChaseTimebetween.Size = New System.Drawing.Size(96, 20)
+        Me.numChaseTimebetween.Size = New System.Drawing.Size(72, 20)
         Me.numChaseTimebetween.TabIndex = 259
         Me.numChaseTimebetween.Value = New Decimal(New Integer() {1000, 0, 0, 0})
         '
-        'GroupBox6
+        'grpOscillator
         '
-        Me.GroupBox6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox6.Controls.Add(Me.txtPhase)
-        Me.GroupBox6.Controls.Add(Me.txtFrequency)
-        Me.GroupBox6.Controls.Add(Me.txtCenter)
-        Me.GroupBox6.Controls.Add(Me.txtAmplitude)
-        Me.GroupBox6.Controls.Add(Me.Label7)
-        Me.GroupBox6.Controls.Add(Me.knbPhase)
-        Me.GroupBox6.Controls.Add(Me.Label6)
-        Me.GroupBox6.Controls.Add(Me.knbFrequency)
-        Me.GroupBox6.Controls.Add(Me.Label5)
-        Me.GroupBox6.Controls.Add(Me.Label4)
-        Me.GroupBox6.Controls.Add(Me.knbCenter)
-        Me.GroupBox6.Controls.Add(Me.knbAmplitude)
-        Me.GroupBox6.ForeColor = System.Drawing.Color.Lime
-        Me.GroupBox6.Location = New System.Drawing.Point(3, 494)
-        Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(323, 156)
-        Me.GroupBox6.TabIndex = 317
-        Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Oscillator - Not Working"
+        Me.grpOscillator.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.grpOscillator.Controls.Add(Me.txtPhase)
+        Me.grpOscillator.Controls.Add(Me.txtFrequency)
+        Me.grpOscillator.Controls.Add(Me.txtCenter)
+        Me.grpOscillator.Controls.Add(Me.txtAmplitude)
+        Me.grpOscillator.Controls.Add(Me.Label7)
+        Me.grpOscillator.Controls.Add(Me.knbPhase)
+        Me.grpOscillator.Controls.Add(Me.Label6)
+        Me.grpOscillator.Controls.Add(Me.knbFrequency)
+        Me.grpOscillator.Controls.Add(Me.Label5)
+        Me.grpOscillator.Controls.Add(Me.Label4)
+        Me.grpOscillator.Controls.Add(Me.knbCenter)
+        Me.grpOscillator.Controls.Add(Me.knbAmplitude)
+        Me.grpOscillator.ForeColor = System.Drawing.Color.Lime
+        Me.grpOscillator.Location = New System.Drawing.Point(3, 494)
+        Me.grpOscillator.Name = "grpOscillator"
+        Me.grpOscillator.Size = New System.Drawing.Size(323, 156)
+        Me.grpOscillator.TabIndex = 317
+        Me.grpOscillator.TabStop = False
+        Me.grpOscillator.Text = "Oscillator - Not Working"
         '
         'txtPhase
         '
@@ -634,26 +643,26 @@ Partial Class FormDimmerAutomation
         Me.knbAmplitude.TabIndex = 306
         Me.knbAmplitude.Value = 255
         '
-        'GroupBox5
+        'grpSoundActivation
         '
-        Me.GroupBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox5.Controls.Add(Me.knbSoundLevel)
-        Me.GroupBox5.Controls.Add(Me.RadioButton1)
-        Me.GroupBox5.Controls.Add(Me.knbSoundAttack)
-        Me.GroupBox5.Controls.Add(Me.RadioButton2)
-        Me.GroupBox5.Controls.Add(Me.Label10)
-        Me.GroupBox5.Controls.Add(Me.RadioButton3)
-        Me.GroupBox5.Controls.Add(Me.Label9)
-        Me.GroupBox5.Controls.Add(Me.RadioButton4)
-        Me.GroupBox5.Controls.Add(Me.knbSoundRelease)
-        Me.GroupBox5.Controls.Add(Me.Label8)
-        Me.GroupBox5.ForeColor = System.Drawing.Color.Lime
-        Me.GroupBox5.Location = New System.Drawing.Point(337, 494)
-        Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(297, 124)
-        Me.GroupBox5.TabIndex = 318
-        Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "Sound Activation - Not Working"
+        Me.grpSoundActivation.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.grpSoundActivation.Controls.Add(Me.knbSoundLevel)
+        Me.grpSoundActivation.Controls.Add(Me.RadioButton1)
+        Me.grpSoundActivation.Controls.Add(Me.knbSoundAttack)
+        Me.grpSoundActivation.Controls.Add(Me.RadioButton2)
+        Me.grpSoundActivation.Controls.Add(Me.Label10)
+        Me.grpSoundActivation.Controls.Add(Me.RadioButton3)
+        Me.grpSoundActivation.Controls.Add(Me.Label9)
+        Me.grpSoundActivation.Controls.Add(Me.RadioButton4)
+        Me.grpSoundActivation.Controls.Add(Me.knbSoundRelease)
+        Me.grpSoundActivation.Controls.Add(Me.Label8)
+        Me.grpSoundActivation.ForeColor = System.Drawing.Color.Lime
+        Me.grpSoundActivation.Location = New System.Drawing.Point(337, 494)
+        Me.grpSoundActivation.Name = "grpSoundActivation"
+        Me.grpSoundActivation.Size = New System.Drawing.Size(297, 124)
+        Me.grpSoundActivation.TabIndex = 318
+        Me.grpSoundActivation.TabStop = False
+        Me.grpSoundActivation.Text = "Sound Activation - Not Working"
         '
         'knbSoundLevel
         '
@@ -804,22 +813,13 @@ Partial Class FormDimmerAutomation
         Me.Label8.TabIndex = 311
         Me.Label8.Text = "Release"
         '
-        'lstWave
-        '
-        Me.lstWave.FormattingEnabled = True
-        Me.lstWave.Items.AddRange(New Object() {"Off", "Chase", "Sine", "Square", "Triangle"})
-        Me.lstWave.Location = New System.Drawing.Point(9, 19)
-        Me.lstWave.Name = "lstWave"
-        Me.lstWave.Size = New System.Drawing.Size(71, 82)
-        Me.lstWave.TabIndex = 319
-        '
         'FormDimmerAutomation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(640, 653)
-        Me.Controls.Add(Me.GroupBox5)
-        Me.Controls.Add(Me.GroupBox6)
+        Me.Controls.Add(Me.grpSoundActivation)
+        Me.Controls.Add(Me.grpOscillator)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.lblEditingChannels)
         Me.Controls.Add(Me.lstChase)
@@ -850,10 +850,10 @@ Partial Class FormDimmerAutomation
         Me.CustomGroupBox1.ResumeLayout(False)
         Me.CustomGroupBox1.PerformLayout()
         CType(Me.numChaseTimebetween, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox6.PerformLayout()
-        Me.GroupBox5.ResumeLayout(False)
-        Me.GroupBox5.PerformLayout()
+        Me.grpOscillator.ResumeLayout(False)
+        Me.grpOscillator.PerformLayout()
+        Me.grpSoundActivation.ResumeLayout(False)
+        Me.grpSoundActivation.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -889,7 +889,7 @@ Partial Class FormDimmerAutomation
     Friend WithEvents lblEditingChannels As Label
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents numSoundThreshold As NumericUpDown
-    Friend WithEvents GroupBox6 As GroupBox
+    Friend WithEvents grpOscillator As GroupBox
     Friend WithEvents txtPhase As TextBox
     Friend WithEvents txtFrequency As TextBox
     Friend WithEvents txtCenter As TextBox
@@ -902,7 +902,7 @@ Partial Class FormDimmerAutomation
     Friend WithEvents Label4 As Label
     Friend WithEvents knbCenter As KnobControl.KnobControl
     Friend WithEvents knbAmplitude As KnobControl.KnobControl
-    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents grpSoundActivation As GroupBox
     Friend WithEvents knbSoundLevel As KnobControl.KnobControl
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents knbSoundAttack As KnobControl.KnobControl

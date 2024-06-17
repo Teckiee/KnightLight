@@ -457,15 +457,15 @@ found:
 
         frmMain = Me
         'frmTouchPad = New FormTouchPad
-        'Dim iDim As Integer = 0
-        'Do Until iDim >= frmDimmerAutomation.Length
-        '    frmDimmerAutomation(iDim) = New FormDimmerAutomation With {
-        '        .Icon = frmMain.Icon,
-        '        .BackColor = Color.Black
-        '    }
-        '    iDim += 1
-        'Loop
-        'StartupProcess("frmDimmerAutomation")
+        Dim iDim As Integer = 0
+        Do Until iDim >= frmDimmerAutomation.Length
+            frmDimmerAutomation(iDim) = New FormDimmerAutomation With {
+                .Icon = frmMain.Icon,
+                .BackColor = Color.Black
+            }
+            iDim += 1
+        Loop
+        StartupProcess("frmDimmerAutomation")
         frmGradientColour = New FormColourGradient
         frmCustomColourPicker1 = New FormColourPicker
         frmChannels = New FormChannels
@@ -951,6 +951,8 @@ found:
                                         Select Case b(0) 'SceneData(I).ChannelValues(a(0))
                                             Case "v"
                                                 .Value = b(1)
+                                            Case "AutomationMode"
+                                                .Automation.Mode = b(1)
                                             Case "TimerEnabled", "timerenabled"
                                                 If Convert.ToBoolean(b(1)) = False Then
                                                     .Automation.Mode = AutomationMode.Off
@@ -986,6 +988,20 @@ found:
                                                     Next
                                                 End If
 
+                                            Case "oscAmplitude"
+                                                .Automation.oscAmplitude = b(1)
+                                            Case "oscCenter"
+                                                .Automation.oscCenter = b(1)
+                                            Case "oscFrequency"
+                                                .Automation.oscFrequency = b(1)
+                                            Case "oscPhase"
+                                                .Automation.oscPhase = b(1)
+                                            Case "SoundLevel"
+                                                .Automation.SoundLevel = b(1)
+                                            Case "SoundAttack"
+                                                .Automation.SoundAttack = b(1)
+                                            Case "SoundRelease"
+                                                .Automation.SoundRelease = b(1)
 
                                         End Select
                                     Next s
@@ -3400,6 +3416,13 @@ skipme:
                 chanline &= "RandomSound," & .Automation.ProgressSoundActivated & "|"
                 chanline &= "SoundThreshold," & .Automation.SoundActivationThreshold & "|"
                 chanline &= "IsLooped," & .Automation.ProgressLoop & "|"
+                chanline &= "oscAmplitude," & .Automation.oscAmplitude
+                chanline &= "oscCenter," & .Automation.oscCenter
+                chanline &= "oscFrequency," & .Automation.oscFrequency
+                chanline &= "oscPhase," & .Automation.oscPhase
+                chanline &= "SoundLevel," & .Automation.SoundLevel
+                chanline &= "SoundAttack," & .Automation.SoundAttack
+                chanline &= "SoundRelease," & .Automation.SoundRelease
                 chanline &= "ProgressList"
 
                 Dim iList As Integer = 0

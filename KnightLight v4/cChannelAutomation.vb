@@ -16,7 +16,7 @@ Public Class cChannelAutomation
 
     Dim aoscAmplitude As Integer
     Dim aoscCenter As Integer
-    Dim aoscFrequency As Integer
+    Dim aoscFrequency As Double
     Dim aoscPhase As Double
     Dim aoscIndex As Integer
     Dim aoscDirection As String
@@ -43,7 +43,7 @@ Public Class cChannelAutomation
         aCurrentIofList = 0
 
         aoscPhase = 0.1
-        aoscFrequency = 100
+        aoscFrequency = 0.5
         aoscCenter = 127
         aoscAmplitude = 255
 
@@ -99,11 +99,11 @@ Public Class cChannelAutomation
             aSoundLevel = NewI
         End Set
     End Property
-    Public Property oscPhase() As Integer
+    Public Property oscPhase() As Double
         Get
             Return aoscPhase
         End Get
-        Set(ByVal NewI As Integer)
+        Set(ByVal NewI As Double)
             aoscPhase = NewI
         End Set
     End Property
@@ -123,11 +123,11 @@ Public Class cChannelAutomation
             aoscDirection = NewI
         End Set
     End Property
-    Public Property oscFrequency() As Integer
+    Public Property oscFrequency() As Double
         Get
             Return aoscFrequency
         End Get
-        Set(ByVal NewI As Integer)
+        Set(ByVal NewI As Double)
             aoscFrequency = NewI
         End Set
     End Property
@@ -302,7 +302,7 @@ Public Class cChannelAutomation
                 newchanval -= CInt(aoscAmplitude * aoscFrequency * iInterval / 1000)
             End If
 
-            End If
+        End If
 
         With SceneData(iScene).ChannelValues(iChannel)
 
@@ -312,20 +312,26 @@ Public Class cChannelAutomation
 
             frmChannels.Invoke(Sub()
                                    If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then ' And tbcControls1.SelectedTab Is frmChannels Then
-                                       frmChannels.UpdateFixtureLabel(iChannel)
 
-                                       Dim I As Integer = 1
-                                       Do Until I >= ChannelFaders.Count
-                                           If Not ChannelFaders(I) Is Nothing Then
-                                               If ChannelFaders(I).iChannel = iChannel Then
-                                                   ChannelFaders(I).dmrvs.Value = .Value
-                                                   Exit Do
-                                               End If
-                                               If ChannelIndex < Val(ChannelFaders(I).iChannel) Then Exit Do
-                                           End If
+                                       If iChannel >= frmChannels.CurrentFirstChannel And iChannel <= frmChannels.CurrentLastChannel Then
+                                           frmChannels.UpdateFixtureLabel(iChannel)
+                                           Dim cLocationOnChannels As Integer = iChannel Mod ChannelControlSetsPerPage
 
-                                           I += 1
-                                       Loop
+                                           'Dim I As Integer = 1
+                                           'Do Until I >= ChannelFaders.Count
+                                           'If Not ChannelFaders(I) Is Nothing Then
+                                           'If ChannelFaders(cLocationOnChannels).iChannel = iChannel Then
+                                           ChannelFaders(cLocationOnChannels).dmrvs.Value = .Value
+
+                                           'End If
+
+                                           'End If
+
+                                           '    I += 1
+                                           'Loop
+
+                                       End If
+
 
                                    End If
                                End Sub)

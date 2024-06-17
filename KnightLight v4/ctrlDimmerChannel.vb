@@ -85,7 +85,7 @@
         End If
 
         frmChannels.LastSelectedChannel = internalChannelFaderNumber
-        frmChannels.UpdateAutomationControls(internalChannelFaderNumber)
+        'frmChannels.UpdateAutomationControls(internalChannelFaderNumber)
     End Sub
 
     Private Sub dmrtxtv_TextChanged(sender As Object, e As EventArgs) Handles dmrtxtv.TextChanged

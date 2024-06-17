@@ -5,7 +5,7 @@ Imports NAudio.Wave
 Module mdlGlobalVariables
     Public frmMain As FormMain
     'Public frmTouchPad As FormTouchPad
-    'Public frmDimmerAutomation(20) As FormDimmerAutomation
+    Public frmDimmerAutomation(20) As FormDimmerAutomation
     Public controlcolour As Color
     Public frmGradientColour As FormColourGradient
     Public frmCustomColourPicker1 As FormColourPicker
