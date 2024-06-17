@@ -51,7 +51,7 @@ Public Class FormDimmerAutomation
             optRandomTimed.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressRandomTimed
             optRandomSound.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressSoundActivated
             optInOrder.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressInOrder
-            numChaseTimebetween.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval
+            'numChaseTimebetween.Value = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval
             'chkAutoRunning.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer
 
             chkLoop.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop
@@ -65,7 +65,7 @@ Public Class FormDimmerAutomation
         Loop
         lblEditingChannels.Text = lblEditingChannels.Text.TrimStart(", ")
     End Sub
-    Private Sub chkAutoRunning_CheckedChanged(sender As Object, e As EventArgs) Handles chkAutoRunning.CheckedChanged
+    Private Sub chkAutoRunning_CheckedChanged(sender As Object, e As EventArgs)
         If formopened = False Then Exit Sub
         SaveToMain()
 
@@ -181,8 +181,8 @@ Public Class FormDimmerAutomation
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressRandomTimed = optRandomTimed.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressSoundActivated = optRandomSound.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressInOrder = optInOrder.Checked
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval = numChaseTimebetween.Value
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Enabled = chkAutoRunning.Checked
+            'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Interval = numChaseTimebetween.Value
+            'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.tTimer.Enabled = chkAutoRunning.Checked
             'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer = chkAutoRunning.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop = chkLoop.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundActivationThreshold = numSoundThreshold.Value

@@ -195,3 +195,4 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.dll
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Aw.E537C3C7.Up2Date
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources

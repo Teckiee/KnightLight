@@ -55,6 +55,7 @@ Module mdlGlobalVariables
     'Public SongDict2 As New Dictionary(Of SongChangesStr, Double)
     Public MusicCues(200) As MusicCues1
     Public AudioLatency As Integer 'Settings File Default 50
+    Public AudioDesiredSamplerate As Integer = 44100 'Settings File Default 44100
     Public ASIOMode As Boolean
     Public AudioRun As AudioThread
     'Public asioOutputs(10) As AsioOut

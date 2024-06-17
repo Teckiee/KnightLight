@@ -22,6 +22,7 @@ Partial Class ctrlMusicPlayer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.cmdCue1 = New System.Windows.Forms.Button()
         Me.cmdCue2 = New System.Windows.Forms.Button()
         Me.cmdPlay = New System.Windows.Forms.Button()
@@ -29,6 +30,7 @@ Partial Class ctrlMusicPlayer
         Me.cmdStop = New System.Windows.Forms.Button()
         Me.lblPosition = New System.Windows.Forms.Label()
         Me.lblSongName = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'cmdCue1
@@ -123,4 +125,5 @@ Partial Class ctrlMusicPlayer
     Friend WithEvents cmdStop As Button
     Friend WithEvents lblPosition As Label
     Friend WithEvents lblSongName As Label
+    Friend WithEvents Timer1 As Timer
 End Class

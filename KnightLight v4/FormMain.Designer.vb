@@ -401,10 +401,11 @@ Partial Class FormMain
         '
         'pnlMusicplayers
         '
+        Me.pnlMusicplayers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.pnlMusicplayers.Controls.Add(Me.CtrlMusicPlayer1)
-        Me.pnlMusicplayers.Location = New System.Drawing.Point(8, 891)
+        Me.pnlMusicplayers.Location = New System.Drawing.Point(8, 686)
         Me.pnlMusicplayers.Name = "pnlMusicplayers"
-        Me.pnlMusicplayers.Size = New System.Drawing.Size(601, 163)
+        Me.pnlMusicplayers.Size = New System.Drawing.Size(717, 163)
         Me.pnlMusicplayers.TabIndex = 629
         Me.pnlMusicplayers.Visible = False
         '
@@ -419,7 +420,7 @@ Partial Class FormMain
         'cmdReloadSongLists
         '
         Me.cmdReloadSongLists.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdReloadSongLists.Location = New System.Drawing.Point(1455, 862)
+        Me.cmdReloadSongLists.Location = New System.Drawing.Point(1453, 1031)
         Me.cmdReloadSongLists.Name = "cmdReloadSongLists"
         Me.cmdReloadSongLists.Size = New System.Drawing.Size(116, 23)
         Me.cmdReloadSongLists.TabIndex = 628
@@ -433,7 +434,7 @@ Partial Class FormMain
         Me.lstPresetsSongChanges2.FullRowSelect = True
         Me.lstPresetsSongChanges2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.lstPresetsSongChanges2.HideSelection = False
-        Me.lstPresetsSongChanges2.Location = New System.Drawing.Point(1143, 686)
+        Me.lstPresetsSongChanges2.Location = New System.Drawing.Point(1141, 855)
         Me.lstPresetsSongChanges2.MultiSelect = False
         Me.lstPresetsSongChanges2.Name = "lstPresetsSongChanges2"
         Me.lstPresetsSongChanges2.Size = New System.Drawing.Size(306, 199)
@@ -468,7 +469,7 @@ Partial Class FormMain
         Me.lstPresetsSongChanges1.FullRowSelect = True
         Me.lstPresetsSongChanges1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.lstPresetsSongChanges1.HideSelection = False
-        Me.lstPresetsSongChanges1.Location = New System.Drawing.Point(422, 686)
+        Me.lstPresetsSongChanges1.Location = New System.Drawing.Point(420, 855)
         Me.lstPresetsSongChanges1.MultiSelect = False
         Me.lstPresetsSongChanges1.Name = "lstPresetsSongChanges1"
         Me.lstPresetsSongChanges1.Size = New System.Drawing.Size(305, 199)
@@ -499,7 +500,7 @@ Partial Class FormMain
         'cmdPresetsSkip2
         '
         Me.cmdPresetsSkip2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsSkip2.Location = New System.Drawing.Point(1022, 776)
+        Me.cmdPresetsSkip2.Location = New System.Drawing.Point(1020, 945)
         Me.cmdPresetsSkip2.Name = "cmdPresetsSkip2"
         Me.cmdPresetsSkip2.Size = New System.Drawing.Size(37, 23)
         Me.cmdPresetsSkip2.TabIndex = 624
@@ -509,7 +510,7 @@ Partial Class FormMain
         'cmdPresetsSkip
         '
         Me.cmdPresetsSkip.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsSkip.Location = New System.Drawing.Point(297, 775)
+        Me.cmdPresetsSkip.Location = New System.Drawing.Point(295, 944)
         Me.cmdPresetsSkip.Name = "cmdPresetsSkip"
         Me.cmdPresetsSkip.Size = New System.Drawing.Size(37, 23)
         Me.cmdPresetsSkip.TabIndex = 623
@@ -521,7 +522,7 @@ Partial Class FormMain
         Me.lblPresetsMP3PositionMilli2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3PositionMilli2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3PositionMilli2.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3PositionMilli2.Location = New System.Drawing.Point(1018, 836)
+        Me.lblPresetsMP3PositionMilli2.Location = New System.Drawing.Point(1016, 1005)
         Me.lblPresetsMP3PositionMilli2.Name = "lblPresetsMP3PositionMilli2"
         Me.lblPresetsMP3PositionMilli2.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3PositionMilli2.TabIndex = 621
@@ -533,7 +534,7 @@ Partial Class FormMain
         Me.Label40.AutoSize = True
         Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label40.ForeColor = System.Drawing.Color.Lime
-        Me.Label40.Location = New System.Drawing.Point(1019, 800)
+        Me.Label40.Location = New System.Drawing.Point(1017, 969)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(47, 13)
         Me.Label40.TabIndex = 620
@@ -544,7 +545,7 @@ Partial Class FormMain
         Me.lblPresetsMP3Position2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3Position2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3Position2.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3Position2.Location = New System.Drawing.Point(1018, 816)
+        Me.lblPresetsMP3Position2.Location = New System.Drawing.Point(1016, 985)
         Me.lblPresetsMP3Position2.Name = "lblPresetsMP3Position2"
         Me.lblPresetsMP3Position2.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3Position2.TabIndex = 619
@@ -556,7 +557,7 @@ Partial Class FormMain
         Me.Label42.AutoSize = True
         Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label42.ForeColor = System.Drawing.Color.Lime
-        Me.Label42.Location = New System.Drawing.Point(1019, 740)
+        Me.Label42.Location = New System.Drawing.Point(1017, 909)
         Me.Label42.Name = "Label42"
         Me.Label42.Size = New System.Drawing.Size(50, 13)
         Me.Label42.TabIndex = 618
@@ -567,7 +568,7 @@ Partial Class FormMain
         Me.lblPresetsMP3Duration2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3Duration2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3Duration2.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3Duration2.Location = New System.Drawing.Point(1018, 756)
+        Me.lblPresetsMP3Duration2.Location = New System.Drawing.Point(1016, 925)
         Me.lblPresetsMP3Duration2.Name = "lblPresetsMP3Duration2"
         Me.lblPresetsMP3Duration2.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3Duration2.TabIndex = 617
@@ -576,7 +577,7 @@ Partial Class FormMain
         'cmdPresetsStop2
         '
         Me.cmdPresetsStop2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsStop2.Location = New System.Drawing.Point(1022, 716)
+        Me.cmdPresetsStop2.Location = New System.Drawing.Point(1020, 885)
         Me.cmdPresetsStop2.Name = "cmdPresetsStop2"
         Me.cmdPresetsStop2.Size = New System.Drawing.Size(75, 23)
         Me.cmdPresetsStop2.TabIndex = 616
@@ -586,7 +587,7 @@ Partial Class FormMain
         'cmdPresetsPlay2
         '
         Me.cmdPresetsPlay2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsPlay2.Location = New System.Drawing.Point(1022, 687)
+        Me.cmdPresetsPlay2.Location = New System.Drawing.Point(1020, 856)
         Me.cmdPresetsPlay2.Name = "cmdPresetsPlay2"
         Me.cmdPresetsPlay2.Size = New System.Drawing.Size(75, 23)
         Me.cmdPresetsPlay2.TabIndex = 615
@@ -596,7 +597,7 @@ Partial Class FormMain
         'trkPresetsVolume2
         '
         Me.trkPresetsVolume2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.trkPresetsVolume2.Location = New System.Drawing.Point(1092, 756)
+        Me.trkPresetsVolume2.Location = New System.Drawing.Point(1090, 925)
         Me.trkPresetsVolume2.Maximum = 100
         Me.trkPresetsVolume2.Name = "trkPresetsVolume2"
         Me.trkPresetsVolume2.Orientation = System.Windows.Forms.Orientation.Vertical
@@ -609,7 +610,7 @@ Partial Class FormMain
         '
         Me.lstPresetsSongs2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lstPresetsSongs2.FormattingEnabled = True
-        Me.lstPresetsSongs2.Location = New System.Drawing.Point(733, 687)
+        Me.lstPresetsSongs2.Location = New System.Drawing.Point(731, 856)
         Me.lstPresetsSongs2.Name = "lstPresetsSongs2"
         Me.lstPresetsSongs2.Size = New System.Drawing.Size(283, 199)
         Me.lstPresetsSongs2.Sorted = True
@@ -620,7 +621,7 @@ Partial Class FormMain
         Me.lblPresetsMP3PositionMilli.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3PositionMilli.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3PositionMilli.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3PositionMilli.Location = New System.Drawing.Point(293, 836)
+        Me.lblPresetsMP3PositionMilli.Location = New System.Drawing.Point(291, 1005)
         Me.lblPresetsMP3PositionMilli.Name = "lblPresetsMP3PositionMilli"
         Me.lblPresetsMP3PositionMilli.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3PositionMilli.TabIndex = 611
@@ -632,7 +633,7 @@ Partial Class FormMain
         Me.Label45.AutoSize = True
         Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label45.ForeColor = System.Drawing.Color.Lime
-        Me.Label45.Location = New System.Drawing.Point(294, 800)
+        Me.Label45.Location = New System.Drawing.Point(292, 969)
         Me.Label45.Name = "Label45"
         Me.Label45.Size = New System.Drawing.Size(47, 13)
         Me.Label45.TabIndex = 610
@@ -643,7 +644,7 @@ Partial Class FormMain
         Me.lblPresetsMP3Position.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3Position.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3Position.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3Position.Location = New System.Drawing.Point(293, 816)
+        Me.lblPresetsMP3Position.Location = New System.Drawing.Point(291, 985)
         Me.lblPresetsMP3Position.Name = "lblPresetsMP3Position"
         Me.lblPresetsMP3Position.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3Position.TabIndex = 609
@@ -655,7 +656,7 @@ Partial Class FormMain
         Me.Label47.AutoSize = True
         Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.ForeColor = System.Drawing.Color.Lime
-        Me.Label47.Location = New System.Drawing.Point(294, 740)
+        Me.Label47.Location = New System.Drawing.Point(292, 909)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(50, 13)
         Me.Label47.TabIndex = 608
@@ -666,7 +667,7 @@ Partial Class FormMain
         Me.lblPresetsMP3Duration.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblPresetsMP3Duration.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPresetsMP3Duration.ForeColor = System.Drawing.Color.Lime
-        Me.lblPresetsMP3Duration.Location = New System.Drawing.Point(293, 756)
+        Me.lblPresetsMP3Duration.Location = New System.Drawing.Point(291, 925)
         Me.lblPresetsMP3Duration.Name = "lblPresetsMP3Duration"
         Me.lblPresetsMP3Duration.Size = New System.Drawing.Size(71, 20)
         Me.lblPresetsMP3Duration.TabIndex = 607
@@ -675,7 +676,7 @@ Partial Class FormMain
         'cmdPresetsStop
         '
         Me.cmdPresetsStop.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsStop.Location = New System.Drawing.Point(297, 716)
+        Me.cmdPresetsStop.Location = New System.Drawing.Point(295, 885)
         Me.cmdPresetsStop.Name = "cmdPresetsStop"
         Me.cmdPresetsStop.Size = New System.Drawing.Size(75, 23)
         Me.cmdPresetsStop.TabIndex = 606
@@ -685,7 +686,7 @@ Partial Class FormMain
         'cmdPresetsPlay
         '
         Me.cmdPresetsPlay.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdPresetsPlay.Location = New System.Drawing.Point(297, 687)
+        Me.cmdPresetsPlay.Location = New System.Drawing.Point(295, 856)
         Me.cmdPresetsPlay.Name = "cmdPresetsPlay"
         Me.cmdPresetsPlay.Size = New System.Drawing.Size(75, 23)
         Me.cmdPresetsPlay.TabIndex = 605
@@ -696,7 +697,7 @@ Partial Class FormMain
         '
         Me.lstPresetsSongs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lstPresetsSongs.FormattingEnabled = True
-        Me.lstPresetsSongs.Location = New System.Drawing.Point(8, 687)
+        Me.lstPresetsSongs.Location = New System.Drawing.Point(6, 856)
         Me.lstPresetsSongs.Name = "lstPresetsSongs"
         Me.lstPresetsSongs.Size = New System.Drawing.Size(283, 199)
         Me.lstPresetsSongs.Sorted = True
@@ -705,7 +706,7 @@ Partial Class FormMain
         'trkPresetsVolume
         '
         Me.trkPresetsVolume.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.trkPresetsVolume.Location = New System.Drawing.Point(367, 756)
+        Me.trkPresetsVolume.Location = New System.Drawing.Point(365, 925)
         Me.trkPresetsVolume.Maximum = 100
         Me.trkPresetsVolume.Name = "trkPresetsVolume"
         Me.trkPresetsVolume.Orientation = System.Windows.Forms.Orientation.Vertical

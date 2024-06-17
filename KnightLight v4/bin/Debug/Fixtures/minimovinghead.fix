@@ -1,0 +1,14 @@
+Channels=12
+X|Pan,0-255
+X|Tilt,0-255
+flash/shutter?
+D|DMR,0-255
+
+X|Red,0-255
+X|Green,0-255
+X|Blue,0-255
+X|ColMac,0-255
+X|?,0-255
+X|MvMac,0-255
+
+13=full auto?

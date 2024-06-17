@@ -9,10 +9,7 @@ Public Class cDMXdata
     Public packet(10) As artnet.ArtnetDmx
     Public socket As Socket
     Public toAddrLocalhost As IPEndPoint
-    Public toAddrBroadcast As IPEndPoint
-    Public toAddrA As IPEndPoint
-    Public toAddrB As IPEndPoint
-
+    Public toAddrBroadcast As New List(Of IPEndPoint)
 
     Structure ValueRegister1
         Dim ChannelValue As Integer
@@ -29,7 +26,10 @@ Public Class cDMXdata
 
 
         Dim strHostName As String = System.Net.Dns.GetHostName()
-        Dim strIPAddress As String = System.Net.Dns.GetHostByName(strHostName).AddressList(0).ToString()
+        'Dim strIPAddress As String = System.Net.Dns.GetHostByName(strHostName).AddressList(0).ToString()
+        'Dim strIPAddress As String = System.Net.Dns.GetHostByName(strHostName).AddressList.ToString()
+
+
         Dim subnetmask As IPAddress = IPAddress.Parse("255.255.255.0")
 
         For Each ip In System.Net.Dns.GetHostEntry(strHostName).AddressList
@@ -44,6 +44,16 @@ Public Class cDMXdata
                                 'Subnet Mask
                                 subnetmask = unicastIPAddressInformation.IPv4Mask
 
+                                'Dim ipAddress1 As IPAddress = IPAddress.Parse(ip)
+                                'Dim subnetMask As IPAddress = IPAddress.Parse(subnetmask1)
+
+                                Dim broadcastAddress As IPAddress = GetBroadcastAddress(ip, subnetmask)
+
+                                socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
+                                'toAddrBroadcast = New IPEndPoint(IPAddress.Parse("192.168.5.201"), 6454)
+                                toAddrBroadcast.Add(New IPEndPoint(broadcastAddress, 6454))
+
+
                             End If
                         End If
                     Next
@@ -51,17 +61,10 @@ Public Class cDMXdata
             End If
         Next
 
-        Dim ipAddress1 As IPAddress = IPAddress.Parse(strIPAddress)
-        'Dim subnetMask As IPAddress = IPAddress.Parse(subnetmask1)
 
-        Dim broadcastAddress As IPAddress = GetBroadcastAddress(ipAddress1, subnetmask)
 
-        socket = New Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
-        'toAddrBroadcast = New IPEndPoint(IPAddress.Parse("192.168.5.201"), 6454)
-        toAddrBroadcast = New IPEndPoint(broadcastAddress, 6454)
+
         toAddrLocalhost = New IPEndPoint(IPAddress.Parse("127.0.0.1"), 6454)
-        toAddrA = New IPEndPoint(IPAddress.Parse("192.168.5.123"), 6454)
-        toAddrB = New IPEndPoint(IPAddress.Parse("192.168.5.201"), 6454)
         TransmitArtnet()
     End Sub
 
@@ -112,9 +115,10 @@ Public Class cDMXdata
                 Do While closethreads = False
                     Dim Iuniverse As Integer = 0
                     Do Until Iuniverse >= packet.Length
-                        'socket.SendTo(packet(Iuniverse).toBytes(), toAddrBroadcast)
-                        socket.SendTo(packet(Iuniverse).toBytes(), toAddrA)
-                        socket.SendTo(packet(Iuniverse).toBytes(), toAddrB)
+                        For Each ip As IPEndPoint In toAddrBroadcast
+                            socket.SendTo(packet(Iuniverse).toBytes(), ip)
+                        Next
+
                         socket.SendTo(packet(Iuniverse).toBytes(), toAddrLocalhost)
                         Iuniverse += 1
                     Loop

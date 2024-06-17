@@ -809,6 +809,8 @@ found:
                     ResaveOnSceneLoad = Convert.ToBoolean(a(1))
                 Case "AudioLatency"
                     AudioLatency = Val(a(1))
+                Case "AudioDesiredSamplerate"
+                    AudioDesiredSamplerate = Val(a(1))
                 Case "MusicNextFollows"
                     chkMusicNextFollows.Checked = Convert.ToBoolean(a(1))
                 Case "SCSIPaddress"
@@ -858,6 +860,7 @@ found:
         PrintLine(1, "MultipleThreadCount=" & tChannelsMultipleThreads)
         PrintLine(1, "ResaveOnSceneLoad=" & ResaveOnSceneLoad)
         PrintLine(1, "AudioLatency=" & AudioLatency)
+        PrintLine(1, "AudioDesiredSamplerate=" & AudioDesiredSamplerate)
         PrintLine(1, "SCSIPaddress=" & SCSIPaddress)
         PrintLine(1, "SCSPort=" & SCSPort)
         PrintLine(1, "ScenesWithFader=" & bWithFader)
@@ -2080,7 +2083,7 @@ LoopsDone:
             'If ASIOMode = True Then
             lblPresetsMP3Duration.Text = AudioRun.TotalTime(MusicCues(Qindex).SongFileName) 'MusicCues(Qindex).AudioReader.TotalTime.ToString("mm\:ss")
             lblPresetsMP3Position.Text = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName) ' MusicCues(Qindex).AudioReader.CurrentTime.ToString("mm\:ss")
-            PositionMilli = Val(AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True)) 'MusicCues(Qindex).AudioReader.CurrentTime.ToString("ss\.ff")
+            PositionMilli = AudioRun.CurrentPosition(MusicCues(Qindex).SongFileName, True) 'MusicCues(Qindex).AudioReader.CurrentTime.ToString("ss\.ff")
             'Else
             'lblPresetsMP3Duration.Text = MusicCues(Qindex).mp3Reader.TotalTime.ToString("mm\:ss")
             'lblPresetsMP3Position.Text = MusicCues(Qindex).mp3Reader.CurrentTime.ToString("mm\:ss")

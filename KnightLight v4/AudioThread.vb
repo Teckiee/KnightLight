@@ -1,6 +1,10 @@
-﻿Imports System.IO
-Imports NAudio.Wave
+﻿Imports NAudio.Wave
+Imports System.Diagnostics.Eventing
+Imports System.IO
+
+
 Imports System.Threading
+
 Public Class AudioThread
 
     Dim MainThread As System.Threading.Thread
@@ -43,8 +47,9 @@ Public Class AudioThread
 
                         'Else
                         AudioCues(MPCommand(1)).mp3Reader.CurrentTime = TimeSpan.FromSeconds(0)
-                            AudioCues(MPCommand(1)).waveOut.Volume = (iVolume / 100)
-                            AudioCues(MPCommand(1)).waveOut.Play()
+                        If AudioCues(MPCommand(1)).IsResampled Then AudioCues(MPCommand(1)).resampler.Reposition()
+                        AudioCues(MPCommand(1)).waveOut.Volume = (iVolume / 100)
+                        AudioCues(MPCommand(1)).waveOut.Play()
                         'End If
                         cmdAudioThread.RemoveAt(0)
                     Case "Stop"
@@ -79,58 +84,28 @@ Public Class AudioThread
                         Dim I As Integer = 0
                         Dim Fullpath As String = MPCommand(1)
                         Do Until I >= AudioCues.Length
-                            If AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(Fullpath) Then
-                                'exists
-                                'Setup WASAPI
-                                AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
-
-                                AudioCues(I).waveOut = New WaveOut
-                                AudioCues(I).waveOut.DesiredLatency = AudioLatency
-
-                                'AudioCues(I).waveOut.NumberOfBuffers = 4
-                                'AudioCues(I).wp = New BufferedWaveProvider(waveformat1)
-
-                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
-                                ''Setup ASIO
-                                'AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
-
-                                Exit Do
-                            ElseIf AudioCues(I).SongFileName = "" Then
+                            If AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(Fullpath) Or AudioCues(I).SongFileName = "" Then
                                 ' is new
                                 AudioCues(I).SongFileName = Path.GetFileNameWithoutExtension(Fullpath)
                                 'Setup WASAPI
                                 AudioCues(I).mp3Reader = New AudioFileReader(Fullpath)
                                 AudioCues(I).waveOut = New WaveOut
                                 AudioCues(I).waveOut.DesiredLatency = AudioLatency
-                                AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
-                                'AudioCues(I).waveOut.OutputWaveFormat.SampleRate
 
-                                ''Setup ASIO
-                                'AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
-                                'AudioCues(I).AsioOutIndex = 1
-                                'If ASIOMode = True Then
-                                '    Dim indx As Integer = AsioIndex(AudioCues(I).AsioOutIndex)
-                                '    AudioCues(I).asioOutput = New AsioOut(AsioDevices(indx).DeviceName)
-                                '    AudioCues(I).asioOutput.ChannelOffset = 0
+                                If AudioCues(I).mp3Reader.WaveFormat.SampleRate <> 44100 Then
+                                    ' Resample to 44100 Hz
+                                    AudioCues(I).resampler = New MediaFoundationResampler(AudioCues(I).mp3Reader, New WaveFormat(AudioDesiredSamplerate, AudioCues(I).mp3Reader.WaveFormat.Channels))
+                                    ' Set Resampler quality - 60 is high quality
+                                    AudioCues(I).resampler.ResamplerQuality = 60
+                                    AudioCues(I).IsResampled = True
+                                    AudioCues(I).waveOut.Init(AudioCues(I).resampler)
+                                Else
+                                    ' No resampling needed, play as is
+                                    AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
+                                End If
 
-                                '    If AudioCues(I).AudioReader.WaveFormat.SampleRate = 44100 Then
+                                'AudioCues(I).waveOut.Init(AudioCues(I).mp3Reader)
 
-                                '        If AudioCues(I).HasBeenInitd = False Then
-                                '            AudioCues(I).asioOutput.Init(AudioCues(I).AudioReader)
-                                '            AudioCues(I).HasBeenInitd = True
-                                '        End If
-                                '    Else
-                                '        ResampleFile(Fullpath, I)
-
-                                '        AudioCues(I).AudioReader = New AudioFileReader(Fullpath)
-                                '        AudioCues(I).AsioOutIndex = 1
-                                '        AudioCues(I).asioOutput = New AsioOut(AsioDevices(AsioIndex(AudioCues(I).AsioOutIndex)).DeviceName)
-                                '        AudioCues(I).asioOutput.ChannelOffset = 0
-
-
-                                '    End If
-
-                                'End If
                                 Exit Do
                             End If
                             I += 1
@@ -147,6 +122,7 @@ Public Class AudioThread
             Thread.Sleep(10)
         Loop
     End Sub
+
     Private Sub LoadInfo()
 
         Dim asio() As String = AsioOut.GetDriverNames()
@@ -395,11 +371,16 @@ Public Class AudioThread
             '        Return AudioCues(Qindex).AudioReader.TotalTime.ToString("mm\:ss")
             '    End If
             'Else
-            If InMillis = True Then
+            Try
+                If InMillis = True Then
                     Return AudioCues(Qindex).mp3Reader.TotalTime.TotalSeconds.ToString
                 Else
                     Return AudioCues(Qindex).mp3Reader.TotalTime.ToString("mm\:ss")
                 End If
+            Catch ex As Exception
+                Return 0
+            End Try
+
             'End If
 
         End Get
@@ -430,17 +411,22 @@ Public Class AudioThread
             Dim Qindex As Integer = GetAudioCueIndex(TrackName)
             If ASIOMode = True Then
                 If InMillis = True Then
-                    Return AudioCues(Qindex).AudioReader.CurrentTime.TotalSeconds.ToString
+                    Return AudioCues(Qindex).AudioReader.CurrentTime.TotalSeconds
                 Else
                     Return AudioCues(Qindex).AudioReader.CurrentTime.ToString("mm\:ss")
                 End If
 
             Else
-                If InMillis = True Then
-                    Return AudioCues(Qindex).mp3Reader.CurrentTime.TotalSeconds.ToString
-                Else
-                    Return AudioCues(Qindex).mp3Reader.CurrentTime.ToString("mm\:ss")
-                End If
+                Try
+                    If InMillis = True Then
+                        Return AudioCues(Qindex).mp3Reader.CurrentTime.TotalSeconds
+                    Else
+                        Return AudioCues(Qindex).mp3Reader.CurrentTime.ToString("mm\:ss")
+                    End If
+                Catch ex As Exception
+                    Return 0
+                End Try
+
 
             End If
         End Get
@@ -450,7 +436,9 @@ Public Class AudioThread
             If ASIOMode = True Then
                 AudioCues(Qindex).AudioReader.CurrentTime = TimeSpan.FromSeconds(MilliPosition)
             Else
+
                 AudioCues(Qindex).mp3Reader.CurrentTime = TimeSpan.FromSeconds(MilliPosition)
+                If AudioCues(Qindex).IsResampled Then AudioCues(Qindex).resampler.Reposition()
             End If
         End Set
 
@@ -508,6 +496,8 @@ Public Class AudioThread
         Dim mp3Reader As AudioFileReader
         'Dim mp3Reader As Mp3FileReader
         Dim waveOut As WaveOut
+        Dim resampler As MediaFoundationResampler
+        Dim IsResampled As Boolean
 
         'asio playback
         Dim AudioReader As AudioFileReader

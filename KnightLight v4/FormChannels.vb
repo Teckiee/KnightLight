@@ -602,7 +602,8 @@ Public Class FormChannels
             ' is using original numbers, not numbox adjusted
             'FixtureControls(uptoChannel)
 
-            Dim a() As String = Split(FixtureControls(channelno - 1).ActionAndValues, ",")
+            Dim a() As String = Split(FixtureControls(channelno).ActionAndValues, ",")
+            'Dim a() As String = Split(FixtureControls(channelno - 1).ActionAndValues, ",")
             If a.Length > 2 Then
                 Dim ActionIndex As Integer = 1
                 Do Until ActionIndex >= a.Length
