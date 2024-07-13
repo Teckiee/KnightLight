@@ -165,6 +165,8 @@ Partial Class FormMain
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.knbJoySensitivity = New KnobControl.KnobControl()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.cmdSubmitIssue = New System.Windows.Forms.Button()
         Me.txtGithubIssue = New System.Windows.Forms.TextBox()
@@ -403,9 +405,9 @@ Partial Class FormMain
         '
         Me.pnlMusicplayers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.pnlMusicplayers.Controls.Add(Me.CtrlMusicPlayer1)
-        Me.pnlMusicplayers.Location = New System.Drawing.Point(8, 686)
+        Me.pnlMusicplayers.Location = New System.Drawing.Point(8, 796)
         Me.pnlMusicplayers.Name = "pnlMusicplayers"
-        Me.pnlMusicplayers.Size = New System.Drawing.Size(717, 163)
+        Me.pnlMusicplayers.Size = New System.Drawing.Size(717, 53)
         Me.pnlMusicplayers.TabIndex = 629
         Me.pnlMusicplayers.Visible = False
         '
@@ -1724,6 +1726,8 @@ Partial Class FormMain
         '
         'tbpSettings
         '
+        Me.tbpSettings.Controls.Add(Me.Label11)
+        Me.tbpSettings.Controls.Add(Me.knbJoySensitivity)
         Me.tbpSettings.Controls.Add(Me.Label10)
         Me.tbpSettings.Controls.Add(Me.cmdSubmitIssue)
         Me.tbpSettings.Controls.Add(Me.txtGithubIssue)
@@ -1780,6 +1784,42 @@ Partial Class FormMain
         Me.tbpSettings.TabIndex = 4
         Me.tbpSettings.Text = "Settings"
         Me.tbpSettings.UseVisualStyleBackColor = True
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.ForeColor = System.Drawing.Color.Lime
+        Me.Label11.Location = New System.Drawing.Point(353, 32)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(98, 13)
+        Me.Label11.TabIndex = 358
+        Me.Label11.Text = "Joystick Sensitivity:"
+        '
+        'knbJoySensitivity
+        '
+        Me.knbJoySensitivity.EndAngle = 405.0!
+        Me.knbJoySensitivity.ForeColor = System.Drawing.Color.White
+        Me.knbJoySensitivity.ImeMode = System.Windows.Forms.ImeMode.[On]
+        Me.knbJoySensitivity.KnobBackColor = System.Drawing.Color.White
+        Me.knbJoySensitivity.KnobPointerStyle = KnobControl.KnobControl.KnobPointerStyles.circle
+        Me.knbJoySensitivity.LargeChange = 5
+        Me.knbJoySensitivity.Location = New System.Drawing.Point(356, 48)
+        Me.knbJoySensitivity.Maximum = 40
+        Me.knbJoySensitivity.Minimum = 1
+        Me.knbJoySensitivity.MouseWheelBarPartitions = 1
+        Me.knbJoySensitivity.Name = "knbJoySensitivity"
+        Me.knbJoySensitivity.PointerColor = System.Drawing.Color.SlateBlue
+        Me.knbJoySensitivity.ScaleColor = System.Drawing.Color.Red
+        Me.knbJoySensitivity.ScaleDivisions = 8
+        Me.knbJoySensitivity.ScaleFont = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.knbJoySensitivity.ScaleSubDivisions = 1
+        Me.knbJoySensitivity.ShowLargeScale = True
+        Me.knbJoySensitivity.ShowSmallScale = False
+        Me.knbJoySensitivity.Size = New System.Drawing.Size(115, 115)
+        Me.knbJoySensitivity.SmallChange = 1
+        Me.knbJoySensitivity.StartAngle = 135.0!
+        Me.knbJoySensitivity.TabIndex = 357
+        Me.knbJoySensitivity.Value = 20
         '
         'Label10
         '
@@ -2894,4 +2934,6 @@ Partial Class FormMain
     Friend WithEvents Label10 As Label
     Friend WithEvents cmdSubmitIssue As Button
     Friend WithEvents txtGithubIssue As TextBox
+    Friend WithEvents Label11 As Label
+    Friend WithEvents knbJoySensitivity As KnobControl.KnobControl
 End Class

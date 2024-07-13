@@ -28,6 +28,8 @@ Module mdlGlobalVariables
     Public closethreads As Boolean = False
     Public enableUID As Boolean = False
 
+    Public JoySensitivity As Integer = 20
+
     Public MarsConnected As Boolean = False
 
     Public SceneData(600) As Scenes1
@@ -79,6 +81,7 @@ Module mdlGlobalVariables
         Public Const ctlDMX3Universe As String = "ctlDMX3Universe"
         Public Const ctlSoundActivation1 As String = "ctlSoundActivation1"
         Public Const ctlMarsConsole As String = "ctlMarsConsole"
+        Public Const ctlJoystick As String = "ctlJoystick"
     End Structure
 
     Structure SCLocs
@@ -240,6 +243,7 @@ Module mdlGlobalVariables
         Dim LongDescr As String
         Dim Favourites() As String
         Dim fColPicker As FormColourPicker
+        Dim ChannelCount As Integer
     End Structure
 
     '---------END CHANNEL TABPAGE RELATED VARIABLES---------

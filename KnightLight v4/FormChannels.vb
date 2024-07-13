@@ -171,6 +171,183 @@ Public Class FormChannels
         End If
 
     End Sub
+    Public Sub PanSelected(ByVal I As Integer)
+        ' Get Pan channels of selected
+        Dim iSelected As Integer = 0
+
+        Dim iCurrentScene As Integer = ChannelFaderPageCurrentSceneDataIndex
+
+        Do Until iSelected >= SelectedChannels.Count
+            Dim iSelectedParent As Integer = FixtureControls(SelectedChannels(iSelected)).ParentChannelNo
+            Dim iPan As Integer = iSelectedParent - 1 + IndexOfChannelInFixture(iSelectedParent, "Pan")
+
+            Dim valueadd As Double = 0
+            If I > 512 Then
+                'Going up
+                I = Map(I - 512, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iPan).Value += valueadd
+                If SceneData(iCurrentScene).ChannelValues(iPan).Value > 255 Then SceneData(iCurrentScene).ChannelValues(iPan).Value = 255
+            ElseIf I < 512 Then
+                'Going down
+                I = 255 - Map(I, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iPan).Value -= valueadd
+                If SceneData(iCurrentScene).ChannelValues(iPan).Value < 0 Then SceneData(iCurrentScene).ChannelValues(iPan).Value = 0
+            End If
+
+
+            If iPan >= frmChannels.CurrentFirstChannel And iPan <= frmChannels.CurrentLastChannel Then
+                Dim cLocationOnChannels As Integer = iPan Mod ChannelControlSetsPerPage
+                ChannelFaders(cLocationOnChannels).dmrvs.Value = SceneData(iCurrentScene).ChannelValues(iPan).Value
+                frmChannels.UpdateFixtureLabel(iPan)
+            End If
+
+            iSelected += 1
+        Loop
+
+
+    End Sub
+    Public Sub TiltSelected(ByVal I As Integer)
+        ' Get Tilt channels of selected
+        Dim iSelected As Integer = 0
+
+        Dim iCurrentScene As Integer = ChannelFaderPageCurrentSceneDataIndex
+
+        Do Until iSelected >= SelectedChannels.Count
+            Dim iSelectedParent As Integer = FixtureControls(SelectedChannels(iSelected)).ParentChannelNo
+            Dim iTilt As Integer = iSelectedParent - 1 + IndexOfChannelInFixture(iSelectedParent, "Tilt")
+
+            Dim valueadd As Double = 0
+            If I > 512 Then
+                'Going up
+                I = Map(I - 512, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iTilt).Value += valueadd
+                If SceneData(iCurrentScene).ChannelValues(iTilt).Value > 255 Then SceneData(iCurrentScene).ChannelValues(iTilt).Value = 255
+            ElseIf I < 512 Then
+                'Going down
+                I = 255 - Map(I, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iTilt).Value -= valueadd
+                If SceneData(iCurrentScene).ChannelValues(iTilt).Value < 0 Then SceneData(iCurrentScene).ChannelValues(iTilt).Value = 0
+            End If
+
+            If iTilt >= frmChannels.CurrentFirstChannel And iTilt <= frmChannels.CurrentLastChannel Then
+                Dim cLocationOnChannels As Integer = iTilt Mod ChannelControlSetsPerPage
+                ChannelFaders(cLocationOnChannels).dmrvs.Value = SceneData(iCurrentScene).ChannelValues(iTilt).Value
+                frmChannels.UpdateFixtureLabel(iTilt)
+            End If
+
+            iSelected += 1
+        Loop
+    End Sub
+    Public Function Map(value As Double, fromSource As Double, toSource As Double, fromTarget As Double, toTarget As Double) As Double
+        Return (value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget) + fromTarget
+    End Function
+    Public Sub ZSelected(ByVal I As Integer)
+        ' Get Zoom channels of selected
+        Dim iSelected As Integer = 0
+
+        Dim iCurrentScene As Integer = ChannelFaderPageCurrentSceneDataIndex
+
+        Do Until iSelected >= SelectedChannels.Count
+            Dim iSelectedParent As Integer = FixtureControls(SelectedChannels(iSelected)).ParentChannelNo
+            Dim iZoom As Integer = iSelectedParent - 1 + IndexOfChannelInFixture(iSelectedParent, "Zoom")
+
+            Dim valueadd As Double = 0
+            If I > 512 Then
+                'Going up
+                I = Map(I - 512, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iZoom).Value += valueadd
+                If SceneData(iCurrentScene).ChannelValues(iZoom).Value > 255 Then SceneData(iCurrentScene).ChannelValues(iZoom).Value = 255
+            ElseIf I < 512 Then
+                'Going down
+                I = 255 - Map(I, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (I * 0.001)
+                SceneData(iCurrentScene).ChannelValues(iZoom).Value -= valueadd
+                If SceneData(iCurrentScene).ChannelValues(iZoom).Value < 0 Then SceneData(iCurrentScene).ChannelValues(iZoom).Value = 0
+            End If
+
+            If iZoom >= frmChannels.CurrentFirstChannel And iZoom <= frmChannels.CurrentLastChannel Then
+                Dim cLocationOnChannels As Integer = iZoom Mod ChannelControlSetsPerPage
+                ChannelFaders(cLocationOnChannels).dmrvs.Value = SceneData(iCurrentScene).ChannelValues(iZoom).Value
+                frmChannels.UpdateFixtureLabel(iZoom)
+            End If
+
+            iSelected += 1
+        Loop
+    End Sub
+
+    Private Sub SaveFavourite(ByVal iChannel As Integer, ByVal iScene As Integer)
+
+
+        Dim sNewName As String = InputBox("Enter Name for new fixture favourite", "Save Favourite", "")
+        If sNewName = "" Then Exit Sub
+
+
+        FileOpen(1, Application.StartupPath & "\Fixtures\" & FixtureControls(iChannel).FixtureName & "\" & sNewName & ".dmr", OpenMode.Output)
+
+        Dim I As Integer = 0
+        Do Until I >= FixtureControls(iChannel).ChannelCount
+            Dim chanline As String = I + 1 & "|"
+            With SceneData(iScene).ChannelValues(iChannel + I)
+                chanline &= "v," & .Value & "|"
+                'chanline &= "tmr," & .Automation.tTimer.Interval & "|"
+                chanline &= "AutomationMode," & .Automation.Mode & "|"
+                'chanline &= "TimerEnabled," & .Automation.RunTimer & "|"
+                chanline &= "AutoTimeBetween," & .Automation.Interval & "|"
+                chanline &= "RandomStart," & .Automation.ProgressRandomTimed & "|"
+
+                chanline &= "InOrder," & .Automation.ProgressInOrder & "|"
+                chanline &= "RandomSound," & .Automation.ProgressSoundActivated & "|"
+                chanline &= "SoundThreshold," & .Automation.SoundActivationThreshold & "|"
+                chanline &= "IsLooped," & .Automation.ProgressLoop & "|"
+                chanline &= "oscAmplitude," & .Automation.oscAmplitude & "|"
+                chanline &= "oscCenter," & .Automation.oscCenter & "|"
+                chanline &= "oscFrequency," & .Automation.oscFrequency & "|"
+                chanline &= "oscPhase," & .Automation.oscPhase & "|"
+                chanline &= "SoundLevel," & .Automation.SoundLevel & "|"
+                chanline &= "SoundAttack," & .Automation.SoundAttack & "|"
+                chanline &= "SoundRelease," & .Automation.SoundRelease & "|"
+                chanline &= "ProgressList"
+
+                Dim iList As Integer = 0
+                If Not .Automation.ProgressList Is Nothing Then
+                    Do Until iList >= .Automation.ProgressList.Count
+                        chanline &= "," & .Automation.ProgressList(iList)
+                        iList += 1
+                    Loop
+                End If
+            End With
+            PrintLine(1, chanline)
+            I += 1
+        Loop
+        FileClose(1)
+        Dim FixName As String = FixtureControls(iChannel).FixtureName
+
+        Dim FixI As Integer = 0
+        Do Until FixI >= FixtureControls.Length
+            If FixtureControls(FixI).FixtureName = FixName Then
+                Dim FavI As Integer = 0
+                If FixtureControls(FixI).Favourites IsNot Nothing Then
+                    Do Until FavI >= FixtureControls(FixI).Favourites.Count
+                        If FixtureControls(FixI).Favourites(FavI) = "" Then
+                            FixtureControls(FixI).Favourites(FavI) = sNewName
+                            Exit Do
+                        End If
+                        FavI += 1
+                    Loop
+                End If
+
+            End If
+            FixI += 1
+        Loop
+
+
+
+    End Sub
     Private Sub ctxFixtureFavouriteItem_Click(sender As Object, e As EventArgs)
         Dim chno As Integer = sender.tag
         Dim Favname As String = sender.Text
@@ -1057,6 +1234,25 @@ DoneGeneration:
     Private Sub cmdSelectedBlackout_Click(sender As Object, e As EventArgs) Handles cmdSelectedBlackout.Click
         txtSelected.Text = 0
         txtSelected_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub SaveAsFavouriteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsFavouriteToolStripMenuItem.Click
+        Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
+
+
+        Dim parentObj As Object = cms.SourceControl.Parent
+        Dim parentChan As Integer = parentObj.iChannel
+        Dim firstchan As Integer = parentChan - FixtureControls(parentChan).ChannelOfFixture + 1
+
+        SaveFavourite(parentChan, ChannelFaderPageCurrentSceneDataIndex)
+    End Sub
+
+    Private Sub ctxFixtureOptions_Click(sender As Object, e As EventArgs) Handles ctxFixtureOptions.Click
+        Dim myItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim cms As ContextMenuStrip = CType(myItem.Owner, ContextMenuStrip)
+        Dim iCurrentScene As Integer = ChannelFaderPageCurrentSceneDataIndex
+
     End Sub
 
 

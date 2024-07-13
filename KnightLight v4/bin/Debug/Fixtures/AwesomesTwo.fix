@@ -1,4 +1,4 @@
-Channels=8
+Channels=10
 D|Dmr,0-255
 X|Red,0-255
 X|Grn,0-255

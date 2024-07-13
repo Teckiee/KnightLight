@@ -56,6 +56,9 @@ Public Class cMarsConsole
                 'UpdateMain(incmsg.msg)
             Case "ONLINE"
                 MarsConnected = True
+            Case "HELLO"
+                MarsConnected = True
+                SendOnline()
 
 
         End Select
@@ -72,7 +75,15 @@ Public Class cMarsConsole
     Public Sub SendHello()
         Dim thread As New Thread(
             Sub()
-                SerialConn.WriteLine("HELLO")
+                SerialConn.WriteLine("HELLO,0")
+            End Sub
+        )
+        thread.Start()
+    End Sub
+    Public Sub SendOnline()
+        Dim thread As New Thread(
+            Sub()
+                SerialConn.WriteLine("ONLINE,0")
             End Sub
         )
         thread.Start()

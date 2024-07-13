@@ -60,6 +60,11 @@ Public Class FormMain
     Dim OffTop, OffLeft As Integer
     'Dim OrigTop, OrigLeft As Integer
 
+
+    Dim threshmin As Integer = 452
+    Dim threshmax As Integer = 572
+
+
     Dim StartupTimer As Stopwatch
 
 #Region "Arduino Connections"
@@ -411,6 +416,47 @@ found:
                     End If
             End Select
             'txtSerialIn.AppendText(myString)
+        ElseIf Mid(mymsg.msg, 1, 3) = "jyX" Then
+            Dim amsg() As String = Split(mymsg.msg, vbCrLf)
+            For Each sMsg As String In amsg
+                Dim a() As String = Split(sMsg, ",")
+                Select Case a(0)
+                    Case "jyX"
+                        If (a(1) <= threshmin Or a(1) >= threshmax) Then
+                            'send value
+                            frmChannels.PanSelected(a(1))
+                        End If
+                    Case "jyY"
+                        If (a(1) <= threshmin Or a(1) >= threshmax) Then
+                            'send value
+                            frmChannels.TiltSelected(a(1))
+
+                        End If
+                    Case "jyZ"
+                        If (a(1) <= threshmin Or a(1) >= threshmax) Then
+                            'send value
+                            frmChannels.ZSelected(a(1))
+
+                        End If
+                End Select
+
+
+            Next
+
+        ElseIf Mid(mymsg.msg, 1, 3) = "jyY" Then
+            Dim a() As String = Split(mymsg.msg, ",")
+            If (a(1) <= threshmin Or a(1) >= threshmax) Then
+                'send value
+                frmChannels.TiltSelected(a(1))
+
+            End If
+        ElseIf Mid(mymsg.msg, 1, 3) = "jyZ" Then
+            Dim a() As String = Split(mymsg.msg, ",")
+            If (a(1) <= threshmin Or a(1) >= threshmax) Then
+                'send value
+                frmChannels.ZSelected(a(1))
+
+            End If
         End If
         If lstCOMdevices.SelectedItems.Count = 0 Then
             txtSerialIn.AppendText(mymsg.msg)
@@ -679,14 +725,13 @@ found:
 
                 'UpdateMain(incmsg.msg)
                 Case "ONLINE"
+
                     MarsConnected = True
+                    lblMarsConnected.Visible = True
                     'UpdateMain(incmsg.msg)
 
             End Select
 
-            If InStr(text, "ONLINE") > -1 Then
-                frmMain.lblMarsConnected.Visible = True
-            End If
 
         End If
     End Sub
@@ -716,6 +761,7 @@ found:
                     s = LineInput(2)
                 End If
                 If Not s = "" Then
+                    FixtureControls(ParentChannelNo).ChannelCount = channelcount
                     FixtureControls(ParentChannelNo + channelupto).BackColour = Color.FromName(sline(2))
                     FixtureControls(ParentChannelNo + channelupto).ForeColour = Color.FromName(sline(3))
                     FixtureControls(ParentChannelNo + channelupto).FixtureName = sline(1)
@@ -1374,8 +1420,10 @@ DoneGeneration:
 
             If Val(sender.text) > 0 Then
                 StartChannelTimers(sender.Parent.SceneIndex, True)
+                UpdatePresetControls(sender.Parent.SceneIndex)
             Else
                 StartChannelTimers(sender.Parent.SceneIndex, False)
+                UpdatePresetControls(sender.Parent.SceneIndex)
             End If
         End If
 
@@ -1826,8 +1874,10 @@ DoneGeneration:
             PresetFaders(obj.PresetFixture).cSceneControl.cPresetName.Text = newname
 
 
-            CreateNewScene(newname, obj.PresetFixture)
+            Dim SceneInew As Integer = CreateNewScene(newname, False, obj.PresetFixture)
             SaveScene(newname)
+
+            UpdatePresetControls(SceneInew)
         Else
             'Scene exists
             Dim oldname As String = SceneData(obj.SceneIndex).SceneName
@@ -1845,9 +1895,10 @@ DoneGeneration:
 
             File.Move(Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & oldname & ".dmr", Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & newname & ".dmr")
             SaveScene(newname)
+
+            UpdatePresetControls(obj.SceneIndex)
         End If
 
-        UpdatePresetControls(obj.SceneIndex)
     End Sub
 
     Private Sub cmdPresetsBlackoutAllTimer_Click(sender As Object, e As EventArgs) Handles cmdPresetsBlackoutAllTimer.Click, cmdDramaBlackoutAllTimer.Click
@@ -2503,7 +2554,12 @@ LoopsDone:
                 ElseIf SceneData(SceneI).Automation.tTimer.IsTimerRunning = True And SceneData(SceneI).Automation.tmrDirection = "Down" Then
                     .cBlackout.BackColor = ControlPaint.LightLight(lblSceneBlackoutColour.BackColor)
                     .cFull.BackColor = lblSceneUpColour.BackColor
+                Else
+                    If SceneData(SceneI).MasterValue > 0 And SceneData(SceneI).MasterValue < 100 Then
+                        .cBlackout.BackColor = Color.Black
+                        .cFull.BackColor = Color.Black
 
+                    End If
                 End If
 
             End If
@@ -3416,13 +3472,13 @@ skipme:
                 chanline &= "RandomSound," & .Automation.ProgressSoundActivated & "|"
                 chanline &= "SoundThreshold," & .Automation.SoundActivationThreshold & "|"
                 chanline &= "IsLooped," & .Automation.ProgressLoop & "|"
-                chanline &= "oscAmplitude," & .Automation.oscAmplitude
-                chanline &= "oscCenter," & .Automation.oscCenter
-                chanline &= "oscFrequency," & .Automation.oscFrequency
-                chanline &= "oscPhase," & .Automation.oscPhase
-                chanline &= "SoundLevel," & .Automation.SoundLevel
-                chanline &= "SoundAttack," & .Automation.SoundAttack
-                chanline &= "SoundRelease," & .Automation.SoundRelease
+                chanline &= "oscAmplitude," & .Automation.oscAmplitude & "|"
+                chanline &= "oscCenter," & .Automation.oscCenter & "|"
+                chanline &= "oscFrequency," & .Automation.oscFrequency & "|"
+                chanline &= "oscPhase," & .Automation.oscPhase & "|"
+                chanline &= "SoundLevel," & .Automation.SoundLevel & "|"
+                chanline &= "SoundAttack," & .Automation.SoundAttack & "|"
+                chanline &= "SoundRelease," & .Automation.SoundRelease & "|"
                 chanline &= "ProgressList"
 
                 Dim iList As Integer = 0
@@ -4514,6 +4570,7 @@ skipme:
         End Using
     End Sub
 
+
     Private Sub lstCOMdevices_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCOMdevices.SelectedIndexChanged
         txtSerialIn.Text = ""
     End Sub
@@ -4540,4 +4597,7 @@ skipme:
         End If
     End Sub
 
+    Private Sub knbJoySensitivity_ValueChanged(Sender As Object) Handles knbJoySensitivity.ValueChanged
+        JoySensitivity = knbJoySensitivity.Value
+    End Sub
 End Class

@@ -142,11 +142,9 @@ D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_D
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.SceneControl1.resources
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.GenerateResource.cache
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CoreCompileInputs.cache
-D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.CopyComplete
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.exe
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.xml
 D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\KnightLight.pdb
-D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.SuggestedBindingRedirects.cache
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Awesome Lighting DMX board v4.vbproj.AssemblyReference.cache
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.dll
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Haukcode.sACN.pdb
@@ -196,3 +194,34 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Aw.E537C3C7.Up2Date
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Newtonsoft.Json.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.ctrlMusicPlayer.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super_Awesome_Lighting_DMX_board_v4.FormDimmerAutomation.resources
+D:\My Drive\GitHub\KnightLight\KnightLight v4\obj\Debug\Super Aw.E537C3C7.Up2Date
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.WinForms.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.WinForms.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\ScottPlot.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Microsoft.Win32.Registry.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Asio.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Core.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Midi.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Wasapi.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinForms.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinMM.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.AccessControl.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.Principal.Windows.dll
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Microsoft.Win32.Registry.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Asio.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Core.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Midi.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Wasapi.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinForms.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinMM.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.AccessControl.xml
+C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.Principal.Windows.xml
