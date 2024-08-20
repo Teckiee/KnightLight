@@ -1,5 +1,7 @@
 ﻿Imports System.Threading
 Public Class cChannelAutomation
+    Implements ICloneable
+
     Private timer As Timer
     Private iScene As Integer
     Private iChannel As Integer
@@ -51,6 +53,38 @@ Public Class cChannelAutomation
         aSoundLevel = 0
         aSoundRelease = 0
     End Sub
+    Public Function Clone() As Object Implements ICloneable.Clone
+        ' Create a deep copy of the cChannelAutomation object
+        Dim copy As New cChannelAutomation(Me.iScene, Me.iChannel, Me.iInterval)
+        ' Copy all relevant properties here
+        ' For example:
+        ' copy.Property1 = Me.Property1
+        ' copy.Property2 = Me.Property2
+        copy.isRunning = Me.isRunning
+        copy.timer = Me.timer
+        copy.iScene = Me.iScene
+        copy.iChannel = Me.iChannel
+        copy.iInterval = Me.iInterval
+        copy.aProgressInOrder = Me.aProgressInOrder
+        copy.aProgressRandomTimed = Me.aProgressRandomTimed
+        copy.aProgressSoundActivated = Me.aProgressSoundActivated
+        copy.aSoundActivationThreshold = Me.aSoundActivationThreshold
+        copy.aProgressLoop = Me.aProgressLoop
+        copy.ProgressList = New List(Of Integer)(Me.ProgressList)
+        copy.aCurrentIofList = Me.aCurrentIofList
+        copy.aoscAmplitude = Me.aoscAmplitude
+        copy.aoscCenter = Me.aoscCenter
+        copy.aoscFrequency = Me.aoscFrequency
+        copy.aoscPhase = Me.aoscPhase
+        copy.aoscIndex = Me.aoscIndex
+        copy.aoscDirection = Me.aoscDirection
+        copy.aSoundLevel = Me.aSoundLevel
+        copy.aSoundAttack = Me.aSoundAttack
+        copy.aSoundRelease = Me.aSoundRelease
+        copy.aMode = Me.aMode
+
+        Return copy
+    End Function
     Public Sub StopTimer()
         ' Stop the timer
         timer.Change(Timeout.Infinite, Timeout.Infinite)
@@ -302,6 +336,10 @@ Public Class cChannelAutomation
                 newchanval -= CInt(aoscAmplitude * aoscFrequency * iInterval / 1000)
             End If
 
+        ElseIf aMode = AutomationMode.Opposite Then
+            If ProgressList.Count >= 1 Then
+                newchanval = 255 - SceneData(iScene).ChannelValues(ProgressList(0)).Value
+            End If
         End If
 
         With SceneData(iScene).ChannelValues(iChannel)
@@ -309,32 +347,39 @@ Public Class cChannelAutomation
             .Value = newchanval
 
             ' After .Value is changed update controls
+            frmChannels.Invoke(Sub() UpdateChannelControls(iChannel, .Value))
 
-            frmChannels.Invoke(Sub()
-                                   If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then ' And tbcControls1.SelectedTab Is frmChannels Then
+            'frmChannels.Invoke(Sub()
+            '                       If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then ' And tbcControls1.SelectedTab Is frmChannels Then
 
-                                       If iChannel >= frmChannels.CurrentFirstChannel And iChannel <= frmChannels.CurrentLastChannel Then
-                                           frmChannels.UpdateFixtureLabel(iChannel)
-                                           Dim cLocationOnChannels As Integer = iChannel Mod ChannelControlSetsPerPage
+            '                           If iChannel >= frmChannels.CurrentFirstChannel And iChannel <= frmChannels.CurrentLastChannel Then
+            '                               Dim cLocationOnChannels As Integer = iChannel Mod ChannelControlSetsPerPage
+            '                               frmChannels.UpdateFixtureLabel(iChannel)
 
-                                           'Dim I As Integer = 1
-                                           'Do Until I >= ChannelFaders.Count
-                                           'If Not ChannelFaders(I) Is Nothing Then
-                                           'If ChannelFaders(cLocationOnChannels).iChannel = iChannel Then
-                                           ChannelFaders(cLocationOnChannels).dmrvs.Value = .Value
-
-                                           'End If
-
-                                           'End If
-
-                                           '    I += 1
-                                           'Loop
-
-                                       End If
+            '                               ChannelFaders(cLocationOnChannels).dmrvs.Value = .Value
 
 
-                                   End If
-                               End Sub)
+            '                           End If
+
+
+            '                       End If
+            '                   End Sub)
         End With
     End Sub
+    Private Sub UpdateChannelControls(iChannel As Integer, newchanval As Integer)
+        If frmChannels.cmbChannelPresetSelection.SelectedIndex = SceneIndex - 1 Then
+            If iChannel >= frmChannels.CurrentFirstChannel And iChannel <= frmChannels.CurrentLastChannel Then
+                'Dim cLocationOnChannels As Integer = iChannel Mod
+                Dim cLocationOnChannels As Integer
+                If iChannel Mod ChannelControlSetsPerPage = 0 And iChannel <> 0 Then
+                    cLocationOnChannels = ChannelControlSetsPerPage
+                Else
+                    cLocationOnChannels = iChannel Mod 340
+                End If
+                frmChannels.UpdateFixtureLabel(iChannel)
+                ChannelFaders(cLocationOnChannels).dmrvs.Value = newchanval
+            End If
+        End If
+    End Sub
+
 End Class

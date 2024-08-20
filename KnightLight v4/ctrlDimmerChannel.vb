@@ -8,11 +8,17 @@
         If formopened = False Then Exit Sub
         If otherChanged = True Then Exit Sub
         If FadersRenaming = True Then Exit Sub
-        Dim SceneIndex As Integer = 1
-        Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
+        Dim SceneIndex As Integer = ChannelFaderPageCurrentSceneDataIndex
+        'Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
         Dim FaderNo As Integer = internalChannelFaderNumber - frmChannels.numChannelFadersStart.Value + 1
         Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
+
+        If SceneData(SceneIndex).ChannelValues(SceneChannelNo).Automation.IsEnabled = True Then
+            frmChannels.UpdateFixtureLabel(SceneChannelNo)
+            Exit Sub
+        End If
+
         If Not ChannelFaders(FaderNo).dmrtxtv.Text = sender.value Then
             SceneData(SceneIndex).ChannelValues(SceneChannelNo).Value = sender.value
             ChannelFaders(FaderNo).dmrtxtv.Text = sender.value
@@ -92,14 +98,21 @@
         If formopened = False Then Exit Sub
         If otherChanged = True Then Exit Sub
         If FadersRenaming = True Then Exit Sub
-        Dim SceneIndex As Integer = 1
-        Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
+        Dim SceneIndex As Integer = ChannelFaderPageCurrentSceneDataIndex
+
+        'Do Until SceneData(SceneIndex).SceneName = frmChannels.cmbChannelPresetSelection.SelectedItem : SceneIndex += 1 : Loop
         Dim FaderNo As Integer = internalChannelFaderNumber - frmChannels.numChannelFadersStart.Value + 1
         'If FaderNo = 0 Then
         '    FaderNo = frmChannels.numChannelFadersStart.Value + 1
         'End If
         Dim SceneChannelNo As Integer = internalChannelFaderNumber
         ' UpdateFixtureLabel(FaderNo)
+
+        If SceneData(SceneIndex).ChannelValues(SceneChannelNo).Automation.IsEnabled = True Then
+            frmChannels.UpdateFixtureLabel(SceneChannelNo)
+            Exit Sub
+        End If
+
         If Not ChannelFaders(FaderNo).dmrvs.Value = Val(sender.text) Then
             ChannelFaders(FaderNo).dmrvs.Value = Val(sender.text)
             SceneData(SceneIndex).ChannelValues(SceneChannelNo).Value = Val(sender.text)

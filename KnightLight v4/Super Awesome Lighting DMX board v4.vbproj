@@ -169,6 +169,9 @@
     <Compile Include="AudioThread.vb" />
     <Compile Include="cChannelAutomation.vb" />
     <Compile Include="cDMXdata.vb" />
+    <Compile Include="cMidiController.vb" />
+    <Compile Include="cOSC.vb" />
+    <Compile Include="cPositioning.vb" />
     <Compile Include="ctrlDimmerChannel.Designer.vb">
       <DependentUpon>ctrlDimmerChannel.vb</DependentUpon>
     </Compile>
@@ -235,6 +238,7 @@
     </Compile>
     <Compile Include="ArduinoDMX.vb" />
     <Compile Include="cMarsConsole.vb" />
+    <Compile Include="mdlComms.vb" />
     <Compile Include="mdlGlobalVariables.vb" />
     <Compile Include="mdlThreadCommands.vb" />
     <Compile Include="modGUI.vb" />
@@ -255,7 +259,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="NamedTimer.vb" />
-    <Compile Include="SACN Sender.vb" />
     <Compile Include="SceneControl1.Designer.vb">
       <DependentUpon>SceneControl1.vb</DependentUpon>
     </Compile>

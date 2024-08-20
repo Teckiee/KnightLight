@@ -38,6 +38,7 @@ Partial Class FormChannels
         Me.ctxFixtureLabels = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ctxPickRGBColourTool = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxFixtureFavourites = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveAsFavouriteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxFixtureOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ctxFixtureLabelsControlName = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,7 +50,6 @@ Partial Class FormChannels
         Me.Button1 = New System.Windows.Forms.Button()
         Me.pnlAutomation = New System.Windows.Forms.Panel()
         Me.vsSelected = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
-        Me.SaveAsFavouriteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.numChannelFadersStart, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxCMDs.SuspendLayout()
         Me.ctxFixtureLabels.SuspendLayout()
@@ -149,35 +149,41 @@ Partial Class FormChannels
         '
         Me.ctxFixtureLabels.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ctxPickRGBColourTool, Me.ctxFixtureFavourites, Me.SaveAsFavouriteToolStripMenuItem, Me.ctxFixtureOptions, Me.ToolStripSeparator3, Me.ctxFixtureLabelsControlName})
         Me.ctxFixtureLabels.Name = "ctxFixtureLabels"
-        Me.ctxFixtureLabels.Size = New System.Drawing.Size(181, 142)
+        Me.ctxFixtureLabels.Size = New System.Drawing.Size(167, 120)
         '
         'ctxPickRGBColourTool
         '
         Me.ctxPickRGBColourTool.Name = "ctxPickRGBColourTool"
-        Me.ctxPickRGBColourTool.Size = New System.Drawing.Size(180, 22)
+        Me.ctxPickRGBColourTool.Size = New System.Drawing.Size(166, 22)
         Me.ctxPickRGBColourTool.Text = "Pick RGB Colour"
         '
         'ctxFixtureFavourites
         '
         Me.ctxFixtureFavourites.Name = "ctxFixtureFavourites"
-        Me.ctxFixtureFavourites.Size = New System.Drawing.Size(180, 22)
+        Me.ctxFixtureFavourites.Size = New System.Drawing.Size(166, 22)
         Me.ctxFixtureFavourites.Text = "Favourites >"
+        '
+        'SaveAsFavouriteToolStripMenuItem
+        '
+        Me.SaveAsFavouriteToolStripMenuItem.Name = "SaveAsFavouriteToolStripMenuItem"
+        Me.SaveAsFavouriteToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.SaveAsFavouriteToolStripMenuItem.Text = "Save As Favourite"
         '
         'ctxFixtureOptions
         '
         Me.ctxFixtureOptions.Name = "ctxFixtureOptions"
-        Me.ctxFixtureOptions.Size = New System.Drawing.Size(180, 22)
+        Me.ctxFixtureOptions.Size = New System.Drawing.Size(166, 22)
         Me.ctxFixtureOptions.Text = "Fixture Options >"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(163, 6)
         '
         'ctxFixtureLabelsControlName
         '
         Me.ctxFixtureLabelsControlName.Name = "ctxFixtureLabelsControlName"
-        Me.ctxFixtureLabelsControlName.Size = New System.Drawing.Size(180, 22)
+        Me.ctxFixtureLabelsControlName.Size = New System.Drawing.Size(166, 22)
         Me.ctxFixtureLabelsControlName.Text = "Control Name"
         '
         'cmdSelectedFull
@@ -260,12 +266,6 @@ Partial Class FormChannels
         Me.vsSelected.Size = New System.Drawing.Size(42, 239)
         Me.vsSelected.TabIndex = 286
         Me.vsSelected.Value = 255
-        '
-        'SaveAsFavouriteToolStripMenuItem
-        '
-        Me.SaveAsFavouriteToolStripMenuItem.Name = "SaveAsFavouriteToolStripMenuItem"
-        Me.SaveAsFavouriteToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SaveAsFavouriteToolStripMenuItem.Text = "Save As Favourite"
         '
         'FormChannels
         '

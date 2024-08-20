@@ -111,6 +111,8 @@ Public Class FormDimmerAutomation
                     lstWave.SelectedItem = "Square"
                 Case AutomationMode.Triangle
                     lstWave.SelectedItem = "Triangle"
+                Case AutomationMode.Opposite
+                    lstWave.SelectedItem = "Opposite"
             End Select
 
             chkLoop.Checked = SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop
@@ -273,6 +275,23 @@ Public Class FormDimmerAutomation
             'SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.RunTimer = chkAutoRunning.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressLoop = chkLoop.Checked
             SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundActivationThreshold = numSoundThreshold.Value
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscAmplitude = knbAmplitude.Value
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscCenter = knbCenter.Value
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscFrequency = knbFrequency.Value * 0.01
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscPhase = knbPhase.Value / 10
+
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundLevel = knbSoundLevel.Value
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundAttack = knbSoundAttack.Value
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundRelease = knbSoundRelease.Value
+
+            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressList.Clear()
+
+            For Each i1 In lstChase.Items
+                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressList.Add(Val(i1))
+            Next
+
             Select Case lstWave.SelectedItem
                 Case "Off"
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.Mode = AutomationMode.Off
@@ -292,23 +311,10 @@ Public Class FormDimmerAutomation
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.Mode = AutomationMode.Triangle
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscIndex = I
                     SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.StartTimer()
+                Case "Opposite"
+                    SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.Mode = AutomationMode.Opposite
+                    SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.StartTimer()
             End Select
-
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscAmplitude = knbAmplitude.Value
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscCenter = knbCenter.Value
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscFrequency = knbFrequency.Value * 0.01
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.oscPhase = knbPhase.Value / 10
-
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundLevel = knbSoundLevel.Value
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundAttack = knbSoundAttack.Value
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.SoundRelease = knbSoundRelease.Value
-
-            SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressList.Clear()
-
-
-            For Each i1 In lstChase.Items
-                SceneData(ChannelFaderPageCurrentSceneDataIndex).ChannelValues(iChanSel(I)).Automation.ProgressList.Add(Val(i1))
-            Next
 
 
             I += 1
@@ -340,6 +346,9 @@ Public Class FormDimmerAutomation
                 numChaseTimebetween.Minimum = 50
                 numChaseTimebetween.Value = 50
                 numChaseTimebetween.Maximum = 3000
+            Case "Opposite"
+                numChaseTimebetween.Minimum = 0
+                numChaseTimebetween.Maximum = 30000
         End Select
         SaveToMain()
         'If lstWave.SelectedItem = "Off" Then
@@ -431,6 +440,5 @@ Public Class FormDimmerAutomation
         SaveToMain()
 
     End Sub
-
 
 End Class

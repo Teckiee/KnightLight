@@ -164,6 +164,41 @@ Partial Class FormMain
         Me.cmdDramaViewPlay = New System.Windows.Forms.Button()
         Me.lstDramaViewSongs = New System.Windows.Forms.ListBox()
         Me.trkDramaViewVolume = New System.Windows.Forms.TrackBar()
+        Me.tbpMarsSettings = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.cmdSendAll = New System.Windows.Forms.Button()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.numMarsLargeFaders = New System.Windows.Forms.NumericUpDown()
+        Me.txtMarsDebug = New System.Windows.Forms.TextBox()
+        Me.tbpTracking = New System.Windows.Forms.TabPage()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.txtTiltChan = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.txtPanChan = New System.Windows.Forms.TextBox()
+        Me.txtLightZ = New System.Windows.Forms.TextBox()
+        Me.txtLightY = New System.Windows.Forms.TextBox()
+        Me.txtLightX = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.txtTiltDMX = New System.Windows.Forms.TextBox()
+        Me.txtPanDMX = New System.Windows.Forms.TextBox()
+        Me.chkTiltInvert = New System.Windows.Forms.CheckBox()
+        Me.chkPanInvert = New System.Windows.Forms.CheckBox()
+        Me.chkTilt = New System.Windows.Forms.CheckBox()
+        Me.chkPan = New System.Windows.Forms.CheckBox()
+        Me.numOffsetTilt = New System.Windows.Forms.NumericUpDown()
+        Me.numOffsetPan = New System.Windows.Forms.NumericUpDown()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.txtLightTilt = New System.Windows.Forms.TextBox()
+        Me.txtLightPan = New System.Windows.Forms.TextBox()
         Me.tbpSettings = New System.Windows.Forms.TabPage()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.knbJoySensitivity = New KnobControl.KnobControl()
@@ -227,12 +262,6 @@ Partial Class FormMain
         Me.chkLoadonChange = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.numEndChannel = New System.Windows.Forms.NumericUpDown()
-        Me.tbpMarsSettings = New System.Windows.Forms.TabPage()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.cmdSendAll = New System.Windows.Forms.Button()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.numMarsLargeFaders = New System.Windows.Forms.NumericUpDown()
-        Me.txtMarsDebug = New System.Windows.Forms.TextBox()
         Me.chkAsioMode = New System.Windows.Forms.CheckBox()
         Me.lblMaster = New System.Windows.Forms.Label()
         Me.numChangeMS = New System.Windows.Forms.NumericUpDown()
@@ -262,6 +291,11 @@ Partial Class FormMain
         Me.barVUmeter = New System.Windows.Forms.VScrollBar()
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lblMarsConnected = New System.Windows.Forms.Label()
+        Me.tmrPositioning = New System.Windows.Forms.Timer(Me.components)
+        Me.lblAudioReady = New System.Windows.Forms.Label()
+        Me.lblAudioReady3 = New System.Windows.Forms.Label()
+        Me.lblAudioReady2 = New System.Windows.Forms.Label()
+        Me.cmdStopAll = New System.Windows.Forms.Button()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -277,10 +311,13 @@ Partial Class FormMain
         Me.tbpScriptChanges.SuspendLayout()
         CType(Me.trkDramaViewVolume2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.trkDramaViewVolume, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tbpSettings.SuspendLayout()
-        CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tbpMarsSettings.SuspendLayout()
         CType(Me.numMarsLargeFaders, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tbpTracking.SuspendLayout()
+        CType(Me.numOffsetTilt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.numOffsetPan, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tbpSettings.SuspendLayout()
+        CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numChangeMS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPresetLabelActions.SuspendLayout()
         Me.SuspendLayout()
@@ -294,8 +331,9 @@ Partial Class FormMain
         Me.tbcControls1.Controls.Add(Me.tbpPresets)
         Me.tbcControls1.Controls.Add(Me.tbpMusic)
         Me.tbcControls1.Controls.Add(Me.tbpScriptChanges)
-        Me.tbcControls1.Controls.Add(Me.tbpSettings)
         Me.tbcControls1.Controls.Add(Me.tbpMarsSettings)
+        Me.tbcControls1.Controls.Add(Me.tbpTracking)
+        Me.tbcControls1.Controls.Add(Me.tbpSettings)
         Me.tbcControls1.Location = New System.Drawing.Point(0, 22)
         Me.tbcControls1.Name = "tbcControls1"
         Me.tbcControls1.SelectedIndex = 0
@@ -358,6 +396,7 @@ Partial Class FormMain
         '
         'tbpPresets
         '
+        Me.tbpPresets.Controls.Add(Me.lblAudioReady2)
         Me.tbpPresets.Controls.Add(Me.pnlMusicplayers)
         Me.tbpPresets.Controls.Add(Me.cmdReloadSongLists)
         Me.tbpPresets.Controls.Add(Me.lstPresetsSongChanges2)
@@ -833,6 +872,7 @@ Partial Class FormMain
         '
         'tbpMusic
         '
+        Me.tbpMusic.Controls.Add(Me.lblAudioReady3)
         Me.tbpMusic.Controls.Add(Me.lstMusicSongChanges2)
         Me.tbpMusic.Controls.Add(Me.lstMusicSongChanges1)
         Me.tbpMusic.Controls.Add(Me.cmdEditUpdate)
@@ -1372,6 +1412,8 @@ Partial Class FormMain
         '
         'tbpScriptChanges
         '
+        Me.tbpScriptChanges.Controls.Add(Me.cmdStopAll)
+        Me.tbpScriptChanges.Controls.Add(Me.lblAudioReady)
         Me.tbpScriptChanges.Controls.Add(Me.lstDramaViewSongChanges2)
         Me.tbpScriptChanges.Controls.Add(Me.lstDramaViewSongChanges1)
         Me.tbpScriptChanges.Controls.Add(Me.cmdDramaBlackoutAllInstant)
@@ -1724,6 +1766,345 @@ Partial Class FormMain
         Me.trkDramaViewVolume.TickFrequency = 0
         Me.trkDramaViewVolume.Value = 100
         '
+        'tbpMarsSettings
+        '
+        Me.tbpMarsSettings.Controls.Add(Me.Button1)
+        Me.tbpMarsSettings.Controls.Add(Me.cmdSendAll)
+        Me.tbpMarsSettings.Controls.Add(Me.Label8)
+        Me.tbpMarsSettings.Controls.Add(Me.numMarsLargeFaders)
+        Me.tbpMarsSettings.Controls.Add(Me.txtMarsDebug)
+        Me.tbpMarsSettings.Location = New System.Drawing.Point(4, 22)
+        Me.tbpMarsSettings.Name = "tbpMarsSettings"
+        Me.tbpMarsSettings.Size = New System.Drawing.Size(1826, 1061)
+        Me.tbpMarsSettings.TabIndex = 6
+        Me.tbpMarsSettings.Text = "Mars"
+        Me.tbpMarsSettings.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(1294, 336)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(90, 45)
+        Me.Button1.TabIndex = 574
+        Me.Button1.Text = "Hello"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'cmdSendAll
+        '
+        Me.cmdSendAll.Location = New System.Drawing.Point(1198, 336)
+        Me.cmdSendAll.Name = "cmdSendAll"
+        Me.cmdSendAll.Size = New System.Drawing.Size(90, 45)
+        Me.cmdSendAll.TabIndex = 573
+        Me.cmdSendAll.Text = "Send All"
+        Me.cmdSendAll.UseVisualStyleBackColor = True
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(8, 23)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(72, 13)
+        Me.Label8.TabIndex = 320
+        Me.Label8.Text = "Large Faders:"
+        '
+        'numMarsLargeFaders
+        '
+        Me.numMarsLargeFaders.Location = New System.Drawing.Point(86, 21)
+        Me.numMarsLargeFaders.Name = "numMarsLargeFaders"
+        Me.numMarsLargeFaders.Size = New System.Drawing.Size(50, 20)
+        Me.numMarsLargeFaders.TabIndex = 319
+        Me.numMarsLargeFaders.Value = New Decimal(New Integer() {12, 0, 0, 0})
+        '
+        'txtMarsDebug
+        '
+        Me.txtMarsDebug.Location = New System.Drawing.Point(1198, 8)
+        Me.txtMarsDebug.Multiline = True
+        Me.txtMarsDebug.Name = "txtMarsDebug"
+        Me.txtMarsDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtMarsDebug.Size = New System.Drawing.Size(607, 322)
+        Me.txtMarsDebug.TabIndex = 318
+        '
+        'tbpTracking
+        '
+        Me.tbpTracking.Controls.Add(Me.Label27)
+        Me.tbpTracking.Controls.Add(Me.txtTiltChan)
+        Me.tbpTracking.Controls.Add(Me.Label24)
+        Me.tbpTracking.Controls.Add(Me.Label26)
+        Me.tbpTracking.Controls.Add(Me.Label23)
+        Me.tbpTracking.Controls.Add(Me.Label22)
+        Me.tbpTracking.Controls.Add(Me.txtPanChan)
+        Me.tbpTracking.Controls.Add(Me.txtLightZ)
+        Me.tbpTracking.Controls.Add(Me.txtLightY)
+        Me.tbpTracking.Controls.Add(Me.txtLightX)
+        Me.tbpTracking.Controls.Add(Me.Label17)
+        Me.tbpTracking.Controls.Add(Me.Label16)
+        Me.tbpTracking.Controls.Add(Me.Label15)
+        Me.tbpTracking.Controls.Add(Me.Label14)
+        Me.tbpTracking.Controls.Add(Me.txtTiltDMX)
+        Me.tbpTracking.Controls.Add(Me.txtPanDMX)
+        Me.tbpTracking.Controls.Add(Me.chkTiltInvert)
+        Me.tbpTracking.Controls.Add(Me.chkPanInvert)
+        Me.tbpTracking.Controls.Add(Me.chkTilt)
+        Me.tbpTracking.Controls.Add(Me.chkPan)
+        Me.tbpTracking.Controls.Add(Me.numOffsetTilt)
+        Me.tbpTracking.Controls.Add(Me.numOffsetPan)
+        Me.tbpTracking.Controls.Add(Me.Label13)
+        Me.tbpTracking.Controls.Add(Me.Label18)
+        Me.tbpTracking.Controls.Add(Me.Label19)
+        Me.tbpTracking.Controls.Add(Me.Label21)
+        Me.tbpTracking.Controls.Add(Me.txtLightTilt)
+        Me.tbpTracking.Controls.Add(Me.txtLightPan)
+        Me.tbpTracking.Location = New System.Drawing.Point(4, 22)
+        Me.tbpTracking.Name = "tbpTracking"
+        Me.tbpTracking.Size = New System.Drawing.Size(1826, 1061)
+        Me.tbpTracking.TabIndex = 7
+        Me.tbpTracking.Text = "Tracking"
+        Me.tbpTracking.UseVisualStyleBackColor = True
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(48, 125)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(66, 13)
+        Me.Label27.TabIndex = 71
+        Me.Label27.Text = "Tilt Channel:"
+        '
+        'txtTiltChan
+        '
+        Me.txtTiltChan.Location = New System.Drawing.Point(125, 121)
+        Me.txtTiltChan.Name = "txtTiltChan"
+        Me.txtTiltChan.Size = New System.Drawing.Size(62, 20)
+        Me.txtTiltChan.TabIndex = 70
+        Me.txtTiltChan.Text = "3"
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(48, 103)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(71, 13)
+        Me.Label24.TabIndex = 69
+        Me.Label24.Text = "Pan Channel:"
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Location = New System.Drawing.Point(76, 72)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(43, 13)
+        Me.Label26.TabIndex = 68
+        Me.Label26.Text = "Light Z:"
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(76, 51)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(43, 13)
+        Me.Label23.TabIndex = 67
+        Me.Label23.Text = "Light Y:"
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(76, 30)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(43, 13)
+        Me.Label22.TabIndex = 66
+        Me.Label22.Text = "Light X:"
+        '
+        'txtPanChan
+        '
+        Me.txtPanChan.Location = New System.Drawing.Point(125, 99)
+        Me.txtPanChan.Name = "txtPanChan"
+        Me.txtPanChan.Size = New System.Drawing.Size(62, 20)
+        Me.txtPanChan.TabIndex = 65
+        Me.txtPanChan.Text = "1"
+        '
+        'txtLightZ
+        '
+        Me.txtLightZ.Location = New System.Drawing.Point(125, 69)
+        Me.txtLightZ.Name = "txtLightZ"
+        Me.txtLightZ.Size = New System.Drawing.Size(62, 20)
+        Me.txtLightZ.TabIndex = 64
+        Me.txtLightZ.Text = "1.7"
+        '
+        'txtLightY
+        '
+        Me.txtLightY.Location = New System.Drawing.Point(125, 48)
+        Me.txtLightY.Name = "txtLightY"
+        Me.txtLightY.Size = New System.Drawing.Size(62, 20)
+        Me.txtLightY.TabIndex = 63
+        Me.txtLightY.Text = "-.4"
+        '
+        'txtLightX
+        '
+        Me.txtLightX.Location = New System.Drawing.Point(125, 27)
+        Me.txtLightX.Name = "txtLightX"
+        Me.txtLightX.Size = New System.Drawing.Size(62, 20)
+        Me.txtLightX.TabIndex = 62
+        Me.txtLightX.Text = "1.1"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(420, 27)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(31, 13)
+        Me.Label17.TabIndex = 61
+        Me.Label17.Text = "DMX"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(343, 27)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(34, 13)
+        Me.Label16.TabIndex = 60
+        Me.Label16.Text = "Angle"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(506, 27)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(34, 13)
+        Me.Label15.TabIndex = 59
+        Me.Label15.Text = "Angle"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(420, 58)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(57, 13)
+        Me.Label14.TabIndex = 58
+        Me.Label14.Text = "Light DMX"
+        '
+        'txtTiltDMX
+        '
+        Me.txtTiltDMX.Location = New System.Drawing.Point(423, 95)
+        Me.txtTiltDMX.Name = "txtTiltDMX"
+        Me.txtTiltDMX.Size = New System.Drawing.Size(62, 20)
+        Me.txtTiltDMX.TabIndex = 57
+        '
+        'txtPanDMX
+        '
+        Me.txtPanDMX.Location = New System.Drawing.Point(423, 74)
+        Me.txtPanDMX.Name = "txtPanDMX"
+        Me.txtPanDMX.Size = New System.Drawing.Size(62, 20)
+        Me.txtPanDMX.TabIndex = 56
+        '
+        'chkTiltInvert
+        '
+        Me.chkTiltInvert.AutoSize = True
+        Me.chkTiltInvert.Checked = True
+        Me.chkTiltInvert.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkTiltInvert.Location = New System.Drawing.Point(578, 94)
+        Me.chkTiltInvert.Name = "chkTiltInvert"
+        Me.chkTiltInvert.Size = New System.Drawing.Size(53, 17)
+        Me.chkTiltInvert.TabIndex = 55
+        Me.chkTiltInvert.Text = "Invert"
+        Me.chkTiltInvert.UseVisualStyleBackColor = True
+        '
+        'chkPanInvert
+        '
+        Me.chkPanInvert.AutoSize = True
+        Me.chkPanInvert.Location = New System.Drawing.Point(578, 75)
+        Me.chkPanInvert.Name = "chkPanInvert"
+        Me.chkPanInvert.Size = New System.Drawing.Size(53, 17)
+        Me.chkPanInvert.TabIndex = 54
+        Me.chkPanInvert.Text = "Invert"
+        Me.chkPanInvert.UseVisualStyleBackColor = True
+        '
+        'chkTilt
+        '
+        Me.chkTilt.AutoSize = True
+        Me.chkTilt.Location = New System.Drawing.Point(652, 96)
+        Me.chkTilt.Name = "chkTilt"
+        Me.chkTilt.Size = New System.Drawing.Size(76, 17)
+        Me.chkTilt.TabIndex = 53
+        Me.chkTilt.Text = "Enable Tilt"
+        Me.chkTilt.UseVisualStyleBackColor = True
+        '
+        'chkPan
+        '
+        Me.chkPan.AutoSize = True
+        Me.chkPan.Location = New System.Drawing.Point(652, 77)
+        Me.chkPan.Name = "chkPan"
+        Me.chkPan.Size = New System.Drawing.Size(81, 17)
+        Me.chkPan.TabIndex = 52
+        Me.chkPan.Text = "Enable Pan"
+        Me.chkPan.UseVisualStyleBackColor = True
+        '
+        'numOffsetTilt
+        '
+        Me.numOffsetTilt.Location = New System.Drawing.Point(509, 95)
+        Me.numOffsetTilt.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
+        Me.numOffsetTilt.Name = "numOffsetTilt"
+        Me.numOffsetTilt.Size = New System.Drawing.Size(63, 20)
+        Me.numOffsetTilt.TabIndex = 51
+        Me.numOffsetTilt.Value = New Decimal(New Integer() {90, 0, 0, 0})
+        '
+        'numOffsetPan
+        '
+        Me.numOffsetPan.Location = New System.Drawing.Point(509, 74)
+        Me.numOffsetPan.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
+        Me.numOffsetPan.Name = "numOffsetPan"
+        Me.numOffsetPan.Size = New System.Drawing.Size(63, 20)
+        Me.numOffsetPan.TabIndex = 50
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(316, 99)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(24, 13)
+        Me.Label13.TabIndex = 49
+        Me.Label13.Text = "Tilt:"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(311, 77)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(29, 13)
+        Me.Label18.TabIndex = 48
+        Me.Label18.Text = "Pan:"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(506, 57)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(66, 13)
+        Me.Label19.TabIndex = 47
+        Me.Label19.Text = "Light Offsets"
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(343, 58)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(65, 13)
+        Me.Label21.TabIndex = 46
+        Me.Label21.Text = "Light Angles"
+        '
+        'txtLightTilt
+        '
+        Me.txtLightTilt.Location = New System.Drawing.Point(346, 95)
+        Me.txtLightTilt.Name = "txtLightTilt"
+        Me.txtLightTilt.Size = New System.Drawing.Size(62, 20)
+        Me.txtLightTilt.TabIndex = 45
+        '
+        'txtLightPan
+        '
+        Me.txtLightPan.Location = New System.Drawing.Point(346, 74)
+        Me.txtLightPan.Name = "txtLightPan"
+        Me.txtLightPan.Size = New System.Drawing.Size(62, 20)
+        Me.txtLightPan.TabIndex = 44
+        '
         'tbpSettings
         '
         Me.tbpSettings.Controls.Add(Me.Label11)
@@ -1804,7 +2185,7 @@ Partial Class FormMain
         Me.knbJoySensitivity.KnobPointerStyle = KnobControl.KnobControl.KnobPointerStyles.circle
         Me.knbJoySensitivity.LargeChange = 5
         Me.knbJoySensitivity.Location = New System.Drawing.Point(356, 48)
-        Me.knbJoySensitivity.Maximum = 40
+        Me.knbJoySensitivity.Maximum = 80
         Me.knbJoySensitivity.Minimum = 1
         Me.knbJoySensitivity.MouseWheelBarPartitions = 1
         Me.knbJoySensitivity.Name = "knbJoySensitivity"
@@ -1819,7 +2200,7 @@ Partial Class FormMain
         Me.knbJoySensitivity.SmallChange = 1
         Me.knbJoySensitivity.StartAngle = 135.0!
         Me.knbJoySensitivity.TabIndex = 357
-        Me.knbJoySensitivity.Value = 20
+        Me.knbJoySensitivity.Value = 40
         '
         'Label10
         '
@@ -2349,64 +2730,6 @@ Partial Class FormMain
         Me.numEndChannel.TabIndex = 245
         Me.numEndChannel.Value = New Decimal(New Integer() {512, 0, 0, 0})
         '
-        'tbpMarsSettings
-        '
-        Me.tbpMarsSettings.Controls.Add(Me.Button1)
-        Me.tbpMarsSettings.Controls.Add(Me.cmdSendAll)
-        Me.tbpMarsSettings.Controls.Add(Me.Label8)
-        Me.tbpMarsSettings.Controls.Add(Me.numMarsLargeFaders)
-        Me.tbpMarsSettings.Controls.Add(Me.txtMarsDebug)
-        Me.tbpMarsSettings.Location = New System.Drawing.Point(4, 22)
-        Me.tbpMarsSettings.Name = "tbpMarsSettings"
-        Me.tbpMarsSettings.Size = New System.Drawing.Size(1826, 1061)
-        Me.tbpMarsSettings.TabIndex = 6
-        Me.tbpMarsSettings.Text = "Mars"
-        Me.tbpMarsSettings.UseVisualStyleBackColor = True
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(1294, 336)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(90, 45)
-        Me.Button1.TabIndex = 574
-        Me.Button1.Text = "Hello"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'cmdSendAll
-        '
-        Me.cmdSendAll.Location = New System.Drawing.Point(1198, 336)
-        Me.cmdSendAll.Name = "cmdSendAll"
-        Me.cmdSendAll.Size = New System.Drawing.Size(90, 45)
-        Me.cmdSendAll.TabIndex = 573
-        Me.cmdSendAll.Text = "Send All"
-        Me.cmdSendAll.UseVisualStyleBackColor = True
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(8, 23)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(72, 13)
-        Me.Label8.TabIndex = 320
-        Me.Label8.Text = "Large Faders:"
-        '
-        'numMarsLargeFaders
-        '
-        Me.numMarsLargeFaders.Location = New System.Drawing.Point(86, 21)
-        Me.numMarsLargeFaders.Name = "numMarsLargeFaders"
-        Me.numMarsLargeFaders.Size = New System.Drawing.Size(50, 20)
-        Me.numMarsLargeFaders.TabIndex = 319
-        Me.numMarsLargeFaders.Value = New Decimal(New Integer() {12, 0, 0, 0})
-        '
-        'txtMarsDebug
-        '
-        Me.txtMarsDebug.Location = New System.Drawing.Point(1198, 8)
-        Me.txtMarsDebug.Multiline = True
-        Me.txtMarsDebug.Name = "txtMarsDebug"
-        Me.txtMarsDebug.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtMarsDebug.Size = New System.Drawing.Size(607, 322)
-        Me.txtMarsDebug.TabIndex = 318
-        '
         'chkAsioMode
         '
         Me.chkAsioMode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2642,6 +2965,53 @@ Partial Class FormMain
         Me.lblMarsConnected.Text = "Mars Connected"
         Me.lblMarsConnected.Visible = False
         '
+        'tmrPositioning
+        '
+        Me.tmrPositioning.Enabled = True
+        '
+        'lblAudioReady
+        '
+        Me.lblAudioReady.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady.Location = New System.Drawing.Point(1463, 307)
+        Me.lblAudioReady.Name = "lblAudioReady"
+        Me.lblAudioReady.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady.TabIndex = 630
+        Me.lblAudioReady.Text = "Audio Ready"
+        Me.lblAudioReady.Visible = False
+        '
+        'lblAudioReady3
+        '
+        Me.lblAudioReady3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady3.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady3.Location = New System.Drawing.Point(220, 210)
+        Me.lblAudioReady3.Name = "lblAudioReady3"
+        Me.lblAudioReady3.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady3.TabIndex = 631
+        Me.lblAudioReady3.Text = "Audio Ready"
+        Me.lblAudioReady3.Visible = False
+        '
+        'lblAudioReady2
+        '
+        Me.lblAudioReady2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady2.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady2.Location = New System.Drawing.Point(291, 1034)
+        Me.lblAudioReady2.Name = "lblAudioReady2"
+        Me.lblAudioReady2.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady2.TabIndex = 631
+        Me.lblAudioReady2.Text = "Audio Ready"
+        Me.lblAudioReady2.Visible = False
+        '
+        'cmdStopAll
+        '
+        Me.cmdStopAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdStopAll.Location = New System.Drawing.Point(1078, 7)
+        Me.cmdStopAll.Name = "cmdStopAll"
+        Me.cmdStopAll.Size = New System.Drawing.Size(90, 45)
+        Me.cmdStopAll.TabIndex = 631
+        Me.cmdStopAll.Text = "Stop All"
+        Me.cmdStopAll.UseVisualStyleBackColor = True
+        '
         'FormMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2685,12 +3055,16 @@ Partial Class FormMain
         Me.tbpScriptChanges.PerformLayout()
         CType(Me.trkDramaViewVolume2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.trkDramaViewVolume, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tbpSettings.ResumeLayout(False)
-        Me.tbpSettings.PerformLayout()
-        CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tbpMarsSettings.ResumeLayout(False)
         Me.tbpMarsSettings.PerformLayout()
         CType(Me.numMarsLargeFaders, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tbpTracking.ResumeLayout(False)
+        Me.tbpTracking.PerformLayout()
+        CType(Me.numOffsetTilt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.numOffsetPan, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tbpSettings.ResumeLayout(False)
+        Me.tbpSettings.PerformLayout()
+        CType(Me.numEndChannel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numChangeMS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxPresetLabelActions.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -2936,4 +3310,38 @@ Partial Class FormMain
     Friend WithEvents txtGithubIssue As TextBox
     Friend WithEvents Label11 As Label
     Friend WithEvents knbJoySensitivity As KnobControl.KnobControl
+    Friend WithEvents tbpTracking As TabPage
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents txtTiltDMX As TextBox
+    Friend WithEvents txtPanDMX As TextBox
+    Friend WithEvents chkTiltInvert As CheckBox
+    Friend WithEvents chkPanInvert As CheckBox
+    Friend WithEvents chkTilt As CheckBox
+    Friend WithEvents chkPan As CheckBox
+    Friend WithEvents numOffsetTilt As NumericUpDown
+    Friend WithEvents numOffsetPan As NumericUpDown
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label21 As Label
+    Friend WithEvents txtLightTilt As TextBox
+    Friend WithEvents txtLightPan As TextBox
+    Public WithEvents tmrPositioning As Timer
+    Friend WithEvents Label27 As Label
+    Friend WithEvents txtTiltChan As TextBox
+    Friend WithEvents Label24 As Label
+    Friend WithEvents Label26 As Label
+    Friend WithEvents Label23 As Label
+    Friend WithEvents Label22 As Label
+    Friend WithEvents txtPanChan As TextBox
+    Friend WithEvents txtLightZ As TextBox
+    Friend WithEvents txtLightY As TextBox
+    Friend WithEvents txtLightX As TextBox
+    Friend WithEvents lblAudioReady2 As Label
+    Friend WithEvents lblAudioReady3 As Label
+    Friend WithEvents lblAudioReady As Label
+    Friend WithEvents cmdStopAll As Button
 End Class

@@ -1,6 +1,10 @@
 ﻿Imports System.Net
 Imports System.Net.Sockets
+Imports System.Text
+Imports System.Threading
 Imports NAudio.Wave
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Module mdlGlobalVariables
     Public frmMain As FormMain
@@ -13,6 +17,9 @@ Module mdlGlobalVariables
 
     'Public DMX As New Arduino_DMX_USB.Main
     Public ArduDMX As ArduinoDMX
+
+    Public cMidi As cMidiController
+    Public MidiEnabled As Boolean = False
     'Public sACNController As SACN_Sender
 
     'Public WithEvents Player(200) As New WMPLib.WindowsMediaPlayer
@@ -62,11 +69,14 @@ Module mdlGlobalVariables
     Public AudioRun As AudioThread
     'Public asioOutputs(10) As AsioOut
 
+    Public mPositioning(10) As cPositioning
+
 
 
 
     Public MarsConsole As cMarsConsole
     Public DMXdata As cDMXdata
+    Public OSCcontrol As cOSC
 
     Public ResaveOnSceneLoad As Boolean = False
 
@@ -140,11 +150,41 @@ Module mdlGlobalVariables
         Dim Automation As SceneAutomation1
         Dim PageNo As Integer
         Dim LocIndex As Integer
+
+        Public Function Clone() As Scenes1
+            Dim copy As Scenes1
+            copy.SceneName = Me.SceneName
+            copy.MasterValue = Me.MasterValue
+            copy.PageNo = Me.PageNo
+            copy.LocIndex = Me.LocIndex
+            copy.Automation = Me.Automation ' Assuming SceneAutomation1 is a structure and doesn't need deep copying
+
+            ' Deep copy the ChannelValues array
+            If Me.ChannelValues IsNot Nothing Then
+                copy.ChannelValues = New SceneChannelValues(Me.ChannelValues.Length - 1) {}
+                For i As Integer = 0 To Me.ChannelValues.Length - 1
+                    copy.ChannelValues(i) = Me.ChannelValues(i).Clone()
+                Next
+            End If
+
+            Return copy
+        End Function
     End Structure
     Structure SceneChannelValues
         Dim Value As Integer
         Dim Selected As Boolean
         Dim Automation As cChannelAutomation
+        Public Function Clone() As SceneChannelValues
+            Dim copy As SceneChannelValues
+            copy.Value = Me.Value
+            copy.Selected = Me.Selected
+            If Me.Automation IsNot Nothing Then
+                copy.Automation = CType(Me.Automation.Clone(), cChannelAutomation)
+            Else
+                copy.Automation = Nothing
+            End If
+            Return copy
+        End Function
     End Structure
     Structure SceneAutomation1
         Dim Nickname As String
@@ -157,6 +197,17 @@ Module mdlGlobalVariables
         Dim tmrDirection As String
         Dim TimeBetweenMinAndMax As Integer
     End Structure
+
+    Public Function CopySceneData(originalArray As Scenes1()) As Scenes1()
+        Dim copiedArray(originalArray.Length - 1) As Scenes1
+
+        For i As Integer = 0 To originalArray.Length - 1
+            copiedArray(i) = originalArray(i).Clone()
+        Next
+
+        Return copiedArray
+    End Function
+
     'Structure ChannelAutomation1
     '    'Dim tTimer As System.Windows.Forms.Timer
     '    Dim tTimer As NamedTimer
@@ -211,6 +262,7 @@ Module mdlGlobalVariables
         Sine = 2
         Square = 3
         Triangle = 4
+        Opposite = 5
     End Enum
     Public Function GetRandom(ByVal Min As Integer, ByVal Max As Integer) As Integer
         Static Generator As System.Random = New System.Random()
@@ -248,5 +300,66 @@ Module mdlGlobalVariables
 
     '---------END CHANNEL TABPAGE RELATED VARIABLES---------
 
+    Public Function Map(value As Double, fromSource As Double, toSource As Double, fromTarget As Double, toTarget As Double) As Double
+        Return (value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget) + fromTarget
+    End Function
+
+    Public Function IsUpdateAvailable() As Boolean
+        Dim currentVersion As New Version(Application.ProductVersion)
+        Dim latestVersion As New Version(GetLatestVersion())
+
+        Return latestVersion > currentVersion
+    End Function
+    Public Function GetLatestVersion() As String
+        Dim url As String = "https://api.github.com/repos/Teckiee/KnightLight/releases/latest"
+        Dim webClient As New WebClient()
+        webClient.Headers.Add("User-Agent", "request")
+
+        Dim json As String = webClient.DownloadString(url)
+        Dim release = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(json)
+
+        Return release("tag_name").ToString()
+    End Function
+    Public Function GetLatestReleaseAssetUrl() As String
+        Dim url As String = "https://api.github.com/repos/Teckiee/KnightLight/releases/latest"
+        Dim webClient As New WebClient()
+        webClient.Headers.Add("User-Agent", "request")
+
+        Dim json As String = String.Empty
+        Try
+            json = webClient.DownloadString(url)
+        Catch ex As Exception
+            ' Handle exceptions or errors here
+            Return String.Empty
+        End Try
+
+        Dim release = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(json)
+        Dim assets As JArray = release("assets")
+        Dim assetUrl As String = String.Empty
+
+        For Each asset In assets
+            ' Assuming you have only one asset or you know the name pattern of your asset
+            ' Adjust the condition to match your asset name if necessary
+            assetUrl = asset("browser_download_url").ToString()
+            Exit For ' Remove this if you need to iterate through more assets
+        Next
+
+        Return assetUrl
+    End Function
 
 End Module
+Public Class Vector3
+    Public Property X As Double
+    Public Property Y As Double
+    Public Property Z As Double
+
+    Public Sub New(x As Double, y As Double, z As Double)
+        Me.X = x
+        Me.Y = y
+        Me.Z = z
+    End Sub
+
+    Public Shared Operator -(v1 As Vector3, v2 As Vector3) As Vector3
+        Return New Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z)
+    End Operator
+End Class

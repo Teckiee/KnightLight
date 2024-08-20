@@ -182,16 +182,17 @@ Public Class FormChannels
             Dim iPan As Integer = iSelectedParent - 1 + IndexOfChannelInFixture(iSelectedParent, "Pan")
 
             Dim valueadd As Double = 0
+            Dim newI As Integer = 0
             If I > 512 Then
                 'Going up
-                I = Map(I - 512, 0, 512, 0, 255)
-                valueadd = JoySensitivity * (I * 0.001)
+                newI = Map(I - 512, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (newI * 0.001)
                 SceneData(iCurrentScene).ChannelValues(iPan).Value += valueadd
                 If SceneData(iCurrentScene).ChannelValues(iPan).Value > 255 Then SceneData(iCurrentScene).ChannelValues(iPan).Value = 255
             ElseIf I < 512 Then
                 'Going down
-                I = 255 - Map(I, 0, 512, 0, 255)
-                valueadd = JoySensitivity * (I * 0.001)
+                newI = 255 - Map(I, 0, 512, 0, 255)
+                valueadd = JoySensitivity * (newI * 0.001)
                 SceneData(iCurrentScene).ChannelValues(iPan).Value -= valueadd
                 If SceneData(iCurrentScene).ChannelValues(iPan).Value < 0 Then SceneData(iCurrentScene).ChannelValues(iPan).Value = 0
             End If
@@ -242,9 +243,6 @@ Public Class FormChannels
             iSelected += 1
         Loop
     End Sub
-    Public Function Map(value As Double, fromSource As Double, toSource As Double, fromTarget As Double, toTarget As Double) As Double
-        Return (value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget) + fromTarget
-    End Function
     Public Sub ZSelected(ByVal I As Integer)
         ' Get Zoom channels of selected
         Dim iSelected As Integer = 0

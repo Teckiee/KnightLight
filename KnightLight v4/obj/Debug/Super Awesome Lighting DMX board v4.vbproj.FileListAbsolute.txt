@@ -225,3 +225,21 @@ C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinMM.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.AccessControl.xml
 C:\Google Drive\mark@wattsofsound\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.Principal.Windows.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Microsoft.Win32.Registry.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Asio.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Core.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Midi.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Wasapi.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinForms.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinMM.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.AccessControl.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.Principal.Windows.dll
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\Microsoft.Win32.Registry.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Asio.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Core.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Midi.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.Wasapi.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinForms.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\NAudio.WinMM.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.AccessControl.xml
+D:\My Drive\GitHub\KnightLight\KnightLight v4\bin\Debug\System.Security.Principal.Windows.xml

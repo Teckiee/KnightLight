@@ -391,10 +391,10 @@ Partial Class FormDimmerAutomation
         'lstWave
         '
         Me.lstWave.FormattingEnabled = True
-        Me.lstWave.Items.AddRange(New Object() {"Off", "Chase", "Sine", "Square", "Triangle"})
+        Me.lstWave.Items.AddRange(New Object() {"Off", "Chase", "Sine", "Square", "Triangle", "Opposite"})
         Me.lstWave.Location = New System.Drawing.Point(9, 19)
         Me.lstWave.Name = "lstWave"
-        Me.lstWave.Size = New System.Drawing.Size(71, 82)
+        Me.lstWave.Size = New System.Drawing.Size(71, 95)
         Me.lstWave.TabIndex = 319
         '
         'chkLoop

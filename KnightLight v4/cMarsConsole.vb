@@ -60,7 +60,6 @@ Public Class cMarsConsole
                 MarsConnected = True
                 SendOnline()
 
-
         End Select
 
         ' I think I'll need this to get things onto the form thread

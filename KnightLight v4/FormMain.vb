@@ -14,6 +14,8 @@ Imports NAudio
 Imports System.Net.Http
 Imports System.Text
 Imports Newtonsoft.Json
+Imports ScottPlot.Drawing.Colormaps
+Imports NAudio.Midi
 'Imports Arduino_DMX_USB.Main
 
 Public Class FormMain
@@ -471,6 +473,22 @@ found:
 #End Region
 
 #Region "Startup application"
+    Public Sub DownloadAndUpdate()
+        If IsUpdateAvailable() Then
+            ' Assuming the asset URL is known or retrieved from the GitHub API
+            'Dim assetUrl As String = "https://github.com/Teckiee/KnightLight/releases/download/vX.Y.Z/KnightLight.exe"
+            Dim assetUrl As String = GetLatestReleaseAssetUrl()
+            Dim savePath As String = Path.Combine(Path.GetTempPath(), "KnightLight.exe")
+
+            Dim webClient As New WebClient()
+            AddHandler webClient.DownloadFileCompleted, AddressOf OnDownloadCompleted
+            webClient.DownloadFileAsync(New Uri(assetUrl), savePath)
+        End If
+    End Sub
+    Private Sub OnDownloadCompleted(sender As Object, e As System.ComponentModel.AsyncCompletedEventArgs)
+        Dim installerPath As String = Path.Combine(Path.GetTempPath(), "KnightLight.exe")
+        'Process.Start(installerPath)
+    End Sub
     Public Sub StartupProcess(ByVal sName As String)
         Dim newrow As New ListViewItem
         newrow.Text = sName
@@ -479,6 +497,9 @@ found:
     End Sub
 
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        DownloadAndUpdate()
+
         StartupTimer = New Stopwatch
         StartupTimer.Start()
         Me.SuspendLayout()
@@ -499,6 +520,16 @@ found:
         DMXdata = New cDMXdata
         StartupProcess("DMXdata")
 
+        OSCcontrol = New cOSC
+        StartupProcess("DMXdata")
+
+        Try
+            cMidi = New cMidiController
+            MidiEnabled = True
+        Catch ex As Exception
+            MidiEnabled = False
+        End Try
+        StartupProcess("Midi")
 
 
         frmMain = Me
@@ -707,7 +738,11 @@ found:
             MarsConsole.SendAll()
         End If
 
+        StartTCPServer()
 
+        For Each pos In mPositioning
+            pos = New cPositioning
+        Next
 
         formopened = True
     End Sub
@@ -729,6 +764,46 @@ found:
                     MarsConnected = True
                     lblMarsConnected.Visible = True
                     'UpdateMain(incmsg.msg)
+
+            End Select
+
+
+        End If
+    End Sub
+    Public Sub UpdateFromTCPServer(text As String)
+        ' Invoke the UI thread to update the label text
+        If frmMain.lblMarsConnected.InvokeRequired Then
+            frmMain.lblMarsConnected.Invoke(Sub() UpdateFromTCPServer(text))
+        Else
+            txtMarsDebug.Text &= vbCrLf & text
+
+            Dim inccmd() As String = Split(text, ",")
+            Select Case inccmd(0)
+                Case "UID"
+
+                'UpdateMain(incmsg.msg)
+                Case "ONLINE"
+
+                    MarsConnected = True
+                    lblMarsConnected.Visible = True
+                    'UpdateMain(incmsg.msg)
+
+            End Select
+
+
+        End If
+    End Sub
+    Public Sub UpdateFromAudioThread(text As String)
+        ' Invoke the UI thread to update the label text
+        If frmMain.lblAudioReady.InvokeRequired Then
+            frmMain.lblAudioReady.Invoke(Sub() UpdateFromAudioThread(text))
+        Else
+
+            Select Case text
+                Case "PrepareDone"
+                    lblAudioReady.Visible = True
+                    lblAudioReady2.Visible = True
+                    lblAudioReady3.Visible = True
 
             End Select
 
@@ -1042,6 +1117,8 @@ found:
                                                 .Automation.oscFrequency = b(1)
                                             Case "oscPhase"
                                                 .Automation.oscPhase = b(1)
+                                            Case "oscIndex"
+                                                .Automation.oscIndex = b(1)
                                             Case "SoundLevel"
                                                 .Automation.SoundLevel = b(1)
                                             Case "SoundAttack"
@@ -2248,6 +2325,8 @@ LoopsDone:
                                     SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.IntervalSteps = SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.Max / (SongDictSorted1(CurrentSongChangeIndex).Key.TimeToGoDown / SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.Interval)
                                     SceneData(SongDictSorted1(CurrentSongChangeIndex).Key.SceneIndex).Automation.tTimer.StartTimer()
                                 End If
+                                'lstDramaPresets.SetSelected(lstDramaPresets.Items.IndexOf(SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).SceneName), False)
+                                'lstDramaPresets.SelectedIndex = -1
                             End If
                         End If
                         CurrentSongChangeIndex = IsongChange
@@ -2268,6 +2347,9 @@ LoopsDone:
                             lstPresetsSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                             lstMusicSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
                             lstDramaViewSongChanges1.Items(CurrentSongChangeIndex).BackColor = lblSongChangeColour.BackColor
+
+                            lstDramaPresets.SelectedIndex = -1
+                            lstDramaPresets.SetSelected(lstDramaPresets.Items.IndexOf(SceneData(SongDictSorted1(IsongChange).Key.SceneIndex).SceneName), True)
                         End If
                         Exit Do
 
@@ -2577,7 +2659,8 @@ LoopsDone:
 
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.Volume = trkMusicVolume.Value
-                AudioRun.mPlay(MusicCues(Qindex).SongFileName)
+                AudioRun.mPlay(MusicCues(Qindex).SongFileName, lstPresetsSongs.SelectedIndex)
+
                 tmrMP3.Start()
 
 
@@ -2621,7 +2704,7 @@ LoopsDone:
         ElseIf cmdPresetsPlay.Text = "Pause" Then
 
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mPause(MusicCues(Qindex).SongFileName)
+                AudioRun.mPause(MusicCues(Qindex).SongFileName, lstPresetsSongs.SelectedIndex)
                 tmrMP3.Stop()
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
@@ -2643,7 +2726,7 @@ LoopsDone:
         ElseIf cmdPresetsPlay.Text = "Resume" Then
 
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mResume(MusicCues(Qindex).SongFileName)
+                AudioRun.mResume(MusicCues(Qindex).SongFileName, lstPresetsSongs.SelectedIndex)
                 tmrMP3.Start()
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
@@ -2673,7 +2756,7 @@ LoopsDone:
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
-            AudioRun.mStop(MusicCues(Qindex).SongFileName)
+            AudioRun.mStop(MusicCues(Qindex).SongFileName, lstPresetsSongs.SelectedIndex)
             tmrMP3.Stop()
 
         ElseIf MusicCues(Qindex).IsSCS = True Then
@@ -2727,7 +2810,7 @@ LoopsDone:
         If lstPresetsSongs.Items.Count >= (lstPresetsSongs.SelectedIndex + 1) Then
             Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mStop(MusicCues(Qindex).SongFileName)
+                AudioRun.mStop(MusicCues(Qindex).SongFileName, lstPresetsSongs.SelectedIndex)
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -2786,7 +2869,7 @@ LoopsDone:
 
             If MusicCues(Qindex).IsMP3 = True Then
                 AudioRun.Volume = trkMusicVolume2.Value
-                AudioRun.mPlay(MusicCues(Qindex).SongFileName)
+                AudioRun.mPlay(MusicCues(Qindex).SongFileName, lstPresetsSongs2.SelectedIndex)
                 tmrMP32.Start()
 
 
@@ -2825,7 +2908,7 @@ LoopsDone:
         ElseIf cmdPresetsPlay2.Text = "Pause" Then
 
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mPause(MusicCues(Qindex).SongFileName)
+                AudioRun.mPause(MusicCues(Qindex).SongFileName, lstPresetsSongs2.SelectedIndex)
 
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
@@ -2846,7 +2929,7 @@ LoopsDone:
         ElseIf cmdPresetsPlay2.Text = "Resume" Then
 
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mResume(MusicCues(Qindex).SongFileName)
+                AudioRun.mResume(MusicCues(Qindex).SongFileName, lstPresetsSongs2.SelectedIndex)
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -2874,7 +2957,7 @@ LoopsDone:
         Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
         If MusicCues(Qindex).IsMP3 = True Then
 
-            AudioRun.mStop(MusicCues(Qindex).SongFileName)
+            AudioRun.mStop(MusicCues(Qindex).SongFileName, lstPresetsSongs2.SelectedIndex)
             tmrMP32.Stop()
 
         ElseIf MusicCues(Qindex).IsSCS = True Then
@@ -2902,7 +2985,7 @@ LoopsDone:
         If lstPresetsSongs2.Items.Count >= (lstPresetsSongs2.SelectedIndex + 1) Then
             Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs2.SelectedItem)
             If MusicCues(Qindex).IsMP3 = True Then
-                AudioRun.mStop(MusicCues(Qindex).SongFileName)
+                AudioRun.mStop(MusicCues(Qindex).SongFileName, lstPresetsSongs2.SelectedIndex)
 
             ElseIf MusicCues(Qindex).IsSCS = True Then
 
@@ -2972,7 +3055,7 @@ LoopsDone:
         Dim I1 As Integer = 0
         Do Until I1 >= MusicCues.Length
             If MusicCues(I1).SongFileName <> "" Then
-                AudioRun.mStop(MusicCues(I1).SongFileName)
+                AudioRun.mStop(MusicCues(I1).SongFileName, 0)
                 tmrMP3.Stop()
             End If
 
@@ -3409,6 +3492,7 @@ skipme:
         '        I += 1
         '    Loop
         'End If
+
         closethreads = True
         'If Not tTouchPadLoad Is Nothing Then tTouchPadLoad.Abort()
         Dim chanLocation As Point = frmChannels.Location
@@ -3450,7 +3534,7 @@ skipme:
 
             I1 += 1
         Loop
-        If SceneData(I1).SceneName = "" Then Exit Sub
+        If I1 >= SceneData.Length Then Exit Sub
 
         FileOpen(1, Application.StartupPath & "\Save Files\" & lstBanks.SelectedItem & "\" & SaveFileName & ".dmr", OpenMode.Output)
         'PrintLine(1, "P|" & "0")
@@ -3476,6 +3560,7 @@ skipme:
                 chanline &= "oscCenter," & .Automation.oscCenter & "|"
                 chanline &= "oscFrequency," & .Automation.oscFrequency & "|"
                 chanline &= "oscPhase," & .Automation.oscPhase & "|"
+                chanline &= "oscIndex," & .Automation.oscIndex & "|"
                 chanline &= "SoundLevel," & .Automation.SoundLevel & "|"
                 chanline &= "SoundAttack," & .Automation.SoundAttack & "|"
                 chanline &= "SoundRelease," & .Automation.SoundRelease & "|"
@@ -4342,8 +4427,21 @@ skipme:
         End If
         Dim newI As Integer = CreateNewScene(newname, True)
 
-        'SceneData(newI).ChannelValues = SceneData(obj.SceneIndex).ChannelValues
-        Array.Copy(SceneData(iOld).ChannelValues, SceneData(newI).ChannelValues, SceneData(iOld).ChannelValues.Length)
+
+        'Array.Copy(SceneData(iOld).ChannelValues, SceneData(newI).ChannelValues, SceneData(iOld).ChannelValues.Length)
+        'Dim I1 As Integer = 1
+        'Do Until I1 >= SceneData(iOld).ChannelValues.Count
+        '    'Array.Copy(SceneData(iOld).ChannelValues(I1).Automation, SceneData(newI).ChannelValues(I1).Automation, SceneData(iOld).ChannelValues.Length)
+        '    If SceneData(iOld).ChannelValues(I1).Automation IsNot Nothing Then
+        '        SceneData(newI).ChannelValues(I1).Automation = CopyArray(SceneData(iOld).ChannelValues(I1).Automation)
+
+        '    End If
+
+        '    I1 += 1
+        'Loop
+
+        SceneData(newI) = SceneData(iOld).Clone()
+        SceneData(newI).SceneName = newname
 
         SceneData(newI).Automation = SceneData(iOld).Automation
         SceneData(newI).Automation.tTimer = New NamedTimer(newI, 100)
@@ -4355,6 +4453,15 @@ skipme:
         Return newI
         'UpdatePresetControls(newI)
         ResetAllPresetControls()
+    End Function
+    Public Function CopyArray(originalArray As cChannelAutomation()) As cChannelAutomation()
+        Dim copiedArray(originalArray.Length - 1) As cChannelAutomation
+
+        For i As Integer = 0 To originalArray.Length - 1
+            copiedArray(i) = CType(originalArray(i).Clone(), cChannelAutomation)
+        Next
+
+        Return copiedArray
     End Function
 
     Private Sub DuplicateSceneToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateSceneToolStripMenuItem.Click
@@ -4573,6 +4680,51 @@ skipme:
 
     Private Sub lstCOMdevices_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstCOMdevices.SelectedIndexChanged
         txtSerialIn.Text = ""
+    End Sub
+
+    Private Sub tmrPositioning_Tick(sender As Object, e As EventArgs) Handles tmrPositioning.Tick
+        If mPositioning(0) Is Nothing Then Exit Sub
+
+        Dim lightPosition As New Vector3(txtLightX.Text, txtLightY.Text, txtLightZ.Text)
+        Dim tagPosition As New Vector3(mPositioning(0).tagX, mPositioning(0).tagY, mPositioning(0).tagZ)
+
+        Dim angles = mPositioning(0).CalculatePanTilt(lightPosition, tagPosition, numOffsetPan.Value, numOffsetTilt.Value, chkPanInvert.Checked, chkTiltInvert.Checked)
+
+        txtLightPan.Text = angles.Pan
+        txtLightTilt.Text = angles.Tilt
+        Try
+            Dim PanDMX As Integer = Map(angles.Pan, 0, 540, 0, 255)
+            txtPanDMX.Text = PanDMX
+            Dim TiltDMX As Integer = Map(angles.Tilt, 0, 180, 0, 255)
+            txtTiltDMX.Text = TiltDMX
+
+            If chkPan.Checked Then
+                DMXdata.SendChannelData(1) = PanDMX
+            Else
+                DMXdata.SendChannelData(1) = 0
+            End If
+            If chkTilt.Checked Then
+                DMXdata.SendChannelData(2) = TiltDMX
+            Else
+                DMXdata.SendChannelData(2) = 0
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub cmdStopAll_Click(sender As Object, e As EventArgs) Handles cmdStopAll.Click
+        'Dim Qindex As Integer = AudioRun.GetMusicCueIndex(lstPresetsSongs.SelectedItem)
+        Dim Qindex As Integer = 0
+
+        Do Until Qindex >= lstPresetsSongs.Items.Count
+            AudioRun.mStop(MusicCues(Qindex).SongFileName, Qindex)
+
+
+            Qindex += 1
+        Loop
+        tmrMP3.Stop()
+
     End Sub
 
     Public Function GetIndexOfNumber(ByVal str As String) As Integer
