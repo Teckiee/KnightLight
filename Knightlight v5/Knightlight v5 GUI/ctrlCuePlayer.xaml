@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ctrlCuePlayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Knightlight_v5_GUI"
+             d:DataContext="{d:DesignInstance Type=local:cSettings}"
+             mc:Ignorable="d" 
+             d:DesignHeight="36" d:DesignWidth="1006"
+             Background="Gray">
+    <Grid>
+        <Button Content="Cue1" HorizontalAlignment="Left" Margin="450,0,0,0" VerticalAlignment="Top" Width="66" Height="36" FontSize="16"/>
+        <Button Content="Cue2" HorizontalAlignment="Left" Margin="518,0,0,0" VerticalAlignment="Top" Width="66" Height="36" FontSize="16"/>
+        <Button Content="Pause" HorizontalAlignment="Left" Margin="678,0,0,0" VerticalAlignment="Top" Width="66" Height="36" FontSize="16"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="746,0,0,0" VerticalAlignment="Top" Width="66" Height="36" FontSize="16"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="444" Height="36" Foreground="{Binding SceneLabelColour, FallbackValue=#FF80FFFF}" Background="Black" FontSize="16"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="589,0,0,0" VerticalAlignment="Top" Width="82" Height="36" Foreground="#FF80FFFF" Background="Black" FontSize="16"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="818,0,0,0" VerticalAlignment="Top" Width="82" Height="36" Foreground="#FF80FFFF" Background="Black" FontSize="16"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="921,0,0,0" VerticalAlignment="Center" Width="82" Height="36" Foreground="#FF80FFFF" Background="Black" FontSize="16"/>
+
+    </Grid>
+</UserControl>

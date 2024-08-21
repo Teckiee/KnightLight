@@ -7,7 +7,24 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="ctrlCuePlayer.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ctrlDimmerChannel.xaml.vb">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ctrlCuePlayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ctrlDimmerChannel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Theme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

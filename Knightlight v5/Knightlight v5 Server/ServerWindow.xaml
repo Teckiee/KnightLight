@@ -20,7 +20,7 @@
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
         <Button Content="Quit" HorizontalAlignment="Left" Margin="750,10,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,100,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
+        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,277,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
         <TextBox HorizontalAlignment="Left" Margin="102,173,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

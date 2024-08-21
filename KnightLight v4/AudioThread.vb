@@ -310,41 +310,41 @@ Public Class AudioThread
     Public Sub mPlay(TrackName As String, lstindex As Integer)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
         cmdAudioThread.Add("Play " & Qindex)
-        Try
-            OSCcontrol.SendPlay(lstindex + 1)
-        Catch ex As Exception
+        'Try
+        '    OSCcontrol.SendPlay(lstindex + 1)
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
     End Sub
     Public Sub mStop(TrackName As String, lstindex As Integer)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
         cmdAudioThread.Add("Stop " & Qindex)
-        Try
-            OSCcontrol.SendStop(lstindex + 1)
-        Catch ex As Exception
+        'Try
+        '    OSCcontrol.SendStop(lstindex + 1)
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
     End Sub
     Public Sub mPause(TrackName As String, lstindex As Integer)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
         cmdAudioThread.Add("Pause " & Qindex)
-        Try
-            OSCcontrol.SendPause(lstindex + 1)
-        Catch ex As Exception
+        'Try
+        '    OSCcontrol.SendPause(lstindex + 1)
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
     End Sub
     Public Sub mResume(TrackName As String, lstindex As Integer)
         Dim Qindex As Integer = GetAudioCueIndex(TrackName)
         cmdAudioThread.Add("Resume " & Qindex)
-        Try
-            OSCcontrol.SendResume(lstindex + 1)
-        Catch ex As Exception
+        'Try
+        '    OSCcontrol.SendResume(lstindex + 1)
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
     End Sub
 

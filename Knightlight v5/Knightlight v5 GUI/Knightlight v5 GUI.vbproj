@@ -5,6 +5,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Knightlight_v5_GUI</RootNamespace>
     <UseWPF>true</UseWPF>
+    <ImportedNamespaces>Knightlight_v5_GUI.Knightlight_v5_GUI=False,Knightlight_v5_GUI.Knightlight_v5_GUI.ViewModel=False,System.Windows=False,System.Windows.Controls=False,System.Windows.Data=False,System.Windows.Documents=False,System.Windows.Input=False,System.Windows.Media=False,System.Windows.Media.Imaging=False,System.Windows.Navigation=False,System.Windows.Shapes=False,Microsoft.VisualBasic=True,System=True,System.Collections=True,System.Collections.Generic=True,System.Diagnostics=True,System.Linq=True,System.Xml.Linq=True,System.Threading.Tasks=True,Knightlight v5 GUI=True</ImportedNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Import Include="Knightlight_v5_GUI.Knightlight_v5_GUI" />
+    <Import Include="Knightlight_v5_GUI.Knightlight_v5_GUI.ViewModel" />
     <Import Include="System.Windows" />
     <Import Include="System.Windows.Controls" />
     <Import Include="System.Windows.Data" />

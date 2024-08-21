@@ -1,7 +1,9 @@
-﻿Imports System.Net
+﻿Imports System.ComponentModel
+Imports System.Net
 Imports System.Threading
 Imports System.Windows.Threading
 Imports Knightlight_v5_Library
+Imports ScottPlot.Colormaps
 
 Class MainWindow
     Private Shared instance As MainWindow
@@ -12,6 +14,8 @@ Class MainWindow
         OSC = New cOSCControls(Settings.ClientPorts)
         AddHandler OSC.Incoming, AddressOf OSC_IncomingCommand
         LoadData("Settings.json")
+        InitializeComponent()
+        DataContext = Settings
     End Sub
 
     Private Sub cmdOSCTest(sender As Object, e As RoutedEventArgs)
@@ -33,4 +37,11 @@ Class MainWindow
         Dim gdtf As New cGDTFLibrary
         txtIncomingtest.Text = gdtf.Main()
     End Sub
+
+    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+        Settings.SceneLabelColour = Brushes.Red
+        '_foregroundColor = Brushes.Red
+    End Sub
+
+
 End Class

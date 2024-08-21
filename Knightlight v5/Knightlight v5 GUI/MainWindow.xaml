@@ -3,13 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Knightlight_v5_GUI"
+        xmlns:local="clr-namespace:Knightlight_v5_GUI" d:DataContext="{d:DesignInstance Type=local:cSettings}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1560">
     <Grid>
-        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,100,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
+        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,277,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
         <TextBox HorizontalAlignment="Left" Margin="102,173,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
-        <Button Content="GDTF Test" HorizontalAlignment="Left" Margin="307,105,0,0" VerticalAlignment="Top" Click="cmdGDTFTest"/>
+        <Button Content="GDTF Test" HorizontalAlignment="Left" Margin="314,277,0,0" VerticalAlignment="Top" Click="cmdGDTFTest"/>
+        <local:ctrlCuePlayer DataContext="{Binding}" HorizontalAlignment="Left" Margin="102,41,0,0" VerticalAlignment="Top"/>
+        <Button Content="ColourTest" HorizontalAlignment="Left" Margin="193,326,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Label Content="Label" Foreground="{Binding SceneLabelColour}" HorizontalAlignment="Left" Margin="497,173,0,0" VerticalAlignment="Top"/>
+        <local:ctrlDimmerChannel HorizontalAlignment="Left" Margin="1127,12,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

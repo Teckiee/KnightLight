@@ -521,7 +521,7 @@ found:
         StartupProcess("DMXdata")
 
         OSCcontrol = New cOSC
-        StartupProcess("DMXdata")
+        StartupProcess("OSC")
 
         Try
             cMidi = New cMidiController

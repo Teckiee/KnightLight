@@ -12,6 +12,16 @@ Class ServerWindow
         AddHandler Me.Closing, AddressOf ServerWindow_Closing
         OSC = New cOSCControls(Settings.ServerPort)
         AddHandler OSC.Incoming, AddressOf OSC_IncomingCommand
+        LoadData("Settings.json")
+        DMXdata = New cDMXdata(Settings.UniverseCount)
+
+        If Settings.ArduinoDevices IsNot Nothing Then
+            For Each vDevice In Settings.ArduinoDevices
+                If vDevice.Job = "ArduinoDMX" Then
+                    DMXdata.StartComPort = vDevice.PortName
+                End If
+            Next
+        End If
     End Sub
     Private Sub ServerWindow_Closing(sender As Object, e As CancelEventArgs)
         ' Cancel the close operation

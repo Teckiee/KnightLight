@@ -4,12 +4,15 @@ Imports Hardcodet.Wpf.TaskbarNotification
 Imports Newtonsoft.Json
 Imports System.IO
 Imports Knightlight_v5_Library
+Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 
 Module mdlServerVars
     Public tbi As New TaskbarIcon
     Public serverWindow1 As ServerWindow
     Public OSC As cOSCControls
-    Public Settings As New GlobalSettings()
+    Public Settings As New cSettings()
+    Public DMXdata As cDMXdata
 
 
 
@@ -25,12 +28,16 @@ Module mdlServerVars
         End If
 
         Dim json As String = File.ReadAllText(filePath)
-        Settings = JsonConvert.DeserializeObject(Of GlobalSettings)(json)
+        Settings = JsonConvert.DeserializeObject(Of cSettings)(json)
+
+
     End Sub
 End Module
 
-Public Class GlobalSettings
+Public Class cSettings
+    Implements INotifyPropertyChanged
     Public Property LastBank As String = "DefaultBank"
+    Public Property UniverseCount As Integer = 1
     Public Property LoadonChange As Boolean = True
     Public Property ChannelCount As Integer = 2048
     Public Property DimmerChannelRows As Integer = 0
@@ -41,7 +48,18 @@ Public Class GlobalSettings
     Public Property SceneBulletColour As Color = Colors.Blue
     Public Property SceneBackColour As Color = Colors.Green
     Public Property SceneFillColour As Color = Colors.Black
-    Public Property SceneLabelColour As Color = Colors.Magenta
+    Private Property _SceneLabelColour As Color = Colors.Magenta
+    Public Property SceneLabelColour As Color
+        Get
+            Return _SceneLabelColour
+        End Get
+        Set(value As Color)
+            If _SceneLabelColour <> value Then
+                _SceneLabelColour = value
+                OnPropertyChanged()
+            End If
+        End Set
+    End Property
     Public Property SceneBorderColour As Color = Colors.Gold
     Public Property SongChangeColour As Color = Colors.Magenta
     Public Property MultipleThreadCount As Boolean = False
@@ -51,7 +69,18 @@ Public Class GlobalSettings
     Public Property MusicNextFollows As Boolean = True
     Public Property AudioLatency As Integer = 0
     Public Property AudioDesiredSamplerate As Integer = 48000
-    Public Property ServerIPaddress As IPAddress = IPAddress.Parse("127.0.0.1")
+    Public Property ServerIPaddress As String
     Public Property ServerPort As Integer = 50000
     Public Property ClientPorts As Integer = 50001
+    Public Property ArduinoDevices As List(Of ArduinoDevices1)
+
+    Structure ArduinoDevices1
+        Dim PortName As String
+        Dim Job As String
+    End Structure
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+    Protected Sub OnPropertyChanged(<CallerMemberName> Optional propertyName As String = Nothing)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+    End Sub
 End Class
