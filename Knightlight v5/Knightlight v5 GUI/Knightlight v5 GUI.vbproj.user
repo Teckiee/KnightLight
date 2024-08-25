@@ -24,7 +24,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Theme.xaml">
+    <Page Update="Fader\Theme.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

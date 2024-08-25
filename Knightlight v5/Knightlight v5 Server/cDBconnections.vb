@@ -1,9 +1,105 @@
-﻿Imports System.IO
+﻿Imports System.Data.SQLite
+Imports System.IO
 Imports System.IO.Compression
 Imports System.Xml.Serialization
-Public Class cGDTFLibrary
+Public Class cDBconnections
+
+    Dim inMemoryConnectionString As String = "Data Source=:memory:;Version=3;New=True;"
+    Dim inMemoryConnection As SQLiteConnection
     Dim result As GDTF
-    Public Function Main()
+    Dim CurrentOpenedFilePath As String
+    Public Sub New(ByVal filePath As String) 'ByRef abData() As Byte, ByRef abKey() As Byte, ByVal n As Integer, ByRef abInitV() As Byte)
+        CurrentOpenedFilePath = filePath
+        inMemoryConnection = New SQLiteConnection(inMemoryConnectionString)
+        If File.Exists(filePath) Then
+            LoadFromDisk(filePath)
+        End If
+    End Sub
+
+    'Public Sub CreateTestData()
+
+    '    ' Create an in-memory database and save it to disk
+
+    '    Try
+    '        inMemoryConnection.Open()
+
+    '        ' Create a table and insert some data
+    '        Dim command As New SQLiteCommand(inMemoryConnection)
+    '        Try
+    '            command.CommandText = "CREATE TABLE users (ID INTEGER PRIMARY KEY, Name TEXT, Age INTEGER)"
+    '            command.ExecuteNonQuery()
+
+    '            command.CommandText = "INSERT INTO users (Name, Age) VALUES ('Alice', 30)"
+    '            command.ExecuteNonQuery()
+
+    '            command.CommandText = "INSERT INTO users (Name, Age) VALUES ('Bob', 25)"
+    '            command.ExecuteNonQuery()
+    '        Finally
+    '            command.Dispose()
+    '        End Try
+
+    '        SaveToDisk(filePath)
+    '    Finally
+    '        inMemoryConnection.Close()
+    '        'inMemoryConnection.Dispose()
+    '    End Try
+
+    '    LoadFromDisk(filePath)
+    'End Sub
+    Private Sub CreateNewDB(ByVal filePath As String)
+
+    End Sub
+
+    Public Sub SaveToDisk(ByVal filePath As String)
+        ' Save the in-memory database to disk
+        Dim fileConnection As New SQLiteConnection($"Data Source={filePath};Version=3;")
+        Try
+            fileConnection.Open()
+            If inMemoryConnection.State = System.Data.ConnectionState.Closed Then inMemoryConnection.Open()
+            inMemoryConnection.BackupDatabase(fileConnection, "main", "main", -1, Nothing, 0)
+        Finally
+            fileConnection.Close()
+            'fileConnection.Dispose()
+        End Try
+    End Sub
+    Public Sub LoadFromDisk(ByVal filePath As String)
+        ' Load the database from disk into memory
+        Dim fileConnection2 As New SQLiteConnection($"Data Source={filePath};Version=3;")
+        Try
+            fileConnection2.Open()
+
+            Dim inMemoryConnection2 As New SQLiteConnection(inMemoryConnectionString)
+            Try
+                inMemoryConnection2.Open()
+
+                ' Load the database from disk into the in-memory database
+                fileConnection2.BackupDatabase(inMemoryConnection2, "main", "main", -1, Nothing, 0)
+
+                ' Query the in-memory database
+                'Dim command2 As New SQLiteCommand("SELECT * FROM FixtureType", inMemoryConnection2)
+                'Try
+                '    Dim reader As SQLiteDataReader = command2.ExecuteReader()
+                '    Try
+                '        While reader.Read()
+                '            Console.WriteLine($"ID: {reader("ID")}, Name: {reader("Name")}, Age: {reader("Age")}")
+                '        End While
+                '    Finally
+                '        reader.Close()
+                '        reader.Dispose()
+                '    End Try
+                'Finally
+                '    command2.Dispose()
+                'End Try
+            Finally
+                inMemoryConnection2.Close()
+                'inMemoryConnection2.Dispose()
+            End Try
+        Finally
+            fileConnection2.Close()
+            fileConnection2.Dispose()
+        End Try
+    End Sub
+    Public Function MainTest()
         Dim zipFilePath As String = "C:\Users\Markus\Documents\Knightlight\GDTF Library\Generic@Basic_LED_PAR@KAYA.gdtf"
         Dim fileNameInsideZip As String = "description.xml"
 
@@ -18,7 +114,7 @@ Public Class cGDTFLibrary
                             Using reader1 As New StringReader(xmlContent)
                                 result = CType(serializer.Deserialize(reader1), GDTF)
                                 ' Use the deserialized object
-
+                                StoreToDB(result)
                             End Using
 
 
@@ -34,14 +130,51 @@ Public Class cGDTFLibrary
             Return ($"An error occurred: {ex.Message}")
         End Try
     End Function
+    Private Sub StoreToDB(gdtf As GDTF)
+
+
+        If inMemoryConnection.State = System.Data.ConnectionState.Closed Then inMemoryConnection.Open()
+
+        ' Create tables
+        Dim createGDTFTable As String = "CREATE TABLE GDTF (DataVersion TEXT);"
+            Dim createFixtureTypeTable As String = "CREATE TABLE FixtureType (CanHaveChildren TEXT, Description TEXT, FixtureTypeID TEXT, LongName TEXT, Manufacturer TEXT, Name TEXT, RefFT TEXT, ShortName TEXT, Thumbnail TEXT, ThumbnailOffsetX TEXT, ThumbnailOffsetY TEXT);"
+
+        Using command As New SQLiteCommand(createGDTFTable, inMemoryConnection)
+            command.ExecuteNonQuery()
+        End Using
+
+        Using command As New SQLiteCommand(createFixtureTypeTable, inMemoryConnection)
+            command.ExecuteNonQuery()
+        End Using
+
+        ' Insert data into GDTF table
+        Dim insertGDTF As String = "INSERT INTO GDTF (DataVersion) VALUES (@DataVersion);"
+        Using command As New SQLiteCommand(insertGDTF, inMemoryConnection)
+            command.Parameters.AddWithValue("@DataVersion", gdtf.DataVersion)
+            command.ExecuteNonQuery()
+        End Using
+
+        ' Insert data into FixtureType table
+        Dim insertFixtureType As String = "INSERT INTO FixtureType (CanHaveChildren, Description, FixtureTypeID, LongName, Manufacturer, Name, RefFT, ShortName, Thumbnail, ThumbnailOffsetX, ThumbnailOffsetY) VALUES (@CanHaveChildren, @Description, @FixtureTypeID, @LongName, @Manufacturer, @Name, @RefFT, @ShortName, @Thumbnail, @ThumbnailOffsetX, @ThumbnailOffsetY);"
+        Using command As New SQLiteCommand(insertFixtureType, inMemoryConnection)
+            command.Parameters.AddWithValue("@CanHaveChildren", gdtf.FixtureType.CanHaveChildren)
+            command.Parameters.AddWithValue("@Description", gdtf.FixtureType.Description)
+            command.Parameters.AddWithValue("@FixtureTypeID", gdtf.FixtureType.FixtureTypeID)
+            command.Parameters.AddWithValue("@LongName", gdtf.FixtureType.LongName)
+            command.Parameters.AddWithValue("@Manufacturer", gdtf.FixtureType.Manufacturer)
+            command.Parameters.AddWithValue("@Name", gdtf.FixtureType.Name)
+            command.Parameters.AddWithValue("@RefFT", gdtf.FixtureType.RefFT)
+            command.Parameters.AddWithValue("@ShortName", gdtf.FixtureType.ShortName)
+            command.Parameters.AddWithValue("@Thumbnail", gdtf.FixtureType.Thumbnail)
+            command.Parameters.AddWithValue("@ThumbnailOffsetX", gdtf.FixtureType.ThumbnailOffsetX)
+            command.Parameters.AddWithValue("@ThumbnailOffsetY", gdtf.FixtureType.ThumbnailOffsetY)
+            command.ExecuteNonQuery()
+        End Using
+    End Sub
 End Class
 
-
-
-
-
 <XmlRoot("GDTF")>
-    Public Class GDTF
+Public Class GDTF
     <XmlAttribute("DataVersion")>
     Public Property DataVersion As String
 

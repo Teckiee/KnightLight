@@ -3,17 +3,245 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Knightlight_v5_GUI" d:DataContext="{d:DesignInstance Type=local:cSettings}"
+        xmlns:local="clr-namespace:Knightlight_v5_GUI"
+        d:DataContext="{d:DesignInstance Type=local:cSettings}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1560">
+        Title="MainWindow" Height="637" Width="1560" WindowStartupLocation="Manual">
+    <Window.Resources>
+        <local:DivideByTwoConverter x:Key="DivideByTwoConverter"/>
+        <local:DivideByColumnsConverter x:Key="DivideByColumnsConverter"/>
+    </Window.Resources>
     <Grid>
-        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,277,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
-        <TextBox HorizontalAlignment="Left" Margin="102,173,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
-        <Button Content="GDTF Test" HorizontalAlignment="Left" Margin="314,277,0,0" VerticalAlignment="Top" Click="cmdGDTFTest"/>
-        <local:ctrlCuePlayer DataContext="{Binding}" HorizontalAlignment="Left" Margin="102,41,0,0" VerticalAlignment="Top"/>
-        <Button Content="ColourTest" HorizontalAlignment="Left" Margin="193,326,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Label Content="Label" Foreground="{Binding SceneLabelColour}" HorizontalAlignment="Left" Margin="497,173,0,0" VerticalAlignment="Top"/>
-        <local:ctrlDimmerChannel HorizontalAlignment="Left" Margin="1127,12,0,0" VerticalAlignment="Top"/>
+        <TabControl RenderTransformOrigin="0.518,0.571" TabStripPlacement="Left" Grid.ColumnSpan="2">
+            <TabItem>
+                <!-- Settings -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Settings
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="24,139,0,0" VerticalAlignment="Top" Click="cmdOSCTest" Height="20" Width="80"/>
+                    <TextBox HorizontalAlignment="Left" Margin="24,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
+                    <Button Content="ColourTest" HorizontalAlignment="Left" Margin="115,188,0,0" VerticalAlignment="Top" Click="Button_Click" Height="20" Width="60"/>
+                    <Label Content="Label" Foreground="{Binding SceneLabelColour}" HorizontalAlignment="Left" Margin="314,35,0,0" VerticalAlignment="Top" Height="26" Width="38"/>
+                    <local:ctrlDimmerChannel HorizontalAlignment="Left" Margin="936,27,0,0" VerticalAlignment="Top" Height="244" Width="46"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <!-- Program Setup -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Program Setup
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Show Setup -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Show Setup
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="102,55,0,0" VerticalAlignment="Top" Width="80" Height="50"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <!-- Music List -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Music List
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5">
+                    <local:ctrlCuePlayer DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="36" Width="1003" FontSize="12"/>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <!-- Lighting Presets -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Lighting Presets
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="grpFixtures" Header="Fixtures" Grid.Row="0" Margin="0,0,58,0">
+                        <!--<Grid x:Name="btnGridFixtures" SizeChanged="btnGridFixtures_SizeChanged"/>-->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Name="icFixtures" ItemsSource="{Binding vFixtures}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="15" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding Name}"  
+                                                Width="{Binding ElementName=grpFixtures, Path=ActualWidth, Converter={StaticResource DivideByColumnsConverter}}" 
+                                                HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                Height="{Binding ElementName=buttonSizeSlider, Path=Value, Converter={StaticResource DivideByTwoConverter}}" 
+                                                Margin="2" Click="btnFixtureAll_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </GroupBox>
+                    <GroupBox x:Name="grpPresets" Header="Presets" Margin="0,0,58,0" Grid.Row="1">
+                        <!--<Grid x:Name="btnGridPresets"/>-->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Name="icPresets" ItemsSource="{Binding vPresets}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="15" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding Name}" 
+                                                Width="{Binding ElementName=grpPresets, Path=ActualWidth, Converter={StaticResource DivideByColumnsConverter}}" 
+                                                HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                Height="{Binding ElementName=buttonSizeSlider, Path=Value, Converter={StaticResource DivideByTwoConverter}}" 
+                                                Margin="2" Click="btnPresetAll_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </GroupBox>
+                    <Slider x:Name="buttonSizeSlider" Minimum="50" Maximum="200" Value="100" TickFrequency="10" IsSnapToTickEnabled="True" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,10,0" ValueChanged="ButtonSizeSlider_ValueChanged" Height="134" Width="30" Orientation="Vertical"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <!-- Lighting Cues -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Lighting Cues
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!--  -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    .
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Mixer -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Mixer
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Channels -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Channel
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Sends -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Sends
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Config -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Config
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio FX -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio FX
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Meters -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Meters
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem>
+                <!-- Audio Routing -->
+                <TabItem.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="20" />
+                    </DataTemplate>
+                </TabItem.HeaderTemplate>
+                <TabItem.Header>
+                    Audio Routing
+                </TabItem.Header>
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
 
     </Grid>
 </Window>

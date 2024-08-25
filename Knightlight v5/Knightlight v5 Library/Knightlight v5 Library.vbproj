@@ -15,6 +15,7 @@
     <PackageReference Include="Haukcode.Osc" Version="1.0.0" />
     <PackageReference Include="LXProtocols.ArtNet" Version="3.0.6.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
   </ItemGroup>
 
   <ItemGroup>

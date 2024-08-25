@@ -7,10 +7,11 @@
         xmlns:local="clr-namespace:Knightlight_v5_Server"
         mc:Ignorable="d"
         Title="Knightlight v5 Server" Height="450" Width="800">
+    <!--d:DataContext="{d:DesignInstance Type=local:cBindings}"-->
     <Grid>
         <tb:TaskbarIcon x:Name="MyNotifyIcon"
                 IconSource="favicon.ico"
-                ToolTipText="My WPF Application"
+                ToolTipText="Knightlight v5 Server"
                 Visibility="Visible">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
@@ -20,8 +21,19 @@
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
         <Button Content="Quit" HorizontalAlignment="Left" Margin="750,10,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="102,277,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
-        <TextBox HorizontalAlignment="Left" Margin="102,173,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
+        <Button Content="OSC Send Test" HorizontalAlignment="Left" Margin="496,371,0,0" VerticalAlignment="Top" Click="cmdOSCTest"/>
+        <TextBox HorizontalAlignment="Left" Margin="496,267,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="268" Height="99" x:Name="txtIncomingtest"/>
+        <ListView x:Name="lstIPaddresses" ItemsSource="{Binding Path=OSCconnections}" Margin="10,10,368,10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="IPaddress" Width="100" DisplayMemberBinding="{Binding IPaddress}" />
+                    <GridViewColumn Header="Job" Width="200" DisplayMemberBinding="{Binding Job}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="OSC Send 2 Test" HorizontalAlignment="Left" Margin="617,371,0,0" VerticalAlignment="Top" Click="cmdOSCTest2"/>
+        <Button Content="dbTest1" HorizontalAlignment="Left" Margin="451,81,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>

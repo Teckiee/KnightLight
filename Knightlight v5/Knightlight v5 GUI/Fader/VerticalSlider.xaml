@@ -6,7 +6,8 @@
              x:Name="VerticalSliderUserControl"
              x:Class="Knightlight_v5_GUI.VerticalSlider"
              mc:Ignorable="d" 
-             d:DesignHeight="246.667" d:DesignWidth="60.5" Loaded="UserControl_Loaded">
+             d:DesignHeight="246.667" d:DesignWidth="60.5" Loaded="UserControl_Loaded"
+             Background="Gray">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,12 +36,11 @@
         Maximum="{Binding Maximum, ElementName=VerticalSliderUserControl}"
         TickFrequency="5"
         Template="{DynamicResource SliderControlVerticalTemplate1}"
-        Orientation="Vertical"
         LargeChange="20"
         SmallChange="0.2"
         Grid.Column="1"
         HorizontalContentAlignment="Stretch"
-        ValueChanged="VSlider_ValueChanged"/>
+        ValueChanged="VSlider_ValueChanged" Orientation="Vertical"/>
         <TextBlock x:Name="VSliderLabel" Text="Label" Grid.Row="1" Margin="2,0" HorizontalAlignment="Center" Foreground="{DynamicResource Text}" FontSize="11" Grid.ColumnSpan="3" TextAlignment="Center"/>
         <TextBox x:Name="SliderValueEntry" Margin="0,0,0,20" TextWrapping="Wrap" Text="ValueEntry" VerticalAlignment="Bottom" TextAlignment="Center" FontSize="16" KeyDown="KnobValueEntry_KeyDown" Background="{DynamicResource ControlFill}" BorderBrush="{DynamicResource ControlBorder}" Foreground="{DynamicResource Text}" Grid.ColumnSpan="3" Visibility="Hidden" Height="45"/>
     </Grid>

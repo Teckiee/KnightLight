@@ -31,6 +31,7 @@ Partial Class FormMain
         Me.cmdBankRename = New System.Windows.Forms.Button()
         Me.cmdBankNew = New System.Windows.Forms.Button()
         Me.tbpPresets = New System.Windows.Forms.TabPage()
+        Me.lblAudioReady2 = New System.Windows.Forms.Label()
         Me.pnlMusicplayers = New System.Windows.Forms.Panel()
         Me.CtrlMusicPlayer1 = New Super_Awesome_Lighting_DMX_board_v4.ctrlMusicPlayer()
         Me.cmdReloadSongLists = New System.Windows.Forms.Button()
@@ -76,6 +77,7 @@ Partial Class FormMain
         Me.cmdPresetP1 = New System.Windows.Forms.Button()
         Me.cmdPresetP2 = New System.Windows.Forms.Button()
         Me.tbpMusic = New System.Windows.Forms.TabPage()
+        Me.lblAudioReady3 = New System.Windows.Forms.Label()
         Me.lstMusicSongChanges2 = New System.Windows.Forms.ListView()
         Me.ColumnHeader21 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader22 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -131,6 +133,8 @@ Partial Class FormMain
         Me.lstMusicSongs = New System.Windows.Forms.ListBox()
         Me.trkMusicVolume = New System.Windows.Forms.TrackBar()
         Me.tbpScriptChanges = New System.Windows.Forms.TabPage()
+        Me.cmdStopAll = New System.Windows.Forms.Button()
+        Me.lblAudioReady = New System.Windows.Forms.Label()
         Me.lstDramaViewSongChanges2 = New System.Windows.Forms.ListView()
         Me.ColumnHeader13 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader14 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -292,10 +296,6 @@ Partial Class FormMain
         Me.vsMaster = New Super_Awesome_Lighting_DMX_board_v4.GScrollBar()
         Me.lblMarsConnected = New System.Windows.Forms.Label()
         Me.tmrPositioning = New System.Windows.Forms.Timer(Me.components)
-        Me.lblAudioReady = New System.Windows.Forms.Label()
-        Me.lblAudioReady3 = New System.Windows.Forms.Label()
-        Me.lblAudioReady2 = New System.Windows.Forms.Label()
-        Me.cmdStopAll = New System.Windows.Forms.Button()
         Me.tbcControls1.SuspendLayout()
         Me.tbpBanks.SuspendLayout()
         Me.tbpPresets.SuspendLayout()
@@ -335,6 +335,7 @@ Partial Class FormMain
         Me.tbcControls1.Controls.Add(Me.tbpTracking)
         Me.tbcControls1.Controls.Add(Me.tbpSettings)
         Me.tbcControls1.Location = New System.Drawing.Point(0, 22)
+        Me.tbcControls1.Multiline = True
         Me.tbcControls1.Name = "tbcControls1"
         Me.tbcControls1.SelectedIndex = 0
         Me.tbcControls1.Size = New System.Drawing.Size(1834, 1087)
@@ -439,6 +440,17 @@ Partial Class FormMain
         Me.tbpPresets.TabIndex = 1
         Me.tbpPresets.Text = "Scenes"
         Me.tbpPresets.UseVisualStyleBackColor = True
+        '
+        'lblAudioReady2
+        '
+        Me.lblAudioReady2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady2.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady2.Location = New System.Drawing.Point(291, 1034)
+        Me.lblAudioReady2.Name = "lblAudioReady2"
+        Me.lblAudioReady2.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady2.TabIndex = 631
+        Me.lblAudioReady2.Text = "Audio Ready"
+        Me.lblAudioReady2.Visible = False
         '
         'pnlMusicplayers
         '
@@ -920,6 +932,17 @@ Partial Class FormMain
         Me.tbpMusic.TabIndex = 2
         Me.tbpMusic.Text = "Music Editor"
         Me.tbpMusic.UseVisualStyleBackColor = True
+        '
+        'lblAudioReady3
+        '
+        Me.lblAudioReady3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady3.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady3.Location = New System.Drawing.Point(220, 210)
+        Me.lblAudioReady3.Name = "lblAudioReady3"
+        Me.lblAudioReady3.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady3.TabIndex = 631
+        Me.lblAudioReady3.Text = "Audio Ready"
+        Me.lblAudioReady3.Visible = False
         '
         'lstMusicSongChanges2
         '
@@ -1445,6 +1468,27 @@ Partial Class FormMain
         Me.tbpScriptChanges.TabIndex = 3
         Me.tbpScriptChanges.Text = "Script Changes"
         Me.tbpScriptChanges.UseVisualStyleBackColor = True
+        '
+        'cmdStopAll
+        '
+        Me.cmdStopAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdStopAll.Location = New System.Drawing.Point(1078, 7)
+        Me.cmdStopAll.Name = "cmdStopAll"
+        Me.cmdStopAll.Size = New System.Drawing.Size(90, 45)
+        Me.cmdStopAll.TabIndex = 631
+        Me.cmdStopAll.Text = "Stop All"
+        Me.cmdStopAll.UseVisualStyleBackColor = True
+        '
+        'lblAudioReady
+        '
+        Me.lblAudioReady.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblAudioReady.ForeColor = System.Drawing.Color.Lime
+        Me.lblAudioReady.Location = New System.Drawing.Point(1463, 307)
+        Me.lblAudioReady.Name = "lblAudioReady"
+        Me.lblAudioReady.Size = New System.Drawing.Size(71, 20)
+        Me.lblAudioReady.TabIndex = 630
+        Me.lblAudioReady.Text = "Audio Ready"
+        Me.lblAudioReady.Visible = False
         '
         'lstDramaViewSongChanges2
         '
@@ -2968,49 +3012,6 @@ Partial Class FormMain
         'tmrPositioning
         '
         Me.tmrPositioning.Enabled = True
-        '
-        'lblAudioReady
-        '
-        Me.lblAudioReady.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblAudioReady.ForeColor = System.Drawing.Color.Lime
-        Me.lblAudioReady.Location = New System.Drawing.Point(1463, 307)
-        Me.lblAudioReady.Name = "lblAudioReady"
-        Me.lblAudioReady.Size = New System.Drawing.Size(71, 20)
-        Me.lblAudioReady.TabIndex = 630
-        Me.lblAudioReady.Text = "Audio Ready"
-        Me.lblAudioReady.Visible = False
-        '
-        'lblAudioReady3
-        '
-        Me.lblAudioReady3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblAudioReady3.ForeColor = System.Drawing.Color.Lime
-        Me.lblAudioReady3.Location = New System.Drawing.Point(220, 210)
-        Me.lblAudioReady3.Name = "lblAudioReady3"
-        Me.lblAudioReady3.Size = New System.Drawing.Size(71, 20)
-        Me.lblAudioReady3.TabIndex = 631
-        Me.lblAudioReady3.Text = "Audio Ready"
-        Me.lblAudioReady3.Visible = False
-        '
-        'lblAudioReady2
-        '
-        Me.lblAudioReady2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblAudioReady2.ForeColor = System.Drawing.Color.Lime
-        Me.lblAudioReady2.Location = New System.Drawing.Point(291, 1034)
-        Me.lblAudioReady2.Name = "lblAudioReady2"
-        Me.lblAudioReady2.Size = New System.Drawing.Size(71, 20)
-        Me.lblAudioReady2.TabIndex = 631
-        Me.lblAudioReady2.Text = "Audio Ready"
-        Me.lblAudioReady2.Visible = False
-        '
-        'cmdStopAll
-        '
-        Me.cmdStopAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdStopAll.Location = New System.Drawing.Point(1078, 7)
-        Me.cmdStopAll.Name = "cmdStopAll"
-        Me.cmdStopAll.Size = New System.Drawing.Size(90, 45)
-        Me.cmdStopAll.TabIndex = 631
-        Me.cmdStopAll.Text = "Stop All"
-        Me.cmdStopAll.UseVisualStyleBackColor = True
         '
         'FormMain
         '

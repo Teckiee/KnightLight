@@ -6,11 +6,15 @@
              xmlns:local="clr-namespace:Knightlight_v5_GUI" xmlns:Knightlight_v5_GUI="clr-namespace:Knightlight_v5_GUI.Knightlight_v5_GUI" x:Class="ctrlDimmerChannel"
              d:DataContext="{d:DesignInstance Type={x:Type local:cSettings}}"
              mc:Ignorable="d" 
-             d:DesignHeight="177" d:DesignWidth="58"
+             d:DesignHeight="266" d:DesignWidth="46"
              Background="Gray">
     <Grid>
 
-        <Knightlight_v5_GUI:VerticalSlider HorizontalAlignment="Left" VerticalAlignment="Top" Height="177" Width="58" Maximum="255" Minimum="0" SmallIncrement="10" TickSpacing="10"/>
+        <Knightlight_v5_GUI:VerticalSlider HorizontalAlignment="Center" VerticalAlignment="Top" Height="176" Width="46" Maximum="255" Minimum="0" SmallIncrement="1" LargeIncrement="10" Title="DMX" Unit="a" Margin="0,26,0,0" TickSpacing="50"/>
+        
+        <Label x:Name="lblTop" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Top" Width="46" Height="26"/>
+        <Label x:Name="lblBottom" Content="Label" HorizontalAlignment="Center" VerticalAlignment="Top" Width="46" Height="26" Margin="0,190,0,0"/>
+        <Button x:Name="cmdSelect" Content="S" HorizontalAlignment="Center" Margin="0,221,0,0" VerticalAlignment="Top" Width="23" Height="23"/>
 
     </Grid>
 </UserControl>

@@ -6,6 +6,7 @@ Imports System.IO
 Imports Knightlight_v5_Library
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports System.Collections.ObjectModel
 
 Module mdlServerVars
     Public tbi As New TaskbarIcon
@@ -13,21 +14,37 @@ Module mdlServerVars
     Public OSC As cOSCControls
     Public Settings As New cSettings()
     Public DMXdata As cDMXdata
+    Public vDBConnections As cDBconnections
+    Public knightlightFolderPath As String
+    ' sql file per show = Banks
+    ' store fixtures program wide
+    ' sql table 
 
 
-
-    Sub SaveData(filePath As String)
+    Sub SaveData()
         Dim json As String = JsonConvert.SerializeObject(Settings, Formatting.Indented)
-        File.WriteAllText(filePath, json)
+        Dim settingsFilePath As String = Path.Combine(knightlightFolderPath, "ServerSettings.json")
+        File.WriteAllText(settingsFilePath, json)
     End Sub
 
-    Sub LoadData(filePath As String)
-        If Not File.Exists(filePath) Then
+    Sub LoadData()
+        ' Get the path to the user's Documents folder
+        Dim documentsPath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        ' Construct the path to the Knightlight folder
+        knightlightFolderPath = Path.Combine(documentsPath, "Knightlight")
+        ' Create the Knightlight folder if it doesn't exist
+        If Not Directory.Exists(knightlightFolderPath) Then
+            Directory.CreateDirectory(knightlightFolderPath)
+        End If
+        ' Construct the full path to the Settings.json file
+        Dim settingsFilePath As String = Path.Combine(knightlightFolderPath, "ServerSettings.json")
+
+        If Not File.Exists(settingsFilePath) Then
             ' File doesn't exist, create it with default values
-            SaveData(filePath)
+            SaveData()
         End If
 
-        Dim json As String = File.ReadAllText(filePath)
+        Dim json As String = File.ReadAllText(settingsFilePath)
         Settings = JsonConvert.DeserializeObject(Of cSettings)(json)
 
 
@@ -73,6 +90,7 @@ Public Class cSettings
     Public Property ServerPort As Integer = 50000
     Public Property ClientPorts As Integer = 50001
     Public Property ArduinoDevices As List(Of ArduinoDevices1)
+    Public Property LastOpenedShow As String = "database.db"
 
     Structure ArduinoDevices1
         Dim PortName As String

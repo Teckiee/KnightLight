@@ -247,14 +247,15 @@ Namespace Knightlight_v5_GUI
 
                 Me.VSliderLabel.Text = String.Empty
                 If Title.Length > 0 Then
-                    Me.VSliderLabel.Text = Title
+                    'Me.VSliderLabel.Text = Title
                 End If
 
                 ' for Value Label
-                Me.VSliderLabel.Text += vbLf & Math.Round(Value, DecimalPlaces).ToString()
+                'Me.VSliderLabel.Text += vbLf & Math.Round(Value, DecimalPlaces).ToString()
+                Me.VSliderLabel.Text += Math.Round(Value, DecimalPlaces).ToString()
 
                 If Unit.Length > 0 Then
-                    Me.VSliderLabel.Text += "[" & Unit & "]"
+                    'Me.VSliderLabel.Text += "[" & Unit & "]"
                 End If
             Catch __unusedException1__ As Exception
                 Console.WriteLine("Slider Not Initialised Yet!")

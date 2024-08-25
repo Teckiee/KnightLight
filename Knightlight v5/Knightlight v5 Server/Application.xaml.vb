@@ -26,6 +26,7 @@ Class Application
 
         ' Optionally, you can set the DataContext to the main window or another view model
         tbi.DataContext = mainWindow
+        serverWindow1.Show()
     End Sub
 
 End Class

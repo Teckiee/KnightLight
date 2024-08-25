@@ -4,28 +4,70 @@ Imports System.Net
 Imports Knightlight_v5_Library
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports System.Collections.ObjectModel
+Imports Knightlight_v5_GUI.cSettings
 
 Module mdlGlobalVars
     Public OSC As cOSCControls
 
     Public Settings As New cSettings()
 
+    Public buttonWidth As Double = 100
+    Public knightlightFolderPath As String
+
+    Public vWindow(7) As MainWindow
+    'Public vFixtures As New List(Of cFixtures)
+    'Public vPresets As New List(Of cPresets)
+    Public vFixtures As New ObservableCollection(Of cFixtures)
+    Public vPresets As New ObservableCollection(Of cPresets)
 
 
+    Sub SaveData()
+        Dim settingsFilePath As String = Path.Combine(knightlightFolderPath, "GUISettings.json")
 
-    Sub SaveData(filePath As String)
+        Settings.Windows.Clear()
+        For Each window As MainWindow In vWindow
+            If window IsNot Nothing Then
+                If window.ActualHeight <> 0 Then
+                    Dim windowSettings As New WindowSettings() With {
+                            .WindowI = window.IamWindow,
+                            .Left = window.Left,
+                            .Top = window.Top,
+                            .Height = window.Height,
+                            .Width = window.Width,
+                            .WindowState = window.WindowState
+                        }
+                    Settings.Windows.Add(windowSettings)
+                End If
+            End If
+
+        Next
         Dim json As String = JsonConvert.SerializeObject(Settings, Formatting.Indented)
-        File.WriteAllText(filePath, json)
+        File.WriteAllText(settingsFilePath, json)
     End Sub
 
     Sub LoadData(filePath As String)
-        If Not File.Exists(filePath) Then
+        ' Get the path to the user's Documents folder
+        Dim documentsPath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        ' Construct the path to the Knightlight folder
+        knightlightFolderPath = Path.Combine(documentsPath, "Knightlight")
+        ' Create the Knightlight folder if it doesn't exist
+        If Not Directory.Exists(knightlightFolderPath) Then
+            Directory.CreateDirectory(knightlightFolderPath)
+        End If
+        ' Construct the full path to the Settings.json file
+        Dim settingsFilePath As String = Path.Combine(knightlightFolderPath, "GUISettings.json")
+
+        If Not File.Exists(settingsFilePath) Then
             ' File doesn't exist, create it with default values
-            SaveData(filePath)
+            SaveData()
         End If
 
-        Dim json As String = File.ReadAllText(filePath)
+        Dim json As String = File.ReadAllText(settingsFilePath)
         Settings = JsonConvert.DeserializeObject(Of cSettings)(json)
+        If Settings.Windows.Count > 2 Then
+            Settings.Windows.RemoveAt(0)
+        End If
     End Sub
 End Module
 Public Class cSettings
@@ -34,6 +76,16 @@ Public Class cSettings
     Public Property LoadonChange As Boolean = True
     Public Property ChannelCount As Integer = 2048
     Public Property DimmerChannelRows As Integer = 0
+
+    Public Property Windows As New List(Of WindowSettings) From {
+            New WindowSettings With {
+                .WindowI = "9",
+                .Left = 312,
+                .Top = 312,
+                .Height = 637,
+                .Width = 1560,
+                .WindowState = 0
+            }}
     Private Property _ChannelBulletColour As Brush = Brushes.Magenta
     Public Property ChannelBulletColour As Brush
         Get
@@ -175,4 +227,13 @@ Public Class cSettings
     Protected Sub OnPropertyChanged(<CallerMemberName> Optional propertyName As String = Nothing)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
     End Sub
+    Public Class WindowSettings
+        Public Property WindowI As Integer
+        Public Property Left As Integer
+        Public Property Top As Integer
+        Public Property Height As Integer
+        Public Property Width As Integer
+        Public Property WindowState As WindowState
+    End Class
 End Class
+
